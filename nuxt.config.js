@@ -37,6 +37,7 @@ module.exports = NuxtHelpers([
           exclude: /(node_modules)/
         })
       }
-    }
+    },
+    vendor: ['lodash']
   }
 })

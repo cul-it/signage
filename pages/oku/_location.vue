@@ -1,6 +1,6 @@
 <template>
   <div class="oku-circ">
-    <h1>{{ location }}</h1>
+    <h1>{{ locationUpper }}</h1>
 
     <!-- <time>{{ dateNow }}</time> -->
 
@@ -27,10 +27,13 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data: function data () {
     return {
-      location: this.$route.params.location
+      location: this.$route.params.location,
+      locationUpper: _.upperFirst(this.$route.params.location)
     }
   },
   computed: {
