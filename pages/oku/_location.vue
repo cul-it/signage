@@ -13,16 +13,16 @@
       </ul>
     </section>
 
-    <!-- <section class="chargers">
-      <h2>Phone Chargers: </h2>
+    <section class="chargers">
+      <h2>Phone Chargers:</h2>
 
       <ul>
-        <li><span>{{ phoneChargerIphone4 }}</span> iPhone 4 available {{ iphone4NextAvailable }}</li>
-        <li><span>{{ phoneChargerIphoneUp5 }}</span> iPhone 5 & up available {{ iphoneUp5NextAvailable }}</li>
-        <li><span>{{ phoneChargerMicroUsb }}</span> Micro USB available {{ microUsbNextAvailable }}</li>
-        <li><span>{{ phoneChargerMicroUsbC }}</span> Micro USB-C available {{ microUsbCNextAvailable }}</li>
+        <li><span>{{ phoneChargers[location].iphone4Available }}</span> iPhone 4 available</li>
+        <li><span>{{ phoneChargers[location].iphoneAvailable}}</span> iPhone 5 &amp; up available</li>
+        <li><span>{{ phoneChargers[location].microUsbAvailable }}</span> Micro USB available</li>
+        <li><span>{{ phoneChargers[location].usbCAvailable }}</span> Micro USB-C available</li>
       </ul>
-    </section> -->
+    </section>
   </div>
 </template>
 
@@ -30,7 +30,7 @@
 import _ from 'lodash'
 
 export default {
-  data: function data () {
+  data: function () {
     return {
       location: this.$route.params.location,
       locationUpper: _.upperFirst(this.$route.params.location)
@@ -39,10 +39,14 @@ export default {
   computed: {
     laptops () {
       return this.$store.state.laptops.locations
+    },
+    phoneChargers () {
+      return this.$store.state.phoneChargers.locations
     }
   },
   async fetch ({ store, params }) {
     await store.dispatch('laptops/fetchStatus', params.location)
+    await store.dispatch('phoneChargers/fetchStatus', params.location)
   },
   layout: 'oku-circ'
 }
