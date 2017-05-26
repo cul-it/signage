@@ -15,7 +15,7 @@ export const mutations = {
 
 export const actions = {
   async fetchStatus ({ commit }, location) {
-    let feed = await $get('http://mannservices.mannlib.cornell.edu/LibServices/showEquipmentInfo.do?output=json&locationId=2')
+    let feed = await $get(Batman.api.endpoints.phoneChargers + Batman.api.locations[location])
     const list = feed.equipmentList
     const phoneChargers = {
       'availability': {
