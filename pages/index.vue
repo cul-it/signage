@@ -1,19 +1,11 @@
 <template>
   <section class="container">
-    <div>
-      <dashboard/>
-    </div>
+    <h1>Cornell University Library Signage</h1>
   </section>
 </template>
 
 <script>
-import dashboard from '~components/Dashboard.vue'
-
-export default {
-  components: {
-    dashboard
-  }
-}
+  export default {}
 </script>
 
 <style lang="scss">
@@ -30,7 +22,7 @@ export default {
     align-items: center;
     text-align: center;
   }
-  .dashboard__header {
+  h1 {
     font-size: 20px;
   }
 </style>

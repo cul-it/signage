@@ -17,8 +17,7 @@ export default {
     await store.dispatch('phoneChargers/fetchStatus', 'olin')
     await store.dispatch('laptops/fetchStatus', 'uris')
     await store.dispatch('phoneChargers/fetchStatus', 'uris')
-  },
-  layout: 'oku-circ'
+  }
 }
 </script>
 
