@@ -3,13 +3,14 @@
 </template>
 
 <style lang="scss">
+
+  @import '../node_modules/susy/sass/susy';
+
   // ==========
   // CSS VARIABLES
   // ==========
   $bg-dark-blue: rgba(18,29,46,.8);
   $bg-medium-blue: rgba(33,43,57,.3);
-  $light-blue: #3C96D2;
-  $red: #D0011B;
 
   // ==========
   // CSS MIXINS
@@ -28,6 +29,8 @@
     gutters: 0
   );
 
+  @include border-box-sizing;
+
   body {
     color: #fff;
     background-color: #121D2E;
@@ -35,6 +38,11 @@
     background-size: contain;
     font-family: Montserrat, sans-serif;
     font-weight: 200;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
   }
 
   .oku-circ {
@@ -52,7 +60,6 @@
 
   .oku-circ__uris {
     width: span(4 of 12);
-    //border: 1px solid red;
     background-color: $bg-medium-blue;
     height: 100vh;
     float: right;
