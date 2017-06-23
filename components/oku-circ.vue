@@ -1,6 +1,6 @@
 <template>
-  <div class="oku-circ" v-bind:class="okuLocation">
-    <h1>{{ locationUpper }}</h1>
+  <div class="oku-circ" v-bind:class="'oku-circ__' + okuLocation">
+    <h1>{{ okuLocation }}</h1>
 
     <!-- <time>{{ dateNow }}</time> -->
 
@@ -27,13 +27,11 @@
 </template>
 
 <script>
-import _ from 'lodash'
 
 export default {
   data () {
     return {
-      locationUpper: _.upperFirst(this.location),
-      okuLocation: 'oku-circ__' + this.location
+      okuLocation: this.location
     }
   },
   computed: {
@@ -50,12 +48,18 @@ export default {
 }
 </script>
 
+<style lang="scss">
+
   time {
     position: absolute;
     right: 20px;
     top: 55px;
-    color: $light-blue;
+    //color: $light-blue;
   }
 
-<style>
+ .oku-circ {
+   h1 {
+     text-transform: capitalize;
+   }
+ }
 </style>
