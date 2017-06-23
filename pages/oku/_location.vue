@@ -1,5 +1,5 @@
 <template>
-  <div class="oku">
+  <div class="oku-circ">
     <oku-circ location="olin"/>
     <oku-circ location="uris"/>
   </div>
@@ -17,7 +17,8 @@ export default {
     await store.dispatch('phoneChargers/fetchStatus', 'olin')
     await store.dispatch('laptops/fetchStatus', 'uris')
     await store.dispatch('phoneChargers/fetchStatus', 'uris')
-  }
+  },
+  layout: 'oku'
 }
 </script>
 
