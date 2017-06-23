@@ -11,7 +11,8 @@
     "axios": "^0.16.1",
     "lodash": "^4.17.4",
     "nuxt": "latest",
-    "nuxt-helpers": "^0.10.0"
+    "nuxt-helpers": "^0.10.0",
+    "susy": "^2.2.12"
   },
   "scripts": {
     "dev": "nuxt",
