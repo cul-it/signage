@@ -48,14 +48,15 @@
   .oku-circ {
     height: 100vh;
     position: relative;
-    background-color: $bg-dark-blue;
-  }
 
+  }
+  
   .oku-circ__olin {
     width: span(8 of 12);
     padding: 20px;
-    padding-left: 50px;
+    padding-left: 30px;
     float: left;
+    background-color: $bg-dark-blue;
   }
 
   .oku-circ__uris {

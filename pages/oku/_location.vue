@@ -40,5 +40,6 @@ export default {
     padding-right: 20px;
     text-align: right;
     z-index: 9999;
+    color: #3C96D2;
   }
 </style>

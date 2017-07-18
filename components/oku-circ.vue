@@ -26,13 +26,19 @@
       <h2 class="device-type__header"><i class="fa fa-battery-quarter device-type__header--icon-charger" aria-hidden="true"></i> Phone Chargers: </h2>
 
       <ul>
-        <li><span class="device-type__info--count">{{ phoneChargers[location].iphone4Available }}</span> iPhone 4 available</li>
+        <li class="device-type__info">
+          <span class="device-type__info--count">{{ phoneChargers[location].iphone4Available }}</span> iPhone 4 available
+        </li>
 
-        <li><span class="device-type__info--count">{{ phoneChargers[location].iphoneAvailable}}</span> iPhone 5 &amp; up available</li>
+        <li class="device-type__info">
+          <span class="device-type__info--count">{{ phoneChargers[location].iphoneAvailable}}</span> iPhone 5 &amp; up available
+        </li>
 
-        <li><span class="device-type__info--count">{{ phoneChargers[location].microUsbAvailable }}</span> Micro USB available</li>
+        <li class="device-type__info"><span class="device-type__info--count">{{ phoneChargers[location].microUsbAvailable }}</span> Micro USB available
+        </li>
 
-        <li><span class="device-type__info--count">{{ phoneChargers[location].usbCAvailable }}</span> Micro USB-C available</li>
+        <li class="device-type__info"><span class="device-type__info--count">{{ phoneChargers[location].usbCAvailable }}</span> Micro USB-C available
+        </li>
       </ul>
     </section>
   </div>
@@ -71,6 +77,7 @@ export default {
   $red: #D0011B;
 
  .oku-circ {
+
    h1 {
      text-transform: capitalize;
      font-weight: normal;
@@ -100,6 +107,7 @@ export default {
    font-size: 40px;
    margin: 0;
    vertical-align: middle;
+   padding-bottom: 20px;
  }
 
  .device-type__header--icon-laptop {
@@ -116,11 +124,13 @@ export default {
    width: span(4 of 8);
    float: left;
    font-size: 30px;
+   color: $light-blue;
+   padding-bottom: 20px;
  }
 
  .device-type__info--count {
    padding: 10px;
-   color: #3C96D2;
+   color: $light-blue;
    border-radius: 50%;
    background-color: #fff;
    width: 60px;
@@ -130,5 +140,9 @@ export default {
    font-size: 30px;
    vertical-align: middle;
    margin-right: 10px;
+ }
+
+ .device-type__info--icon {
+   color: #fff;
  }
 </style>
