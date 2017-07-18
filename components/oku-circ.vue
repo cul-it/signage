@@ -2,23 +2,37 @@
   <div class="oku-circ" v-bind:class="'oku-circ__' + okuLocation">
     <h1>{{ okuLocation }}</h1>
 
-    <section class="laptops">
-      <h2>Laptops:</h2>
+    <section class="device-type">
+
+      <h2 class="device-type__header"><i class="fa fa-laptop device-type__header--icon-laptop" aria-hidden="true"></i> Laptops: </h2>
 
       <ul>
-        <li><span>{{ laptops[location].windowsAvailable }}</span> </i><i class="fa fa-windows" aria-hidden="true"></i> available {{ laptops[location].windowsNextDue }}</li>
-        <li><span>{{ laptops[location].macAvailable }}</span> <i class="fa fa-apple" aria-hidden="true"></i> available {{ laptops[location].macNextDue }}</li>
+        <li class="device-type__info">
+          <span class="device-type__info--count">{{ laptops[location].windowsAvailable }}</span>
+          <i class="fa fa-apple device-type__info--icon" aria-hidden="true"></i>
+           available <!--{{ laptops[location].windowsNextDue }}-->
+        </li>
+
+        <li class="device-type__info">
+          <span class="device-type__info--count">{{ laptops[location].macAvailable }}</span>
+          <i class="fa fa-windows device-type__info--icon" aria-hidden="true"></i>
+          available <!--{{ laptops[location].macNextDue }}-->
+        </li>
       </ul>
     </section>
 
-    <section class="chargers">
-      <h2>Phone Chargers:</h2>
+    <section class="device-type">
+
+      <h2 class="device-type__header"><i class="fa fa-battery-quarter device-type__header--icon-charger" aria-hidden="true"></i> Phone Chargers: </h2>
 
       <ul>
-        <li><span>{{ phoneChargers[location].iphone4Available }}</span> iPhone 4 available</li>
-        <li><span>{{ phoneChargers[location].iphoneAvailable}}</span> iPhone 5 &amp; up available</li>
-        <li><span>{{ phoneChargers[location].microUsbAvailable }}</span> Micro USB available</li>
-        <li><span>{{ phoneChargers[location].usbCAvailable }}</span> Micro USB-C available</li>
+        <li><span class="device-type__info--count">{{ phoneChargers[location].iphone4Available }}</span> iPhone 4 available</li>
+
+        <li><span class="device-type__info--count">{{ phoneChargers[location].iphoneAvailable}}</span> iPhone 5 &amp; up available</li>
+
+        <li><span class="device-type__info--count">{{ phoneChargers[location].microUsbAvailable }}</span> Micro USB available</li>
+
+        <li><span class="device-type__info--count">{{ phoneChargers[location].usbCAvailable }}</span> Micro USB-C available</li>
       </ul>
     </section>
   </div>
@@ -47,6 +61,8 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../node_modules/susy/sass/susy';
+  @import '../node_modules/font-awesome/css/font-awesome.min.css';
 
   // ==========
   // CSS VARIABLES
@@ -63,15 +79,8 @@ export default {
      font-weight: 400;
    }
 
-   h2 {
-     font-size: 40px;
-     margin: 0;
-     vertical-align: middle;
-   }
-
    .laptops, .chargers {
      padding-top: 20px;
-     //border-bottom: 1px solid rgba(255,255,255,.2);
      margin-bottom: 150px;
    }
 
@@ -79,26 +88,47 @@ export default {
      width: span(4 of 8);
      float: left;
      font-size: 30px;
-
-     span {
-       padding: 10px;
-       color: #3C96D2;
-       border-radius: 50%;
-       background-color: #fff;
-       width: 60px;
-       height: 60px;
-       display: inline-block;
-       text-align: center;
-       font-size: 30px;
-       vertical-align: middle;
-       margin-right: 10px;
-
-       i {
-         font-size: 40px;
-         color: #fff;
-         vertical-align: middle;
-       }
-     }
    }
+ }
+
+ .device-type {
+   padding-top: 20px;
+   margin-bottom: 150px;
+ }
+
+ .device-type__header {
+   font-size: 40px;
+   margin: 0;
+   vertical-align: middle;
+ }
+
+ .device-type__header--icon-laptop {
+   font-size: 80px;
+   vertical-align: middle;
+ }
+
+ .device-type__header--icon-charger {
+   font-size: 60px;
+   vertical-align: middle;
+ }
+
+ .device-type__info {
+   width: span(4 of 8);
+   float: left;
+   font-size: 30px;
+ }
+
+ .device-type__info--count {
+   padding: 10px;
+   color: #3C96D2;
+   border-radius: 50%;
+   background-color: #fff;
+   width: 60px;
+   height: 60px;
+   display: inline-block;
+   text-align: center;
+   font-size: 30px;
+   vertical-align: middle;
+   margin-right: 10px;
  }
 </style>

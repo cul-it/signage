@@ -16,8 +16,7 @@ module.exports = NuxtHelpers([
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:200,400' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Droid+Sans:400,700' },
-      { rel: 'javascript', href: 'https://use.fontawesome.com/393a6fea12.js' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Droid+Sans:400,700' }
     ]
   },
   /*
