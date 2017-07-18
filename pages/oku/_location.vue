@@ -1,5 +1,7 @@
 <template>
-  <div class="oku-circ">
+  <div class="oku-circ">{{okuLocation}}
+    <time>{{ currentTime }}</time>
+
     <oku-circ location="olin"/>
     <oku-circ location="uris"/>
   </div>
@@ -7,8 +9,15 @@
 
 <script>
 import OKU from '~components/oku-circ'
+import moment from 'moment'
 
 export default {
+  data () {
+    return {
+      okuLocation: this.location,
+      currentTime: moment().format('MMM D / h:mm A')
+    }
+  },
   components: {
     'oku-circ': OKU
   },
@@ -22,6 +31,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style language="scss">
+  time {
+    position: absolute;
+    width: 66%;
+    top: 30px;
+    color: #fff;
+    padding-right: 20px;
+    text-align: right;
+    z-index: 9999;
+  }
 </style>

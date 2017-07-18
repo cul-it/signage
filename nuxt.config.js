@@ -41,6 +41,6 @@ module.exports = NuxtHelpers([
         })
       }
     },
-    vendor: ['lodash']
+    vendor: ['lodash', 'moment']
   }
 })

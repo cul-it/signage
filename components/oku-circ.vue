@@ -2,8 +2,6 @@
   <div class="oku-circ" v-bind:class="'oku-circ__' + okuLocation">
     <h1>{{ okuLocation }}</h1>
 
-    <!-- <time>{{ dateNow }}</time> -->
-
     <section class="laptops">
       <h2>Laptops:</h2>
 
@@ -55,13 +53,6 @@ export default {
   // ==========
   $light-blue: #3C96D2;
   $red: #D0011B;
-
-  time {
-    position: absolute;
-    right: 20px;
-    top: 55px;
-    //color: $light-blue;
-  }
 
  .oku-circ {
    h1 {
