@@ -4,7 +4,7 @@
 
 <style lang="scss">
 
-  @import '../node_modules/susy/sass/susy';
+  @import '~susy';
 
   // ==========
   // CSS VARIABLES
@@ -44,13 +44,21 @@
     list-style: none;
     margin: 0;
   }
+  time {
+    position: absolute;
+    width: 66%;
+    top: 30px;
+    color: #fff;
+    padding-right: 20px;
+    text-align: right;
+    z-index: 9999;
+    color: #3C96D2;
+  }
 
   .oku-circ {
-    height: 100vh;
     position: relative;
-
   }
-  
+
   .oku-circ__olin {
     width: span(8 of 12);
     padding: 20px;
@@ -66,6 +74,38 @@
     float: right;
     border-left: 1px solid rgba(255,255,255,.2);
     padding-left: 3%;
+  }
+
+  .oku-circ.uris {
+
+    display: flex;
+    flex-flow: column;
+
+    time {
+      width: 100%;
+    }
+
+    .oku-circ__olin {
+      padding: 20px;
+      padding-left: 30px;
+      background-color: $bg-medium-blue;
+      height: auto;
+      width: 100%;
+      padding-top: 40px;
+      order: 2;
+    }
+
+    .oku-circ__uris {
+      background-color: $bg-dark-blue;
+      border-bottom: 1px solid rgba(255,255,255,.2);
+      border-left: none;
+      padding-left: 30px;
+      padding-top: 20px;
+      padding-bottom: 40px;
+      height: 100%;
+      width: 100%;
+      order: 1;
+    }
   }
 
 </style>

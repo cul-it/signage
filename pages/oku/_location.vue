@@ -1,5 +1,5 @@
 <template>
-  <div class="oku-circ">{{okuLocation}}
+  <div class="oku-circ" v-bind:class="okuLocation">
     <time>{{ currentTime }}</time>
 
     <oku-circ location="olin"/>
@@ -14,7 +14,7 @@ import moment from 'moment'
 export default {
   data () {
     return {
-      okuLocation: this.location,
+      okuLocation: this.$route.params.location,
       currentTime: moment().format('MMM D / h:mm A')
     }
   },
@@ -31,15 +31,5 @@ export default {
 }
 </script>
 
-<style language="scss">
-  time {
-    position: absolute;
-    width: 66%;
-    top: 30px;
-    color: #fff;
-    padding-right: 20px;
-    text-align: right;
-    z-index: 9999;
-    color: #3C96D2;
-  }
+<style>
 </style>

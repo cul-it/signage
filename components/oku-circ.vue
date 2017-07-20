@@ -1,6 +1,6 @@
 <template>
-  <div class="oku-circ" v-bind:class="'oku-circ__' + okuLocation">
-    <h1>{{ okuLocation }}</h1>
+  <div class="oku-circ" v-bind:class="'oku-circ__' + location">
+    <h1>{{ location }}</h1>
 
     <section class="device-type">
 
@@ -37,7 +37,7 @@
         <li class="device-type__info"><span class="device-type__info--count">{{ phoneChargers[location].microUsbAvailable }}</span> Micro USB available
         </li>
 
-        <li class="device-type__info"><span class="device-type__info--count">{{ phoneChargers[location].usbCAvailable }}</span> Micro USB-C available
+        <li class="device-type__info"><span class="device-type__info--count">{{ phoneChargers[location].usbCAvailable }}</span> USB-C available
         </li>
       </ul>
     </section>
@@ -47,11 +47,6 @@
 <script>
 
 export default {
-  data () {
-    return {
-      okuLocation: this.location
-    }
-  },
   computed: {
     laptops () {
       return this.$store.state.laptops.locations
@@ -67,9 +62,10 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '../node_modules/susy/sass/susy';
-  @import '../node_modules/font-awesome/css/font-awesome.min.css';
 
+  @import '~susy';
+  /* @import '~font-awesome/scss/font-awesome.scss'; */
+  @import '~font-awesome/css/font-awesome.min.css';
   // ==========
   // CSS VARIABLES
   // ==========
