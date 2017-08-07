@@ -64,8 +64,8 @@ export default {
 <style lang="scss">
 
   @import '~susy';
-  /* @import '~font-awesome/scss/font-awesome.scss'; */
   @import '~font-awesome/css/font-awesome.min.css';
+  
   // ==========
   // CSS VARIABLES
   // ==========
@@ -91,6 +91,17 @@ export default {
      width: span(4 of 8);
      float: left;
      font-size: 30px;
+   }
+ }
+
+ .oku-circ.oku-circ__uris {
+
+   h1 {
+     font-size: 30px;
+   }
+
+   li {
+     font-size: 23px;
    }
  }
 
@@ -140,5 +151,40 @@ export default {
 
  .device-type__info--icon {
    color: #fff;
+ }
+
+ .oku-circ.oku-circ__uris {
+
+   h1 {
+     font-size: 30px;
+   }
+
+   li {
+     font-size: 23px;
+   }
+
+   .device-type__header {
+     font-size: 30px;
+   }
+
+   .device-type__header--icon-laptop {
+     font-size: 70px;
+   }
+
+   .device-type__header--icon-charger {
+     font-size: 60px;
+   }
+
+   .device-type__info {
+     font-size: 24px;
+   }
+
+   .device-type__info--count {
+     padding: 10px;
+     width: 50px;
+     height: 50px;
+     font-size: 26px;
+     margin-right: 10px;
+   }
  }
 </style>
