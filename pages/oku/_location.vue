@@ -40,6 +40,14 @@ export default {
     setInterval(() => {
       this.$store.dispatch('time/sync')
     }, 1000 * 10)
+
+    // Update equipment status every minute
+    setInterval(() => {
+      this.$store.dispatch('laptops/fetchStatus', 'olin')
+      this.$store.dispatch('phoneChargers/fetchStatus', 'olin')
+      this.$store.dispatch('laptops/fetchStatus', 'uris')
+      this.$store.dispatch('phoneChargers/fetchStatus', 'uris')
+    }, 1000 * 60)
   }
 }
 </script>
