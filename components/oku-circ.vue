@@ -384,7 +384,7 @@ $red: #D0011B;
     .device-type__info--availability {
       display: inline-block;
       vertical-align: middle;
-      width: auto;
+      @include fluid-type(width, 1440px, 3866px, 290px, 1200px);
     }
 
     // Laptop icon
@@ -478,7 +478,7 @@ $red: #D0011B;
     .device-type__info--availability {
       display: inline-block;
       vertical-align: middle;
-      @include fluid-type(width, 1440px, 3866px, 140px, 400px);
+      width: auto;
 
     }
 
