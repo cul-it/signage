@@ -1,6 +1,6 @@
 <template>
   <div class="oku-circ" v-bind:class="okuLocation">
-    <time v-html="currentTime"></time>
+    <time v-html="currentTime"/>
 
     <oku-circ location="olin"/>
     <oku-circ location="uris"/>
@@ -53,15 +53,12 @@ export default {
 </script>
 
 <style lang="scss">
-  @-webkit-keyframes blinker {
+  .blink {
+    animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
+  }
+  
+  @keyframes blinker {
     from { opacity: 1.0; }
     to { opacity: 0.0; }
-  }
-
-  .blink {
-    -webkit-animation-name: blinker;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-    -webkit-animation-duration: 1s;
   }
 </style>
