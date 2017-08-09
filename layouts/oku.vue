@@ -34,7 +34,12 @@
   // http://madebymike.com.au/writing/precise-control-responsive-typography/
   // `strip-unit()` function by Hugo Giraudel
   // ==========
-  @mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
+
+  @mixin fluid-type($properties, $min-value, $max-value) {
+
+    $min-vw: 1440px;
+    $max-vw: 1920px;
+
     @each $property in $properties {
       #{$property}: $min-value;
     }
@@ -50,6 +55,10 @@
         #{$property}: $max-value;
       }
     }
+  }
+
+  @function strip-unit($value) {
+    @return $value / ($value * 0 + 1);
   }
 
   body {
@@ -77,7 +86,7 @@
     padding-right: 20px;
     text-align: right;
     z-index: 9999;
-    @include fluid-type(font-size, 1440px, 3866px, 14px, 40px);
+    @include fluid-type(font-size, 14px, 20px);
   }
 
   .oku-circ {
