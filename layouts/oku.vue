@@ -31,6 +31,33 @@
 
   @include border-box-sizing;
 
+  // ==========
+  // MIXIN FOR MAKING FONTS LIQUID
+  //libsass (v3.3.6)
+  //PRECISE CONTROL OVER RESPONSIVE TYPOGRAPHY FOR SASS
+  // Indrek Paas @indrekpaas
+  // Inspired by Mike Riethmuller's Precise control over responsive typography
+  // http://madebymike.com.au/writing/precise-control-responsive-typography/
+  // `strip-unit()` function by Hugo Giraudel
+  // ==========
+  @mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
+    @each $property in $properties {
+      #{$property}: $min-value;
+    }
+
+    @media screen and (min-width: $min-vw) {
+      @each $property in $properties {
+        #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
+      }
+    }
+
+    @media screen and (min-width: $max-vw) {
+      @each $property in $properties {
+        #{$property}: $max-value;
+      }
+    }
+  }
+
   body {
     color: #fff;
     background-color: #121D2E;
@@ -44,6 +71,8 @@
     list-style: none;
     margin: 0;
   }
+
+  // Current date/time
   time {
     position: absolute;
     width: 66%;
@@ -52,7 +81,7 @@
     padding-right: 20px;
     text-align: right;
     z-index: 9999;
-    color: #3C96D2;
+    @include fluid-type(font-size, 1440px, 3866px, 14px, 40px);
   }
 
   .oku-circ {
@@ -71,7 +100,7 @@
     width: span(4 of 12);
     background-color: $bg-medium-blue;
     height: 100vh;
-    float: right;
+    float: left;
     border-left: 1px solid rgba(255,255,255,.2);
     padding-left: 3%;
   }
@@ -89,7 +118,6 @@
       padding: 20px;
       padding-left: 30px;
       background-color: $bg-medium-blue;
-      height: auto;
       width: 100%;
       padding-top: 40px;
       order: 2;
