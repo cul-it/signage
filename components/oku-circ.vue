@@ -127,7 +127,7 @@ $red: #D0011B;
     h1 {
         text-transform: capitalize;
         font-weight: normal;
-        font-size: 38px;
+        font-size: 49px;
         margin: 0;
         padding-top: 20px;
     }
@@ -153,7 +153,7 @@ $red: #D0011B;
 
     // Device type (laptops, chargers, ...)
     .device-type__header {
-      font-size: 42px;
+      font-size: 66px;
       margin: 0;
       padding-bottom: 30px;
     }
@@ -233,7 +233,7 @@ $red: #D0011B;
     h1 {
         text-transform: capitalize;
         font-weight: normal;
-        font-size: 33px;
+        font-size: 31px;
         margin: 0;
         padding-top: 40px;
     }
@@ -259,7 +259,7 @@ $red: #D0011B;
 
     // Device type (laptops, chargers, ...)
     .device-type__header {
-      font-size: 32px;
+      font-size: 50px;
       margin: 0;
       padding-bottom: 20px;
     }
@@ -289,7 +289,7 @@ $red: #D0011B;
       text-align: center;
       display: inline-block;
       float: left;
-      font-size: 28px;
+      font-size: 30px;
     }
 
     // Device type availability
@@ -342,7 +342,7 @@ $red: #D0011B;
 
   .oku-circ.oku-circ__uris {
 
-    height: 100vh;
+    height: 50vh;
 
     // Unit library title
     h1 {
@@ -374,7 +374,7 @@ $red: #D0011B;
 
     // Device type (laptops, chargers, ...)
     .device-type__header {
-      font-size: 42px;
+      font-size: 48px;
       margin: 0;
       padding-bottom: 30px;
     }
@@ -383,7 +383,7 @@ $red: #D0011B;
     .device-type__info {
       width: 50%;
       float: left;
-      font-size: 38px;
+      font-size: 33px;
       color: #fff;
     }
 
@@ -448,7 +448,7 @@ $red: #D0011B;
 
   .oku-circ.oku-circ__olin {
 
-    height: 100vh;
+    height: 50vh;
 
     // Unit library title
     h1 {
@@ -456,14 +456,13 @@ $red: #D0011B;
         font-weight: normal;
         font-size: 33px;
         margin: 0;
-        padding-top: 40px;
+        padding-top: 10px;
     }
 
     // Device container
     .device-type {
       padding-top: 20px;
-      margin-top: 30px;
-      margin-bottom: 200px;
+      margin-bottom: 100px;
 
       ul {
         padding-left: 20px;
@@ -480,17 +479,17 @@ $red: #D0011B;
 
     // Device type (laptops, chargers, ...)
     .device-type__header {
-      font-size: 32px;
+      font-size: 36px;
       margin: 0;
       padding-bottom: 20px;
     }
 
     // Device info: count, availavility, ...
     .device-type__info {
-      font-size: 28px;
-      margin-bottom: 30px;
+      font-size: 34px;
+      margin-bottom: 20px;
       color: #fff;
-      width: 100%;
+      width: 50%;
       float: left;
     }
 
