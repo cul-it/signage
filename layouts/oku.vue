@@ -22,14 +22,8 @@
   // ==========
   // CSS LAYOUT
   // ==========
-  $susy:(
-    columns: 12,
-    container: auto,
-    global-box-sizing: border-box,
-    gutters: 0
-  );
 
-  @include border-box-sizing;
+  * { box-sizing: border-box; }
 
   // ==========
   // MIXIN FOR MAKING FONTS LIQUID
@@ -64,7 +58,9 @@
     background: #121D2E url('~assets/insignia.png') no-repeat bottom right;
     background-size: contain;
     font-family: Montserrat, sans-serif;
-    font-weight: 200;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
   }
 
   ul {
@@ -75,7 +71,7 @@
   // Current date/time
   time {
     position: absolute;
-    width: 66%;
+    width: 64%;
     top: 30px;
     color: #fff;
     padding-right: 20px;
@@ -86,24 +82,42 @@
 
   .oku-circ {
     position: relative;
+    width: 100vw;
   }
 
-  .oku-circ__olin {
-    width: span(8 of 12);
-    padding: 20px;
-    padding-left: 30px;
-    float: left;
-    background-color: $bg-dark-blue;
+  // ====================
+  // OLIN LIBRARY DISPLAY
+  // ====================
+
+  .oku-circ.olin {
+
+    .oku-circ__olin {
+      width: 65vw;
+      height: 100vh;
+      float: left;
+      padding: 20px;
+      padding-left: 30px;
+      background-color: $bg-dark-blue;
+      margin: 0;
+      padding: 0;
+      padding-left: 50px;
+    }
+
+    .oku-circ__uris {
+      width: 35vw;
+      height: 100vh;
+      float: left;
+      background-color: $bg-medium-blue;
+      border-left: 1px solid rgba(255,255,255,.2);
+      margin: 0;
+      padding: 0;
+      padding-left: 50px;
+    }
   }
 
-  .oku-circ__uris {
-    width: span(4 of 12);
-    background-color: $bg-medium-blue;
-    height: 100vh;
-    float: left;
-    border-left: 1px solid rgba(255,255,255,.2);
-    padding-left: 3%;
-  }
+  // ====================
+  // URIS LIBRARY DISPLAY
+  // ====================
 
   .oku-circ.uris {
 
