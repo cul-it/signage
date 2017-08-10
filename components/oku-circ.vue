@@ -110,6 +110,9 @@ $red: #D0011B;
   @return $value / ($value * 0 + 1);
 }
 
+* {
+  -webkit-font-smoothing: antialiased;
+}
 
 // ====================
 // OLIN LIBRARY DISPLAY

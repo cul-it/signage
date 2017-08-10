@@ -50,6 +50,10 @@
   @function strip-unit($value) {
     @return $value / ($value * 0 + 1);
   }
+  
+  * {
+    -webkit-font-smoothing: antialiased;
+  }
 
   body {
     color: #fff;
