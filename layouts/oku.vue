@@ -9,7 +9,7 @@
   // ==========
   // CSS VARIABLES
   // ==========
-  $bg-dark-blue: rgba(18,29,46,.8);
+  $bg-dark-blue: rgba(18,29,46,.3);
   $bg-medium-blue: rgba(33,43,57,.3);
 
   // ==========
@@ -50,7 +50,7 @@
   @function strip-unit($value) {
     @return $value / ($value * 0 + 1);
   }
-  
+
   * {
     -webkit-font-smoothing: antialiased;
   }
