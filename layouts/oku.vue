@@ -57,10 +57,14 @@
     background: #121D2E url('~assets/insignia.png') no-repeat bottom right;
     background-size: contain;
     font-family: Montserrat, sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     margin: 0;
     padding: 0;
     overflow: hidden;
+  }
+
+  h2 {
+    font-weight: 400;
   }
 
   ul {
@@ -126,13 +130,14 @@
 
     time {
       width: 100%;
+      @include fluid-type(font-size, 810px, 1080px, 14px, 30px);
+      right: 20px;
     }
 
     .oku-circ__olin {
       padding: 20px;
       padding-left: 30px;
       background-color: $bg-medium-blue;
-      width: 100%;
       padding-top: 40px;
       order: 2;
     }
@@ -144,8 +149,6 @@
       padding-left: 30px;
       padding-top: 20px;
       padding-bottom: 40px;
-      height: 100%;
-      width: 100%;
       order: 1;
     }
   }
