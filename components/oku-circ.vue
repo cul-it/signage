@@ -4,7 +4,7 @@
 
   <section class="device-type">
 
-    <h2 class="device-type__header"><i class="fa fa-laptop device-type__header--icon-laptop" aria-hidden="true"></i> Laptops: </h2>
+    <h2 class="device-type__header"><i class="fa fa-laptop device-type__header--icon-laptop" aria-hidden="true"></i> Laptops </h2>
 
     <ul>
       <li class="device-type__info">
@@ -23,7 +23,7 @@
 
   <section class="device-type">
 
-    <h2 class="device-type__header"><i class="fa fa-battery-quarter device-type__header--icon-charger" aria-hidden="true"></i> Phone Chargers: </h2>
+    <h2 class="device-type__header"><i class="fa fa-battery-quarter device-type__header--icon-charger" aria-hidden="true"></i> Phone Chargers </h2>
 
     <ul>
       <li class="device-type__info">
