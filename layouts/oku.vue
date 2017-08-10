@@ -4,20 +4,13 @@
 
 <style lang="scss">
 
-  @import '~susy';
+  @import '~font-awesome/css/font-awesome.min.css';
 
   // ==========
   // CSS VARIABLES
   // ==========
   $bg-dark-blue: rgba(18,29,46,.8);
   $bg-medium-blue: rgba(33,43,57,.3);
-
-  // ==========
-  // CSS MIXINS
-  // ==========
-  @mixin border($color) {
-    border: 1px solid $color;
-  }
 
   // ==========
   // CSS LAYOUT
@@ -35,10 +28,7 @@
   // `strip-unit()` function by Hugo Giraudel
   // ==========
 
-  @mixin fluid-type($properties, $min-value, $max-value) {
-
-    $min-vw: 1440px;
-    $max-vw: 1920px;
+  @mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
 
     @each $property in $properties {
       #{$property}: $min-value;
@@ -70,6 +60,7 @@
     font-weight: 500;
     margin: 0;
     padding: 0;
+    overflow: hidden;
   }
 
   ul {
@@ -86,7 +77,7 @@
     padding-right: 20px;
     text-align: right;
     z-index: 9999;
-    @include fluid-type(font-size, 14px, 20px);
+    @include fluid-type(font-size, 1440px, 1920px, 14px, 20px);
   }
 
   .oku-circ {
