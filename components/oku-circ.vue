@@ -38,12 +38,13 @@
 
       <li class="device-type__info">
         <p><span class="device-type__info--count">{{ phoneChargers[location].microUsbAvailable }}</span></p>
-        <p class="device-type__info--availability">Micro USB <span class="unavailable">available at 00:00 PM</span></p
+        <p class="device-type__info--availability">Micro USB <span class="available">available</span></p>
+      </li>
       </li>
 
       <li class="device-type__info">
         <p><span class="device-type__info--count">{{ phoneChargers[location].usbCAvailable }}</span></p>
-        <p class="device-type__info--availability">USB-C <span class="unavailable">available at 00:00 PM</span></p>
+        <p class="device-type__info--availability">USB-C <span class="available">available</span></p>
       </li>
 
     </ul>
