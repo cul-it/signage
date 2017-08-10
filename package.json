@@ -7,6 +7,9 @@
     "Nick Cappadona <nick.cappadona@cornell.edu>"
   ],
   "private": true,
+  "engines": {
+    "node": "7.10.0"
+  },
   "dependencies": {
     "add": "^2.0.6",
     "axios": "^0.16.1",
@@ -18,6 +21,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
+    "heroku-postbuild": "npm run build",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
