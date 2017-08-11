@@ -8,15 +8,15 @@
 
     <ul>
       <li class="device-type__info">
-        <p><span class="device-type__info--count">{{ laptops[location].windowsAvailable }}</span></p>
+        <p><span class="device-type__info--count">{{ laptops[location].macAvailable }}</span></p>
         <p class="device-type__info--availability"><i class="fa fa-apple device-type__info--icon" aria-hidden="true"></i> <span class="available">available</span></p>
-        <!--{{ laptops[location].windowsNextDue }}-->
+        <!--{{ laptops[location].macNextDue }}-->
       </li>
 
       <li class="device-type__info">
-        <p><span class="device-type__info--count">{{ laptops[location].macAvailable }}</span></p>
+        <p><span class="device-type__info--count">{{ laptops[location].windowsAvailable }}</span></p>
         <p class="device-type__info--availability"><i class="fa fa-windows device-type__info--icon" aria-hidden="true"></i> <span class="available">available</span></p>
-        <!--{{ laptops[location].macNextDue }}-->
+        <!--{{ laptops[location].windowsNextDue }}-->
       </li>
     </ul>
   </section>
