@@ -17,13 +17,14 @@ export const actions = {
     let feed = await Robin.getHours(desk)
     // console.log(feed)
     // console.log(feed.locations[0].times)
-    const status = feed.locations[0].times.status
+    const libcalStatus = feed.locations[0].times.status
     const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+    const status = Robin.openNow(libcalStatus, allHours)
     const deskData = {
       'name': feed.locations[0].name,
       'hours': allHours,
-      'status': Robin.openNow(status, allHours),
-      'statusChange': 'some future time'
+      'status': status.current,
+      'statusChange': status.change
     }
     console.log(deskData)
     commit('update', deskData)

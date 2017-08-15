@@ -25,25 +25,36 @@ export default {
     const requestDate = typeof date === 'undefined' ? null : '&date=' + this.formatDate(date)
     return $get(this.api.endpoints.hours + this.api.desks[desk] + requestDate)
   },
-  openNow: function (status, hours) {
+  openNow: function (libcalStatus, hours) {
     const timeFmt = 'ha'
+    var statusChange = null
 
-    if (status === 'ByApp') {
-      return 'by appointment'
+    if (libcalStatus === 'ByApp') {
+      return {
+        current: 'by appointment',
+        change: statusChange
+      }
     }
 
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
-      const isOpen = hours.findIndex((hoursBlock) => {
-        console.log(hoursBlock)
+      const isOpen = hours.find((hoursBlock) => {
+        // console.log(hoursBlock)
         return (moment().isBetween(moment(hoursBlock.from, timeFmt), moment(hoursBlock.to, timeFmt), null, []))
       })
 
-      if (isOpen !== -1) {
-        return 'open'
+      console.log(isOpen)
+      if (isOpen !== 'undefined') {
+        return {
+          current: 'open',
+          change: isOpen.to
+        }
       }
     }
 
-    return 'closed'
+    return {
+      current: 'closed',
+      change: statusChange
+    }
   }
 }
