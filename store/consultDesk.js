@@ -1,30 +1,31 @@
 import _ from 'lodash'
-import {$get} from '~/.nuxt-helpers/axios'
 import Robin from '~/utils/libcal'
 
 export const state = {
 }
 
 export const mutations = {
-  update (state, feed) {
-    // console.log(feed)
-    _.assign(state, feed)
+  update (state, data) {
+    // console.log(data)
+    _.assign(state, data)
   }
 }
 
 export const actions = {
   async fetchStatus ({ commit }, desk) {
     // console.log(desk)
-    let feed = await $get(Robin.api.endpoints.hours + Robin.api.desks[desk])
+    let feed = await Robin.getHours(desk)
     // console.log(feed)
-    const times = feed.locations[0].times
-    // console.log(times)
-    const hours = {
+    // console.log(feed.locations[0].times)
+    const status = feed.locations[0].times.status
+    const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+    const deskData = {
       'name': feed.locations[0].name,
-      'status': Robin.openNow(times),
+      'hours': allHours,
+      'status': Robin.openNow(status, allHours),
       'statusChange': 'some future time'
     }
-    // console.log(hours)
-    commit('update', hours)
+    console.log(deskData)
+    commit('update', deskData)
   }
 }
