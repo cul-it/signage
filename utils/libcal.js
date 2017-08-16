@@ -17,6 +17,7 @@ export default {
       rdmsg: 3302
     }
   },
+  timeFormat: 'ha',
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
@@ -58,14 +59,14 @@ export default {
     return hours !== null ? hours[0].from : null
   },
   async openNow (desk, libcalStatus, hours) {
-    const timeFmt = 'ha'
+    // const timeFmt = 'ha'
     // var statusChange = null
 
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
         // console.log(hoursBlock)
-        return (moment().isBetween(moment(hoursBlock.from, timeFmt), moment(hoursBlock.to, timeFmt), null, []))
+        return (moment().isBetween(moment(hoursBlock.from, this.timeFormat), moment(hoursBlock.to, this.timeFormat), null, []))
       })
 
       // console.log(isOpen)
