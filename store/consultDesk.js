@@ -19,14 +19,14 @@ export const actions = {
     // console.log(feed.locations[0].times)
     const libcalStatus = feed.locations[0].times.status
     const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
-    const status = Robin.openNow(libcalStatus, allHours)
+    const status = await Robin.openNow(desk, libcalStatus, allHours)
     const deskData = {
       'name': feed.locations[0].name,
       'hours': allHours,
       'status': status.current,
       'statusChange': status.change
     }
-    console.log(deskData)
+    // console.log(deskData)
     commit('update', deskData)
   }
 }
