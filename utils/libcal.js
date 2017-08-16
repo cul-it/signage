@@ -27,6 +27,8 @@ export default {
     return $get(this.api.endpoints.hours + this.api.desks[desk] + requestDate)
   },
   async nextOpening (desk) {
+    var displayTime = 'no upcoming openings'
+
     // Assume today is already covered/tested & check next 14 days
     for (var i = 1; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
@@ -38,7 +40,7 @@ export default {
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
         openingTime = moment(openingTime, 'ha')
-        var displayTime = dateToCheck.set({
+        displayTime = dateToCheck.set({
           'hour': openingTime.get('hour'),
           'minute': openingTime.get('minute')
         })
@@ -80,7 +82,6 @@ export default {
 
     let statusChange = await this.nextOpening(desk)
     console.log(statusChange)
-    // let statusChange = 'yowsa'
 
     if (libcalStatus === 'ByApp') {
       return {
