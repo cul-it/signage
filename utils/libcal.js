@@ -3,6 +3,22 @@ import moment from 'moment'
 
 const baseUrl = 'https://api3.libcal.com/'
 
+// Set formatting strings for Moment's calendar method
+// http://momentjs.com/docs/#/customization/calendar
+moment.updateLocale('en', {
+  calendar: {
+    lastDay: 'LT [yesterday]',
+    sameDay: 'LT',
+    nextDay: 'LT [tomorrow]',
+    lastWeek: 'LT [last] dddd',
+    nextWeek: 'LT dddd',
+    sameElse: 'LT ddd, MMM D'
+  },
+  longDateFormat: {
+    LT: 'h:mm a'
+  }
+})
+
 export default {
   api: {
     endpoints: {
@@ -29,8 +45,8 @@ export default {
   async nextOpening (desk) {
     var displayTime = 'no upcoming openings'
 
-    // Assume today is already covered/tested & check next 14 days
-    for (var i = 1; i < 15; i++) {
+    // Check today plus next 14 days
+    for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
       // console.log(dateToCheck)
       var openingTime = await this.openingTime(desk, this.formatDate(dateToCheck))
@@ -71,8 +87,8 @@ export default {
         return (moment().isBetween(moment(hoursBlock.from, this.timeFormat), moment(hoursBlock.to, this.timeFormat), null, []))
       })
 
-      // console.log(isOpen)
-      if (isOpen !== 'undefined') {
+      console.log(isOpen)
+      if (isOpen !== undefined) {
         return {
           current: 'open',
           change: isOpen.to
