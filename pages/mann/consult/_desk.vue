@@ -15,7 +15,9 @@ export default {
     return {
       htmlAttrs: {
         class: this.statusClass
-      }
+      },
+      title: this.desk.toUpperCase(),
+      titleTemplate: '%s - Mann Consultation'
     }
   },
   data () {
