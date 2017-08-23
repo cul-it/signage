@@ -47,14 +47,14 @@
     position: absolute;
     width: 64%;
     //top: 30px;
-    top: calc(30 * 0.092vh);
+    top: 30 * 0.092vh;
     color: #fff;
     //padding-right: 20px;
-    padding-right: calc(20 * 0.053vw);
+    padding-right: 20 * 0.053vw;
     text-align: right;
     z-index: 9999;
     //@include fluid-type(font-size, 1440px, 1920px, 14px, 20px);
-    font-size: calc(30 * 0.053vw);
+    font-size: 30 * 0.053vw;
   }
 
   .oku-circ {
@@ -76,7 +76,7 @@
       margin: 0;
       padding: 0;
       //padding-left: 50px;
-      padding-left: calc(70 * 0.053vw);
+      padding-left: 70 * 0.053vw;
 
     }
 
@@ -89,7 +89,7 @@
       margin: 0;
       padding: 0;
       //padding-left: 50px;
-      padding-left: calc(50 * 0.053vw);
+      padding-left: 50 * 0.053vw;
 
     }
   }
@@ -106,20 +106,20 @@
     time {
       width: 100%;
       //@include fluid-type(font-size, 810px, 1080px, 14px, 30px);
-      font-size: calc(30 * 0.053vw);
+      font-size: 30 * 0.053vw;
       //right: 20px;
-      right: calc(20 * 0.053vw);
+      right: 20 * 0.053vw;
 
     }
 
     .oku-circ__olin {
       //padding: 20px;
-      padding: calc(20 * 0.053vh);
-      padding-left: calc(30 * 0.053vh);
+      padding: 20 * 0.053vh;
+      padding-left: 30 * 0.053vh;
       //padding-left: 30px;
       background-color: $bg-medium-blue;
       //padding-top: 40px;
-      padding-top: calc(30 * 0.092vh);
+      padding-top: 30 * 0.092vh;
       order: 2;
     }
 
@@ -128,11 +128,11 @@
       border-bottom: 1px solid rgba(255,255,255,.2);
       border-left: none;
       //padding-left: 30px;
-      padding-left: calc(30 * 0.053vw);
+      padding-left: 30 * 0.053vw;
       //padding-top: 20px;
-      padding-top: calc(20 * 0.092vh);
+      padding-top: 20 * 0.092vh;
       //padding-bottom: 40px;
-      padding-bottom: calc(40 * 0.092vh);
+      padding-bottom: 40 * 0.092vh;
 
       order: 1;
     }
