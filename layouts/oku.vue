@@ -79,7 +79,7 @@
   // Current date/time
   time {
     position: absolute;
-    width: 64%;
+    left: 55%;
     top: 30px;
     color: #fff;
     padding-right: 20px;
@@ -133,7 +133,6 @@
     flex-flow: column;
 
     time {
-      width: 100%;
       @include fluid-type(font-size, 810px, 1080px, 14px, 30px);
       right: 20px;
     }
