@@ -34,6 +34,7 @@ export default {
     }
   },
   timeFormat: 'ha',
+  timeDisplayFormat: 'h:mm a',
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
@@ -55,7 +56,7 @@ export default {
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
-        openingTime = moment(openingTime, 'ha')
+        openingTime = moment(openingTime, this.timeFormat)
         displayTime = dateToCheck.set({
           'hour': openingTime.get('hour'),
           'minute': openingTime.get('minute')
@@ -91,7 +92,7 @@ export default {
       if (isOpen !== undefined) {
         return {
           current: 'open',
-          change: isOpen.to
+          change: moment(isOpen.to, this.timeFormat).format(this.timeDisplayFormat)
         }
       }
     }
