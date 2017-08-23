@@ -4,8 +4,10 @@
 
     <p v-if="description">{{ description }}</p>
 
-    <span class="status-current">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
-    <time class="status-change" v-html="deskInfo.statusChange"/>
+    <div class="status">
+      <span class="status__current">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
+      <time class="status__change" v-html="deskInfo.statusChange"/>
+    </div>
   </div>
 </template>
 
@@ -64,6 +66,7 @@ export default {
   }
 
   .desk {
+    grid-row: 2;
     margin: 0;
     margin-left: -.04em;
     font-size: 29vh;
@@ -90,23 +93,31 @@ export default {
   }
 
   .mann-consult {
+    display: grid;
+    grid-template-rows: 1fr 27vh;
+    height: 100vh;
     padding-left: .5em;
     font-family: 'Lato', sans-serif;
   }
 
-  .status-change {
-    display: block;
-    font-size: 14vh;
-  }
+  .status {
+    padding-top: 1.5em;
 
-  .status-current {
-    font-size: 20vh;
-    text-transform: capitalize;
+    &__change {
+      display: block;
+      font-size: 15vh;
+      line-height: .8em;
+    }
+
+    &__current {
+      font-size: 27vh;
+      text-transform: capitalize;
+    }
   }
 
   .until {
     margin-left: .18em;
-    font-size: 10vh;
+    font-size: 15vh;
     font-weight: 100;
   }
 </style>
