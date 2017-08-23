@@ -16,42 +16,8 @@
   // CSS LAYOUT
   // ==========
 
-  * { box-sizing: border-box; }
-
-  // ==========
-  // MIXIN FOR MAKING FONTS LIQUID
-  //libsass (v3.3.6)
-  //PRECISE CONTROL OVER RESPONSIVE TYPOGRAPHY FOR SASS
-  // Indrek Paas @indrekpaas
-  // Inspired by Mike Riethmuller's Precise control over responsive typography
-  // http://madebymike.com.au/writing/precise-control-responsive-typography/
-  // `strip-unit()` function by Hugo Giraudel
-  // ==========
-
-  @mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
-
-    @each $property in $properties {
-      #{$property}: $min-value;
-    }
-
-    @media screen and (min-width: $min-vw) {
-      @each $property in $properties {
-        #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
-      }
-    }
-
-    @media screen and (min-width: $max-vw) {
-      @each $property in $properties {
-        #{$property}: $max-value;
-      }
-    }
-  }
-
-  @function strip-unit($value) {
-    @return $value / ($value * 0 + 1);
-  }
-
   * {
+    box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -80,12 +46,15 @@
   time {
     position: absolute;
     width: 64%;
-    top: 30px;
+    //top: 30px;
+    top: calc(30 * 0.092vh);
     color: #fff;
-    padding-right: 20px;
+    //padding-right: 20px;
+    padding-right: calc(20 * 0.053vw);
     text-align: right;
     z-index: 9999;
-    @include fluid-type(font-size, 1440px, 1920px, 14px, 20px);
+    //@include fluid-type(font-size, 1440px, 1920px, 14px, 20px);
+    font-size: calc(30 * 0.053vw);
   }
 
   .oku-circ {
@@ -103,12 +72,12 @@
       width: 65vw;
       height: 100vh;
       float: left;
-      padding: 20px;
-      padding-left: 30px;
       background-color: $bg-dark-blue;
       margin: 0;
       padding: 0;
-      padding-left: 50px;
+      //padding-left: 50px;
+      padding-left: calc(70 * 0.053vw);
+
     }
 
     .oku-circ__uris {
@@ -119,7 +88,9 @@
       border-left: 1px solid rgba(255,255,255,.2);
       margin: 0;
       padding: 0;
-      padding-left: 50px;
+      //padding-left: 50px;
+      padding-left: calc(50 * 0.053vw);
+
     }
   }
 
@@ -134,15 +105,21 @@
 
     time {
       width: 100%;
-      @include fluid-type(font-size, 810px, 1080px, 14px, 30px);
-      right: 20px;
+      //@include fluid-type(font-size, 810px, 1080px, 14px, 30px);
+      font-size: calc(30 * 0.053vw);
+      //right: 20px;
+      right: calc(20 * 0.053vw);
+
     }
 
     .oku-circ__olin {
-      padding: 20px;
-      padding-left: 30px;
+      //padding: 20px;
+      padding: calc(20 * 0.053vh);
+      padding-left: calc(30 * 0.053vh);
+      //padding-left: 30px;
       background-color: $bg-medium-blue;
-      padding-top: 40px;
+      //padding-top: 40px;
+      padding-top: calc(30 * 0.092vh);
       order: 2;
     }
 
@@ -150,9 +127,13 @@
       background-color: $bg-dark-blue;
       border-bottom: 1px solid rgba(255,255,255,.2);
       border-left: none;
-      padding-left: 30px;
-      padding-top: 20px;
-      padding-bottom: 40px;
+      //padding-left: 30px;
+      padding-left: calc(30 * 0.053vw);
+      //padding-top: 20px;
+      padding-top: calc(20 * 0.092vh);
+      //padding-bottom: 40px;
+      padding-bottom: calc(40 * 0.092vh);
+
       order: 1;
     }
   }

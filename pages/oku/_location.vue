@@ -56,7 +56,7 @@ export default {
   .blink {
     animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
   }
-  
+
   @keyframes blinker {
     from { opacity: 1.0; }
     to { opacity: 0.0; }
