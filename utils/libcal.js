@@ -35,6 +35,13 @@ export default {
   },
   timeFormat: 'ha',
   timeDisplayFormat: 'h:mm a',
+  alreadyClosed: function (hours) {
+    if (hours === null) return false
+    // If multiple openings/closings, compare against last one for the day
+    const lastClosing = hours.pop().to
+
+    return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
+  },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
@@ -74,6 +81,20 @@ export default {
     // console.log(feed.locations[0].times)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
     // console.log(hours[0].from)
+    // console.log('hours: ', hours)
+
+    // Copy hours since it gets emptied after using as function param
+    // -- TODO: Consider immutable.js or seamless-immutable
+    const hoursClone = hours !== null ? hours.slice(0) : null
+
+    // console.log('hoursLater: ', hours)
+    // console.log('date: ' + date)
+    // console.log('today? ' + moment().isSame(moment(date), 'd'))
+
+    // If dealing with today, ensure we're not already closed
+    if (moment().isSame(moment(date), 'd') && this.alreadyClosed(hoursClone)) {
+      return null
+    }
 
     return hours !== null ? hours[0].from : null
   },
@@ -88,7 +109,7 @@ export default {
         return (moment().isBetween(moment(hoursBlock.from, this.timeFormat), moment(hoursBlock.to, this.timeFormat), null, []))
       })
 
-      console.log(isOpen)
+      console.log('openingTime:', isOpen)
       if (isOpen !== undefined) {
         return {
           current: 'open',
@@ -98,7 +119,7 @@ export default {
     }
 
     let statusChange = await this.nextOpening(desk)
-    console.log(statusChange)
+    console.log('statusChange:', statusChange)
 
     if (libcalStatus === 'ByApp') {
       return {
