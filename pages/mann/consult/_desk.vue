@@ -19,7 +19,10 @@ export default {
         class: this.statusClass
       },
       title: this.desk.toUpperCase(),
-      titleTemplate: '%s - Mann Consultation'
+      titleTemplate: '%s - Mann Consultation',
+      link: [
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' }
+      ]
     }
   },
   data () {
@@ -43,8 +46,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
-
   html {
     &.status {
       &--by-appointment {
