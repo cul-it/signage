@@ -1,6 +1,6 @@
 <template>
   <div class="mann-consult">
-    <h1 class="desk" :class="statusClass">{{ desk }}</h1>
+    <h1 class="desk" :class="[desk, statusClass]">{{ desk }}</h1>
 
     <p v-if="description">{{ description }}</p>
 
@@ -70,7 +70,7 @@ export default {
     margin: 0;
     margin-left: -.04em;
     font-size: 29vh;
-    letter-spacing: 10vw;
+    letter-spacing: 14vw;
     overflow: hidden;
     line-height: .9em;
     text-transform: uppercase;
@@ -85,6 +85,18 @@ export default {
 
     &.status--open {
       background: #30776b;
+    }
+
+    &.ciser {
+      letter-spacing: 10vw;
+    }
+
+    &.knight {
+      letter-spacing: 3vw;
+    }
+
+    &.rdmsg {
+      letter-spacing: 5vw;
     }
   }
 
