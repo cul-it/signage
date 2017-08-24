@@ -387,7 +387,6 @@ $ph: 0.053vh;
 
     .device-type__info--icon {
       padding-right: 12 * $ph;
-      padding-left: 12 * $ph;
     }
 
     // Device count
@@ -396,7 +395,7 @@ $ph: 0.053vh;
       border-radius: 50%;
       width: 90 * $ph;
       height: 90 * $ph;
-      line-height: 90 * $pw;
+      line-height: 90 * $ph;
       background-color: #fff;
       text-align: center;
       display: inline-block;
@@ -409,7 +408,7 @@ $ph: 0.053vh;
       display: inline-block;
       width: 80%;
       padding-top: 10 * $lh;
-      padding-right: 10 * $lw;
+      padding-left: 20 * $lw;
     }
 
     .available {
@@ -513,7 +512,7 @@ $ph: 0.053vh;
       font-size: 40 * $ph;
       width: 80 * $ph;
       height: 80 * $ph;
-      line-height: 80 * $pw;
+      line-height: 80 * $ph;
     }
 
     // Device type availability
@@ -522,8 +521,7 @@ $ph: 0.053vh;
       display: inline-block;
       padding-left: 10 * $ph;
       width: 80%;
-
-      padding-top: 12 * $pw;
+      padding-top: 15 * $pw;
       line-height: 50 * $pw;
     }
 
