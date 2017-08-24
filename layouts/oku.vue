@@ -58,14 +58,11 @@
   time {
     position: absolute;
     width: 64%;
-    //top: 30px;
     top: 30 * $lh;
     color: #fff;
-    //padding-right: 20px;
     padding-right: 20 * $lw;
     text-align: right;
     z-index: 9999;
-    //@include fluid-type(font-size, 1440px, 1920px, 14px, 20px);
     font-size: 30 * $lw;
   }
 
@@ -117,11 +114,8 @@
 
     time {
       width: 100%;
-      //@include fluid-type(font-size, 810px, 1080px, 14px, 30px);
       font-size: 30 * $lw;
-      //right: 20px;
       right: 20 * $lw;
-
     }
 
     .oku-circ__olin {
