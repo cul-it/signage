@@ -163,7 +163,7 @@ $ph: 0.053vh;
       border-radius: 50%;
       width: 80 * $lw;
       height: 80 * $lw;
-      line-height: 85 * $lh;
+      line-height: 80 * $lw;
       background-color: #fff;
       text-align: center;
       display: inline-block;
@@ -275,7 +275,7 @@ $ph: 0.053vh;
       font-size: 30 * $lw;
       width: 60 * $lw;
       height: 60 * $lw;
-      line-height: 60 * $lh;
+      line-height: 60 * $lw;
     }
 
     // Device type availability
