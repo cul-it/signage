@@ -12,6 +12,18 @@
   $bg-dark-blue: rgba(18,29,46,.3);
   $bg-medium-blue: rgba(33,43,57,.3);
 
+  // Width scale factor for Olin
+  $olin-width: 0.053vw;
+
+  // Height scale factor for Olin
+  $olin-height: 0.092vh;
+
+  // Width scale factor for Uris
+  $uris-width: 0.092vw;
+
+  // Height scale factor for Uris
+  $uris-height: 0.053vh;
+
   // ==========
   // CSS LAYOUT
   // ==========
@@ -47,14 +59,14 @@
     position: absolute;
     width: 64%;
     //top: 30px;
-    top: 30 * 0.092vh;
+    top: 30 * $olin-height;
     color: #fff;
     //padding-right: 20px;
-    padding-right: 20 * 0.053vw;
+    padding-right: 20 * $olin-width;
     text-align: right;
     z-index: 9999;
     //@include fluid-type(font-size, 1440px, 1920px, 14px, 20px);
-    font-size: 30 * 0.053vw;
+    font-size: 30 * $olin-width;
   }
 
   .oku-circ {
@@ -76,7 +88,7 @@
       margin: 0;
       padding: 0;
       //padding-left: 50px;
-      padding-left: 70 * 0.053vw;
+      padding-left: 70 * $olin-width;
 
     }
 
@@ -89,7 +101,7 @@
       margin: 0;
       padding: 0;
       //padding-left: 50px;
-      padding-left: 50 * 0.053vw;
+      padding-left: 50 * $olin-width;
 
     }
   }
@@ -106,20 +118,20 @@
     time {
       width: 100%;
       //@include fluid-type(font-size, 810px, 1080px, 14px, 30px);
-      font-size: 30 * 0.053vw;
+      font-size: 30 * $olin-width;
       //right: 20px;
-      right: 20 * 0.053vw;
+      right: 20 * $olin-width;
 
     }
 
     .oku-circ__olin {
       //padding: 20px;
-      padding: 20 * 0.053vh;
-      padding-left: 30 * 0.053vh;
+      padding: 20 * $uris-height;
+      padding-left: 30 * $uris-height;
       //padding-left: 30px;
       background-color: $bg-medium-blue;
       //padding-top: 40px;
-      padding-top: 30 * 0.092vh;
+      padding-top: 30 * $olin-height;
       order: 2;
     }
 
@@ -128,11 +140,11 @@
       border-bottom: 1px solid rgba(255,255,255,.2);
       border-left: none;
       //padding-left: 30px;
-      padding-left: 30 * 0.053vw;
+      padding-left: 30 * $olin-width;
       //padding-top: 20px;
-      padding-top: 20 * 0.092vh;
+      padding-top: 20 * $olin-height;
       //padding-bottom: 40px;
-      padding-bottom: 40 * 0.092vh;
+      padding-bottom: 40 * $olin-height;
 
       order: 1;
     }
