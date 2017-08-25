@@ -1,5 +1,6 @@
 import {$get} from '~/.nuxt-helpers/axios'
 import moment from 'moment'
+import jsonpPromise from 'jsonp-promise'
 
 const baseUrl = 'https://api3.libcal.com/'
 
@@ -45,10 +46,19 @@ export default {
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
-  getHours: function (desk, date) {
+  getHours: function (desk, date, jsonp = false) {
     // console.log(this.api)
-    const requestDate = typeof date === 'undefined' ? null : '&date=' + this.formatDate(date)
-    return $get(this.api.endpoints.hours + this.api.desks[desk] + requestDate)
+    const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
+    const url = this.api.endpoints.hours + this.api.desks[desk] + requestDate
+
+    if (jsonp) {
+      // If fetching updates from client, need to deal with JSONP
+      // -- LibCal doesn't set Access-Control-Allow-Origin header
+      return jsonpPromise(url).promise
+    } else {
+      // Non-issue when proxied through server on initial load (thanks Nuxt)
+      return $get(url)
+    }
   },
   async nextOpening (desk) {
     var displayTime = 'no upcoming openings'

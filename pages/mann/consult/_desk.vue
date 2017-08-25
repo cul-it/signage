@@ -40,7 +40,19 @@ export default {
     }
   },
   async fetch ({ store, params }) {
-    await store.dispatch('consultDesk/fetchStatus', params.desk)
+    await store.dispatch('consultDesk/fetchStatus', {
+      desk: params.desk,
+      jsonp: false
+    })
+  },
+  mounted () {
+    // Update desk status every 30 seconds
+    setInterval(() => {
+      this.$store.dispatch('consultDesk/fetchStatus', {
+        desk: this.$route.params.desk,
+        jsonp: true
+      })
+    }, 1000 * 30)
   }
 }
 </script>

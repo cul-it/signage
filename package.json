@@ -13,6 +13,7 @@
   "dependencies": {
     "add": "^2.0.6",
     "axios": "^0.16.1",
+    "jsonp-promise": "^0.1.2",
     "lodash": "^4.17.4",
     "nuxt": "latest",
     "nuxt-helpers": "^0.10.0"
