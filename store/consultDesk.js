@@ -15,7 +15,11 @@ export const actions = {
   async fetchStatus ({ commit, state }, payload) {
     // console.log(payload.desk)
 
-    if (_.isEmpty(state) || Robin.staleCache(state.updated)) {
+    // Fetch from LibCal API under any of these scenarios
+    // -- a. initial request (empty Vuex store)
+    // -- b. cache has expired
+    // -- c. the stored change in status has past
+    if (_.isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange)) {
       let feed = await Robin.getHours(payload.desk, undefined, payload.jsonp)
       // console.log(feed)
       // console.log(feed.locations[0].times)

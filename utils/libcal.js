@@ -43,6 +43,9 @@ export default {
 
     return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
   },
+  formatFutureOpening: function (datetime) {
+    return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
+  },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
@@ -61,7 +64,7 @@ export default {
     }
   },
   async nextOpening (desk, jsonp = false) {
-    var displayTime = 'no upcoming openings'
+    var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
@@ -69,21 +72,21 @@ export default {
       // console.log(dateToCheck)
       var openingTime = await this.openingTime(desk, this.formatDate(dateToCheck), jsonp)
       // console.log(openingTime)
-      // var displayTime = null
+      // var bigWinner = null
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
         openingTime = moment(openingTime, this.timeFormat)
-        displayTime = dateToCheck.set({
+        bigWinner = dateToCheck.set({
           'hour': openingTime.get('hour'),
           'minute': openingTime.get('minute')
         })
-        displayTime = moment(displayTime).calendar()
+        // bigWinner = moment(bigWinner).calendar()
         break
       }
     }
 
-    return displayTime
+    return bigWinner
   },
   async openingTime (desk, date, jsonp = false) {
     let feed = await this.getHours(desk, date, jsonp)
@@ -141,6 +144,10 @@ export default {
     }
 
     return status
+  },
+  pastChange: function (changeTime) {
+    console.log('pastChange?', moment().isSameOrAfter(moment(changeTime)))
+    return moment().isSameOrAfter(moment(changeTime))
   },
   staleCache: function (lastUpdated) {
     // Cache LibCal API response for at least 2 minutes

@@ -6,12 +6,14 @@
 
     <div class="status">
       <span class="status__current">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
-      <time class="status__change" v-html="deskInfo.statusChange"/>
+      <time class="status__change" v-html="relativeStatusChange"/>
     </div>
   </div>
 </template>
 
 <script>
+import Robin from '~/utils/libcal'
+
 export default {
   head () {
     return {
@@ -34,6 +36,9 @@ export default {
   computed: {
     deskInfo () {
       return this.$store.state.consultDesk
+    },
+    relativeStatusChange () {
+      return Robin.formatFutureOpening(this.deskInfo.statusChange)
     },
     statusClass () {
       return 'status--' + this.deskInfo.status.replace(/\s/g, '-')
