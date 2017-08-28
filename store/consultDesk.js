@@ -20,7 +20,7 @@ export const actions = {
     // console.log(feed.locations[0].times)
     const libcalStatus = feed.locations[0].times.status
     const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
-    const status = await Robin.openNow(payload.desk, libcalStatus, allHours)
+    const status = await Robin.openNow(payload.desk, libcalStatus, allHours, payload.jsonp)
     const deskData = {
       'name': feed.locations[0].name,
       'hours': allHours,

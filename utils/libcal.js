@@ -60,14 +60,14 @@ export default {
       return $get(url)
     }
   },
-  async nextOpening (desk) {
+  async nextOpening (desk, jsonp = false) {
     var displayTime = 'no upcoming openings'
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
       // console.log(dateToCheck)
-      var openingTime = await this.openingTime(desk, this.formatDate(dateToCheck))
+      var openingTime = await this.openingTime(desk, this.formatDate(dateToCheck), jsonp)
       // console.log(openingTime)
       // var displayTime = null
 
@@ -85,8 +85,8 @@ export default {
 
     return displayTime
   },
-  async openingTime (desk, date) {
-    let feed = await this.getHours(desk, date)
+  async openingTime (desk, date, jsonp = false) {
+    let feed = await this.getHours(desk, date, jsonp)
     // console.log(feed)
     // console.log(feed.locations[0].times)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
@@ -108,7 +108,7 @@ export default {
 
     return hours !== null ? hours[0].from : null
   },
-  async openNow (desk, libcalStatus, hours) {
+  async openNow (desk, libcalStatus, hours, jsonp = false) {
     // const timeFmt = 'ha'
     // var statusChange = null
 
@@ -128,7 +128,7 @@ export default {
       }
     }
 
-    let statusChange = await this.nextOpening(desk)
+    let statusChange = await this.nextOpening(desk, jsonp)
     console.log('statusChange:', statusChange)
 
     if (libcalStatus === 'ByApp') {
