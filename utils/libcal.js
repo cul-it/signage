@@ -111,6 +111,10 @@ export default {
   async openNow (desk, libcalStatus, hours, jsonp = false) {
     // const timeFmt = 'ha'
     // var statusChange = null
+    let status = {
+      current: 'closed',
+      timestamp: moment() // Use for caching results from LibCal API
+    }
 
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
@@ -121,26 +125,29 @@ export default {
 
       console.log('openingTime:', isOpen)
       if (isOpen !== undefined) {
-        return {
-          current: 'open',
-          change: moment(isOpen.to, this.timeFormat).format(this.timeDisplayFormat)
-        }
+        status.current = 'open'
+        status.change = moment(isOpen.to, this.timeFormat).format(this.timeDisplayFormat)
+        return status
       }
     }
 
     let statusChange = await this.nextOpening(desk, jsonp)
     console.log('statusChange:', statusChange)
 
+    status.change = statusChange
+
     if (libcalStatus === 'ByApp') {
-      return {
-        current: 'by appointment',
-        change: statusChange
-      }
+      status.current = 'by appointment'
     }
 
-    return {
-      current: 'closed',
-      change: statusChange
-    }
+    return status
+  },
+  staleCache: function (lastUpdated) {
+    // Cache LibCal API response for at least 2 minutes
+    // -- test float against 1.9 to account for synchronous calls
+    // TODO: Return promise & join async/await bandwagon
+    console.log('mins since update:', moment().diff(lastUpdated, 'minutes'))
+    console.log('mins since update (float):', moment().diff(lastUpdated, 'minutes', true))
+    return moment().diff(lastUpdated, 'minutes', true) >= 1.9
   }
 }
