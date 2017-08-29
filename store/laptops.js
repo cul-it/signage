@@ -1,4 +1,4 @@
-import {$get} from '~/.nuxt-helpers/axios'
+import { $get } from '~/.nuxt-helpers/axios'
 import Batman from '~/utils/libservices'
 
 export const state = {

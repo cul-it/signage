@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import {$get} from '~/.nuxt-helpers/axios'
+import { assign } from 'lodash'
+import { $get } from '~/.nuxt-helpers/axios'
 import Batman from '~/utils/libservices'
 
 export const state = {
@@ -9,7 +9,7 @@ export const state = {
 export const mutations = {
   update (state, feed) {
     state.locations[feed.location] = {}
-    _.assign(state.locations[feed.location], feed.availability)
+    assign(state.locations[feed.location], feed.availability)
   }
 }
 

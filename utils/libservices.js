@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { filter, size } from 'lodash'
 
 const baseUrl = 'http://mannservices.mannlib.cornell.edu/LibServices/'
 
@@ -14,8 +14,8 @@ export default {
     }
   },
   availableEquipmentType: (list, type) => {
-    return _.size(
-      _.filter(list, {equipmentType: type, dueDate: null})
+    return size(
+      filter(list, {equipmentType: type, dueDate: null})
     )
   }
 }
