@@ -49,7 +49,6 @@ export default {
     return moment(date).format('Y-MM-DD')
   },
   getHours: function (desk, date, jsonp = false) {
-    // console.log(this.api)
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
     const url = this.api.endpoints.hours + this.api.desks[desk] + requestDate
 
@@ -63,7 +62,6 @@ export default {
     }
   },
   nextDay: function (lastUpdated) {
-    console.log('next day?', moment().isAfter(moment(lastUpdated), 'd'))
     return moment().isAfter(moment(lastUpdated), 'd')
   },
   async nextOpening (desk, jsonp = false) {
@@ -72,10 +70,7 @@ export default {
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      // console.log(dateToCheck)
       var openingTime = await this.openingTime(desk, this.formatDate(dateToCheck), jsonp)
-      // console.log(openingTime)
-      // var bigWinner = null
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -84,7 +79,6 @@ export default {
           'hour': openingTime.get('hour'),
           'minute': openingTime.get('minute')
         })
-        // bigWinner = moment(bigWinner).calendar()
         break
       }
     }
@@ -93,19 +87,11 @@ export default {
   },
   async openingTime (desk, date, jsonp = false) {
     let feed = await this.getHours(desk, date, jsonp)
-    // console.log(feed)
-    // console.log(feed.locations[0].times)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
-    // console.log(hours[0].from)
-    // console.log('hours: ', hours)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
     const hoursClone = hours !== null ? hours.slice(0) : null
-
-    // console.log('hoursLater: ', hours)
-    // console.log('date: ' + date)
-    // console.log('today? ' + moment().isSame(moment(date), 'd'))
 
     // If dealing with today, ensure we're not already closed
     if (moment().isSame(moment(date), 'd') && this.alreadyClosed(hoursClone)) {
@@ -115,8 +101,6 @@ export default {
     return hours !== null ? hours[0].from : null
   },
   async openNow (desk, libcalStatus, hours, jsonp = false) {
-    // const timeFmt = 'ha'
-    // var statusChange = null
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
@@ -125,11 +109,9 @@ export default {
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
-        // console.log(hoursBlock)
         return (moment().isBetween(moment(hoursBlock.from, this.timeFormat), moment(hoursBlock.to, this.timeFormat), null, []))
       })
 
-      console.log('openingTime:', isOpen)
       if (isOpen !== undefined) {
         status.current = 'open'
         status.change = moment(isOpen.to, this.timeFormat).format(this.timeFormat)
@@ -138,7 +120,6 @@ export default {
     }
 
     let statusChange = await this.nextOpening(desk, jsonp)
-    console.log('statusChange:', statusChange)
 
     status.change = statusChange
 
@@ -149,15 +130,12 @@ export default {
     return status
   },
   pastChange: function (changeTime) {
-    console.log('pastChange?', moment().isSameOrAfter(moment(changeTime)))
     return moment().isSameOrAfter(moment(changeTime))
   },
   staleCache: function (lastUpdated) {
     // Cache LibCal API response for at least 2 minutes
     // -- test float against 1.9 to account for synchronous calls
     // TODO: Return promise & join async/await bandwagon
-    console.log('mins since update:', moment().diff(lastUpdated, 'minutes'))
-    console.log('mins since update (float):', moment().diff(lastUpdated, 'minutes', true))
     return moment().diff(lastUpdated, 'minutes', true) >= 1.9
   }
 }
