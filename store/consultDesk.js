@@ -19,11 +19,17 @@ export const actions = {
     // -- d. the clock has struck midnight (we've crossed over to the next day)
     if (isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
       let feed = await Robin.getHours(payload.desk, undefined, payload.jsonp)
+
+      // Use bullet delimiter for multi-item description
+      let description = Robin.api.desks[payload.desk].description.join(' \u2022 ')
+
       const libcalStatus = feed.locations[0].times.status
       const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
       const status = await Robin.openNow(payload.desk, libcalStatus, allHours, payload.jsonp)
+
       const deskData = {
         'name': feed.locations[0].name,
+        'description': description,
         'hours': allHours,
         'status': status.current,
         'statusChange': status.change,

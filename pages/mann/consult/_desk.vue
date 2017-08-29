@@ -2,7 +2,7 @@
   <div class="mann-consult">
     <h1 class="desk" :class="[desk, statusClass]">{{ desk }}</h1>
 
-    <p v-if="description">{{ description }}</p>
+    <p class="description" v-if="deskInfo.description">{{ deskInfo.description }}</p>
 
     <div class="status">
       <span class="status__current">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
@@ -29,8 +29,7 @@ export default {
   },
   data () {
     return {
-      desk: this.$route.params.desk,
-      description: ''
+      desk: this.$route.params.desk
     }
   },
   computed: {
@@ -83,10 +82,22 @@ export default {
     margin: 0;
   }
 
-  .desk {
+  .description {
     grid-row: 2;
     margin: 0;
+    padding-right: .4em;
+    font-size: 6vh;
+    font-weight: 100;
+    line-height: .8em;
+    text-align: right;
+  }
+
+  .desk {
+    grid-row: 3;
+    margin: 0;
     margin-left: -.04em;
+    padding-left: .04em;
+    border-top: solid 1vh;
     font-size: 29vh;
     letter-spacing: 14vw;
     overflow: hidden;
@@ -95,26 +106,31 @@ export default {
 
     &.status--by-appointment {
       background: #657c8a;
+      border-color: #41515a;
     }
 
     &.status--closed {
       background: #d93663;
+      border-color: #a42751;
     }
 
     &.status--open {
       background: #30776b;
+      border-color: #37867b;
     }
 
     &.ciser {
-      letter-spacing: 10vw;
+      letter-spacing: 9.6vw;
     }
 
     &.knight {
+      padding-left: 0;
       letter-spacing: 3vw;
     }
 
     &.rdmsg {
-      letter-spacing: 5vw;
+      padding-left: 0;
+      letter-spacing: 5.3vw;
     }
   }
 
@@ -124,7 +140,7 @@ export default {
 
   .mann-consult {
     display: grid;
-    grid-template-rows: 1fr 27vh;
+    grid-template-rows: 1fr 7vh 28vh;
     height: 100vh;
     padding-left: .5em;
     font-family: 'Lato', sans-serif;
