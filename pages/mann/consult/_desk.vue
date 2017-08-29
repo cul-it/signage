@@ -85,7 +85,7 @@ export default {
   .description {
     grid-row: 2;
     margin: 0;
-    padding-right: .5em;
+    padding-right: .4em;
     font-size: 6vh;
     font-weight: 100;
     line-height: .8em;
@@ -96,6 +96,7 @@ export default {
     grid-row: 3;
     margin: 0;
     margin-left: -.04em;
+    padding-left: .04em;
     border-top: solid 1vh;
     font-size: 29vh;
     letter-spacing: 14vw;
@@ -119,15 +120,17 @@ export default {
     }
 
     &.ciser {
-      letter-spacing: 10vw;
+      letter-spacing: 9.6vw;
     }
 
     &.knight {
+      padding-left: 0;
       letter-spacing: 3vw;
     }
 
     &.rdmsg {
-      letter-spacing: 5vw;
+      padding-left: 0;
+      letter-spacing: 5.3vw;
     }
   }
 
