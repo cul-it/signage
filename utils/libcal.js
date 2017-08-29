@@ -34,8 +34,7 @@ export default {
       rdmsg: 3302
     }
   },
-  timeFormat: 'ha',
-  timeDisplayFormat: 'h:mm a',
+  timeFormat: 'h:mm a',
   alreadyClosed: function (hours) {
     if (hours === null) return false
     // If multiple openings/closings, compare against last one for the day
@@ -133,7 +132,7 @@ export default {
       console.log('openingTime:', isOpen)
       if (isOpen !== undefined) {
         status.current = 'open'
-        status.change = moment(isOpen.to, this.timeFormat).format(this.timeDisplayFormat)
+        status.change = moment(isOpen.to, this.timeFormat).format(this.timeFormat)
         return status
       }
     }
