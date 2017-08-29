@@ -143,7 +143,7 @@ export default {
 
       if (isOpen !== undefined) {
         status.current = 'open'
-        status.change = moment(isOpen.to, this.timeFormat).format(this.timeFormat)
+        status.change = moment(isOpen.to, this.timeFormat)
         return status
       }
     }
