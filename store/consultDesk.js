@@ -19,7 +19,8 @@ export const actions = {
     // -- a. initial request (empty Vuex store)
     // -- b. cache has expired
     // -- c. the stored change in status has past
-    if (_.isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange)) {
+    // -- d. the clock has struck midnight (we've crossed over to the next day)
+    if (_.isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
       let feed = await Robin.getHours(payload.desk, undefined, payload.jsonp)
       // console.log(feed)
       // console.log(feed.locations[0].times)

@@ -63,6 +63,10 @@ export default {
       return $get(url)
     }
   },
+  nextDay: function (lastUpdated) {
+    console.log('next day?', moment().isAfter(moment(lastUpdated), 'd'))
+    return moment().isAfter(moment(lastUpdated), 'd')
+  },
   async nextOpening (desk, jsonp = false) {
     var bigWinner = null
 
