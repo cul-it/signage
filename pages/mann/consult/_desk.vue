@@ -96,6 +96,7 @@ export default {
     grid-row: 3;
     margin: 0;
     margin-left: -.04em;
+    border-top: solid 1vh;
     font-size: 29vh;
     letter-spacing: 14vw;
     overflow: hidden;
@@ -104,14 +105,17 @@ export default {
 
     &.status--by-appointment {
       background: #657c8a;
+      border-color: #41515a;
     }
 
     &.status--closed {
       background: #d93663;
+      border-color: #a42751;
     }
 
     &.status--open {
       background: #30776b;
+      border-color: #37867b;
     }
 
     &.ciser {
@@ -133,7 +137,7 @@ export default {
 
   .mann-consult {
     display: grid;
-    grid-template-rows: 1fr 7vh 27vh;
+    grid-template-rows: 1fr 7vh 28vh;
     height: 100vh;
     padding-left: .5em;
     font-family: 'Lato', sans-serif;
