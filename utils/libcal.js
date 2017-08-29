@@ -26,12 +26,37 @@ export default {
       hours: baseUrl + 'api_hours_date.php?iid=973&format=json&nocache=1&lid='
     },
     desks: {
-      ciser: 3016,
-      cscu: 3017,
-      gis: 2204,
-      gws: 3303,
-      knight: 3018,
-      rdmsg: 3302
+      ciser: {
+        id: 3016,
+        description: ''
+      },
+      cscu: {
+        id: 3017,
+        description: 'statistical consulting'
+      },
+      gis: {
+        id: 2204,
+        description: ''
+      },
+      gws: {
+        id: 3303,
+        description: [
+          'writing',
+          'grad',
+          'appt only'
+        ]
+      },
+      knight: {
+        id: 3018,
+        description: [
+          'writing',
+          'walk-in'
+        ]
+      },
+      rdmsg: {
+        id: 3302,
+        description: 'research data management'
+      }
     }
   },
   timeFormat: 'h:mm a',
@@ -50,7 +75,7 @@ export default {
   },
   getHours: function (desk, date, jsonp = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
-    const url = this.api.endpoints.hours + this.api.desks[desk] + requestDate
+    const url = this.api.endpoints.hours + this.api.desks[desk].id + requestDate
 
     if (jsonp) {
       // If fetching updates from client, need to deal with JSONP

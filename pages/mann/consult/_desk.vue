@@ -2,7 +2,7 @@
   <div class="mann-consult">
     <h1 class="desk" :class="[desk, statusClass]">{{ desk }}</h1>
 
-    <p v-if="description">{{ description }}</p>
+    <p class="description" v-if="deskInfo.description">{{ deskInfo.description }}</p>
 
     <div class="status">
       <span class="status__current">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
@@ -29,8 +29,7 @@ export default {
   },
   data () {
     return {
-      desk: this.$route.params.desk,
-      description: ''
+      desk: this.$route.params.desk
     }
   },
   computed: {
@@ -83,8 +82,18 @@ export default {
     margin: 0;
   }
 
-  .desk {
+  .description {
     grid-row: 2;
+    margin: 0;
+    padding-right: .5em;
+    font-size: 6vh;
+    font-weight: 100;
+    line-height: .8em;
+    text-align: right;
+  }
+
+  .desk {
+    grid-row: 3;
     margin: 0;
     margin-left: -.04em;
     font-size: 29vh;
@@ -124,7 +133,7 @@ export default {
 
   .mann-consult {
     display: grid;
-    grid-template-rows: 1fr 27vh;
+    grid-template-rows: 1fr 7vh 27vh;
     height: 100vh;
     padding-left: .5em;
     font-family: 'Lato', sans-serif;
