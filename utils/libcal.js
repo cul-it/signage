@@ -28,15 +28,17 @@ export default {
     desks: {
       ciser: {
         id: 3016,
-        description: ''
+        description: []
       },
       cscu: {
         id: 3017,
-        description: 'statistical consulting'
+        description: [
+          'statistical consulting'
+        ]
       },
       gis: {
         id: 2204,
-        description: ''
+        description: []
       },
       gws: {
         id: 3303,
@@ -55,7 +57,9 @@ export default {
       },
       rdmsg: {
         id: 3302,
-        description: 'research data management'
+        description: [
+          'research data management'
+        ]
       }
     }
   },

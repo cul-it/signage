@@ -20,9 +20,8 @@ export const actions = {
     if (isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
       let feed = await Robin.getHours(payload.desk, undefined, payload.jsonp)
 
-      // Use bullet delimiter if description is array
-      let description = Robin.api.desks[payload.desk].description
-      description = Array.isArray(description) ? description.join(' \u2022 ') : description
+      // Use bullet delimiter for multi-item description
+      let description = Robin.api.desks[payload.desk].description.join(' \u2022 ')
 
       const libcalStatus = feed.locations[0].times.status
       const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
