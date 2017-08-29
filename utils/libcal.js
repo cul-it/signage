@@ -1,4 +1,4 @@
-import {$get} from '~/.nuxt-helpers/axios'
+import { $get } from '~/.nuxt-helpers/axios'
 import moment from 'moment'
 import jsonpPromise from 'jsonp-promise'
 

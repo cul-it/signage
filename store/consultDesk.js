@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { assign, isEmpty } from 'lodash'
 import Robin from '~/utils/libcal'
 
 export const state = {
@@ -6,7 +6,7 @@ export const state = {
 
 export const mutations = {
   update (state, data) {
-    _.assign(state, data)
+    assign(state, data)
   }
 }
 
@@ -17,7 +17,7 @@ export const actions = {
     // -- b. cache has expired
     // -- c. the stored change in status has past
     // -- d. the clock has struck midnight (we've crossed over to the next day)
-    if (_.isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
+    if (isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
       let feed = await Robin.getHours(payload.desk, undefined, payload.jsonp)
       const libcalStatus = feed.locations[0].times.status
       const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
