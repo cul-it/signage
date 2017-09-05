@@ -183,14 +183,25 @@ $ph: 0.053vh;
     .available {
       vertical-align: middle;
       color: $light-blue;
-      display: inline-block;
+      display: block;
       margin-top: -10 * $lh;
     }
 
     .unavailable {
       vertical-align: middle;
       color: $red;
-      display: inline-block;
+      display: block;
+      margin-top: -10 * $lh;
+    }
+
+    .device-type:first-of-type {
+      .available {
+        display: inline-block;
+      }
+
+      .unavailable {
+        display: inline-block;
+      }
     }
 
     // Laptop icon
@@ -298,7 +309,6 @@ $ph: 0.053vh;
       vertical-align: middle;
       color: $red;
       display: inline-block;
-      //@include fluid-type(margin-top, 1440px, 1920px, -5px, -7px);
       margin-top: -7 * $lh;
     }
 
@@ -414,14 +424,25 @@ $ph: 0.053vh;
     .available {
       vertical-align: middle;
       color: $light-blue;
-      display: inline-block;
-      margin-top: -10 * $lh;
+      display: block;
+      margin-top: -5 * $lh;
     }
 
     .unavailable {
       vertical-align: middle;
       color: $red;
-      display: inline-block;
+      display: block;
+      margin-top: -5 * $lh;
+    }
+
+    .device-type:first-of-type {
+      .available {
+        display: inline-block;
+      }
+
+      .unavailable {
+        display: inline-block;
+      }
     }
 
     // Laptop icon
@@ -537,6 +558,7 @@ $ph: 0.053vh;
       vertical-align: middle;
       color: $red;
       display: inline-block;
+      margin-top: -7 * $pw;
     }
 
     // Laptop icon
