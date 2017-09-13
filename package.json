@@ -43,7 +43,6 @@
     "moment": "^2.18.1",
     "node-sass": "^4.5.3",
     "pre-commit": "^1.2.2",
-    "sass-loader": "^6.0.5",
-    "susy": "^2.2.12"
+    "sass-loader": "^6.0.5"
   }
 }
