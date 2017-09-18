@@ -1,5 +1,10 @@
 <template>
   <div class="oku-circ" v-bind:class="okuLocation">
+
+    <div class="support-warning">
+      This page requires CSS Grid. The current browser you're using doesn't support it. Find a <a href="https://igalia.github.io/css-grid-layout/enable.html">grid-enabled browser</a>.
+    </div>
+
     <time v-html="currentTime"/>
 
     <oku-circ location="olin"/>
@@ -53,6 +58,32 @@ export default {
 </script>
 
 <style lang="scss">
+
+  .support-warning {
+    background: red;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    opacity: 0.95;
+    padding: 3rem;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+  }
+
+  .support-warning a {
+       color: inherit;
+  }
+
+  @supports(display: grid) {
+    .support-warning {
+      display: none;
+    }
+  }
+
   .blink {
     animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
   }
