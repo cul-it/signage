@@ -1,15 +1,19 @@
 <template>
-  <div class="oku-circ" v-bind:class="okuLocation">
+
+  <div v-bind:class="'oku-circ__' + okuLocation">
 
     <div class="support-warning">
       This page requires CSS Grid. The current browser you're using doesn't support it. Find a <a href="https://igalia.github.io/css-grid-layout/enable.html">grid-enabled browser</a>.
     </div>
 
-    <time v-html="currentTime"/>
+    <div class="grid">
+      <time v-html="currentTime"/>
+      <oku-circ location="olin"/>
+      <oku-circ location="uris"/>
+    </div>
 
-    <oku-circ location="olin"/>
-    <oku-circ location="uris"/>
   </div>
+
 </template>
 
 <script>
@@ -59,37 +63,32 @@ export default {
 
 <style lang="scss">
 
+/**
+ ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTTING CSS GRID MODULE
+ **/
+ 
+.support-warning {
+  background: red;
+  color: #fff;
+  display: block;
+  font-weight: 700;
+  opacity: 0.95;
+  padding: 3rem;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99999;
+}
+
+.support-warning a {
+     color: inherit;
+}
+
+@supports(display: grid) {
   .support-warning {
-    background: red;
-    color: #fff;
-    display: block;
-    font-weight: 700;
-    opacity: 0.95;
-    padding: 3rem;
-    position: fixed;
-    text-align: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 99999;
+    display: none;
   }
-
-  .support-warning a {
-       color: inherit;
-  }
-
-  @supports(display: grid) {
-    .support-warning {
-      display: none;
-    }
-  }
-
-  .blink {
-    animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
-  }
-
-  @keyframes blinker {
-    from { opacity: 1.0; }
-    to { opacity: 0.0; }
-  }
+}
 </style>
