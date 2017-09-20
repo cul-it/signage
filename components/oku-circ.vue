@@ -1,5 +1,5 @@
 <template>
-<div>
+<div :class="'oku-circ__component--' + location" class="oku-circ__component">
   <header v-bind:class="location + '-header'">
     <h1>{{ location }}</h1>
   </header>
@@ -114,6 +114,33 @@ time {
   text-align: right;
   padding-right: 20 * $lw;
   padding-top: 30 * $lh;
+}
+
+.oku-circ__component {
+  // This would be the silver bullet if better browser support :(
+  // -- currently it's just Firefox and Chrome in experimental mode
+  // -- http://caniuse.com/#feat=css-display-contents
+  // display: subgrid has potential as well, but currently not implemented by any of the browsers
+  // Additional background info...
+  // -- https://www.rachelandrew.co.uk/archives/2017/03/16/subgrid-moved-to-level-2-of-the-css-grid-specification
+  // -- https://rachelandrew.co.uk/archives/2016/01/29/vanishing-boxes-with-display-contents
+  // -- https://gridbyexample.com/video/subgrid-display-contents
+  @supports(display: contents) {
+    display: contents;
+  }
+
+  // For all browsers that are NOT Firefox, here's some initial setup
+  // -- Ensuring that the .oku-circ__component fills the appropriate grid areas
+  // -- So it can be used as a nested grid (not yet implemented)
+  grid-row: 1 / 6;
+
+  &--olin {
+    grid-column: 1 / 3;
+  }
+
+  &--uris {
+    grid-column: 3;
+  }
 }
 
 /**
