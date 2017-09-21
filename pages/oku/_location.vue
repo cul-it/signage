@@ -1,6 +1,6 @@
 <template>
 
-  <div v-bind:class="'oku-circ__' + okuLocation">
+  <div>
 
     <div class="support-warning">
       This page requires CSS Grid and display: contents. The current browser you're using doesn't support them.
@@ -22,9 +22,22 @@ import moment from 'moment'
 import { mapState } from 'vuex'
 
 export default {
+  head () {
+    return {
+      htmlAttrs: {
+        class: this.libraryDisplayClass
+      },
+      title: this.location.toUpperCase(),
+      titleTemplate: '%s Sinage',
+      link: [
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' },
+        { rel: 'stylesheet', href: 'https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css' }
+      ]
+    }
+  },
   data () {
     return {
-      okuLocation: this.$route.params.location
+      location: this.$route.params.location
     }
   },
   components: {
@@ -33,7 +46,10 @@ export default {
   computed: {
     ...mapState({
       currentTime: state => moment(state.time.now).format('MMM D / h[<span class="blink">:</span>]mm A')
-    })
+    }),
+    libraryDisplayClass () {
+      return this.location + '-display'
+    }
   },
   async fetch ({ store, params }) {
     await store.dispatch('laptops/fetchStatus', 'olin')
@@ -41,7 +57,6 @@ export default {
     await store.dispatch('laptops/fetchStatus', 'uris')
     await store.dispatch('phoneChargers/fetchStatus', 'uris')
   },
-  layout: 'oku',
   mounted () {
     // Sync current time every 10 seconds
     // -- ideally, this would happen within the store itself (as part of the action),

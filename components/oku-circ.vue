@@ -137,7 +137,7 @@ time {
  ** OLIN DISPLAY CONTENT
  **/
 
-.oku-circ__olin {
+.olin-display {
 
     .grid {
         display: grid;
@@ -379,7 +379,7 @@ time {
 ** URIS DISPLAY CONTENT
 **/
 
-.oku-circ__uris {
+.uris-display {
 
     .grid {
         display: grid;
@@ -624,6 +624,7 @@ time {
 .blink {
     animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
 }
+
 @keyframes blinker {
     from {
         opacity: 1.0;
