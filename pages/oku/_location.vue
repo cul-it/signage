@@ -3,7 +3,7 @@
   <div v-bind:class="'oku-circ__' + okuLocation">
 
     <div class="support-warning">
-      This page requires CSS Grid. The current browser you're using doesn't support it. Find a <a href="https://igalia.github.io/css-grid-layout/enable.html">grid-enabled browser</a>.
+      This page requires CSS Grid and display: contents. The current browser you're using doesn't support them.
     </div>
 
     <div class="grid">
@@ -64,7 +64,7 @@ export default {
 <style lang="scss">
 
 /**
- ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTTING display grid and contents properties.
+ ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTING display grid and contents properties.
  **/
 
 .support-warning {
@@ -88,7 +88,7 @@ export default {
 
 @supports (display: grid) and (display: contents) {
   .support-warning {
-    display: none;
+    display: block;
   }
 }
 </style>
