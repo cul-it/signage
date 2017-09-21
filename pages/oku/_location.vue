@@ -88,7 +88,7 @@ export default {
 
 @supports (display: grid) and (display: contents) {
   .support-warning {
-    display: block;
+    display: none;
   }
 }
 </style>
