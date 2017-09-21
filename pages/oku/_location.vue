@@ -24,7 +24,7 @@ import { mapState } from 'vuex'
 export default {
   head () {
     return {
-      htmlAttrs: {
+      bodyAttrs: {
         class: this.libraryDisplayClass
       },
       title: this.location.toUpperCase(),
