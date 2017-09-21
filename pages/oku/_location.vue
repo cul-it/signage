@@ -1,18 +1,18 @@
 <template>
 
-  <div>
+  <main>
 
-    <div class="support-warning">
+    <aside class="support-warning">
       This page requires CSS Grid and display: contents. The current browser you're using doesn't support them.
-    </div>
+    </aside>
 
-    <div class="grid">
+    <section class="grid">
       <time v-html="currentTime"/>
       <oku-circ location="olin"/>
       <oku-circ location="uris"/>
-    </div>
+    </section>
 
-  </div>
+  </main>
 
 </template>
 
