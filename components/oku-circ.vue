@@ -20,21 +20,21 @@
   </div>
   <h2 v-bind:class="location + '-phone-chargers'">
         <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
-      </h2>
+  </h2>
   <div v-bind:class="location + '-phone-chargers__availability'">
     <p>
       <span class="device-count"> {{ phoneChargers[location].iphone4Available }}</span>
-      <span class="device-type__info--availability">iPhone 4 </span>
+      <span class="device-type__info--availability">iPhone 4</span>
       <span class="available">available</span>
     </p>
     <p>
       <span class="device-count">{{ phoneChargers[location].iphoneAvailable}}</span>
-      <span class="device-type__info--availability">iPhone 5 &amp; up </span>
+      <span class="device-type__info--availability">iPhone 5 &amp; up</span>
       <span class="available">available</span>
     </p>
     <p>
       <span class="device-count">{{ phoneChargers[location].microUsbAvailable }}</span>
-      <span class="device-type__info--availability">Micro USB </span>
+      <span class="device-type__info--availability">Micro USB</span>
       <span class="available">available</span>
     </p>
     <p>
@@ -116,6 +116,14 @@ time {
   padding-top: 30 * $lh;
 }
 
+.blink {
+  animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
+}
+@keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+
 .oku-circ__component {
   // This would be the silver bullet if better browser support :(
   // -- currently it's just Firefox and Chrome in experimental mode
@@ -144,7 +152,7 @@ time {
 }
 
 /**
- ** OLIN CONTENT
+ ** OLIN DISPLAY CONTENT
  **/
 
 .olin-header {
@@ -248,13 +256,14 @@ time {
   color: $light-blue;
   display: inline-block;
   margin-top: -14 * $lh;
+  padding-left: 10 * $lw;
 }
 
 .unavailable {
   vertical-align: middle;
   color: $red;
   display: inline-block;
-  margin-top: -10 * $lh;
+  margin-top: -14 * $lh;
 }
 
 .olin-phone-chargers__availability .available,
@@ -262,10 +271,6 @@ time {
   padding-left: 98 * $lw;
   display: block;
 }
-
-/**
- ** URIS CONTENT
- **/
 
 .uris-header {
   grid-column: 3;
@@ -353,20 +358,22 @@ time {
   border-left: 1px solid rgba(255,255,255,.2);
   margin-top: -30 * $lh;
 
-  .icon-charger {
-    padding-right: 8 * $lw;
-  }
-
   .device-count {
     width: 60 * $lw;
     height: 60 * $lw;
     line-height: 60 * $lw;
-    margin-right: 10 * $lw;
   }
 
   p {
     margin: 0 0 30 * $lh;
+
+    .available {
+      margin-top: -8 * $lh;
+    }
+
+    .unavailable {
+      margin-top: -8 * $lh;
+    }
   }
 }
-
 </style>
