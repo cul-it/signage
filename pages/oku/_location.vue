@@ -64,9 +64,9 @@ export default {
 <style lang="scss">
 
 /**
- ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTTING CSS GRID MODULE
+ ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTTING display grid and contents properties.
  **/
- 
+
 .support-warning {
   background: red;
   color: #fff;
@@ -86,7 +86,7 @@ export default {
      color: inherit;
 }
 
-@supports(display: grid) {
+@supports (display: grid) and (display: contents) {
   .support-warning {
     display: none;
   }
