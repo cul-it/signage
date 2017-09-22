@@ -261,11 +261,12 @@ time {
         color: $red;
         display: inline-block;
         margin-top: -14 * $lh;
+        padding-left: 10 * $lw;
     }
 
     .olin-phone-chargers__availability .available,
     .olin-phone-chargers__availability .unavailable {
-        padding-left: 98 * $lw;
+        padding-left: 90 * $lw;
         display: block;
     }
 
@@ -507,6 +508,7 @@ time {
         color: $red;
         display: inline-block;
         margin-top: -14 * $lh;
+        padding-left: 10 * $lw;
     }
 
     .uris-phone-chargers__availability .available,
