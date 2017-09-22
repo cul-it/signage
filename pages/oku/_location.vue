@@ -28,7 +28,7 @@ export default {
         class: this.libraryDisplayClass
       },
       title: this.location.toUpperCase(),
-      titleTemplate: '%s Sinage',
+      titleTemplate: '%s Signage',
       link: [
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' },
         { rel: 'stylesheet', href: 'https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css' }
