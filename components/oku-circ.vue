@@ -120,7 +120,7 @@ body {
     }
 
     &--uris {
-        grid-column: 1;
+        grid-column: 3;
     }
 }
 
