@@ -3,7 +3,7 @@
   <main>
 
     <aside class="support-warning">
-      This page requires CSS Grid and display: contents. The current browser you're using doesn't support them.
+      This page requires CSS Grid and display:contents to display properly in your browser.
     </aside>
 
     <section class="grid">
