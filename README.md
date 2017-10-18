@@ -41,3 +41,8 @@ For detailed explanation on how things work, checkout the [Nuxt.js docs](https:/
    > ```sh
    > $ git push heroku <branch-name>:master
    > ```
+   >
+   > and if you then need to deploy master once again, most likely will need to force:
+   > ```sh
+   > $ git push heroku master --force
+   > ```
