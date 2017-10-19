@@ -386,61 +386,61 @@ time {
         display: grid;
         width: 100vw;
         height: 100vh;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: .9fr 1.1fr;
+        grid-template-rows: 180*$ph 140*$ph 205*$ph 140*$ph 267*$ph 100*$ph 160*$ph 120*$ph auto;
     }
 
     time {
-        grid-column: 1 / 3;
+        grid-column: 2 / 3;
         grid-row: 1;
-        position: absolute;
-        top: 20px;
-        right: 20px;
+        font-size: 20 * $pw;
+        align-self: top;
     }
 
     .uris-header {
-        grid-column: 1 / 3;
-        grid-row: 2;
+        grid-column: 1 / 2;
+        grid-row: 1;
         background-color: $bg-dark-blue;
-        padding-left: 50 * $lw;
+        padding-left: 50 * $ph;
+        padding-top: 50 * $ph;
+
 
         h1 {
             text-transform: capitalize;
             font-weight: normal;
             font-size: 65 * $ph;
-            padding-top: 70 * $pw;
             margin: 0;
         }
     }
 
     .uris-laptops {
         grid-column: 1 / 3;
-        grid-row: 3;
+        grid-row: 2;
         background-color: $bg-dark-blue;
         margin: 0;
         font-size: 75 * $ph;
         font-weight: 400;
-        padding-bottom: 30 * $lh;
-        padding-left: 50 * $lw;
+        padding-bottom: 30 * $ph;
+        padding-left: 50 * $pw;
 
         .icon-laptop {
-            font-size: 90 * $lw;
+            font-size: 90 * $pw;
             display: inline-block;
         }
     }
 
     .uris-laptops__availability {
         grid-column: 1 / 3;
-        grid-row: 4;
+        grid-row: 3;
         background-color: $bg-dark-blue;
-        padding-left: 50 * $lw;
-        font-size: 44 * $lw;
+        padding-left: 50 * $pw;
+        font-size: 44 * $pw;
         color: #fff;
         display: flex;
 
         p {
             flex-grow: 1;
-            margin-top: 10 * $lh;
-
+            margin-top: 10 * $ph;
         }
     }
 
@@ -448,10 +448,10 @@ time {
         grid-column: 1 / 3;
         grid-row: 4;
         background-color: $bg-dark-blue;
-        font-size: 67 * $lw;
+        font-size: 67 * $pw;
         font-weight: 400;
-        padding-bottom: 30 * $lh;
-        padding-left: 50 * $lw;
+        padding-bottom: 30 * $ph;
+        padding-left: 50 * $pw;
         margin: 0;
     }
 
@@ -459,26 +459,25 @@ time {
         grid-column: 1 / 3;
         grid-row: 5;
         background-color: $bg-dark-blue;
-        padding-left: 50 * $lw;
-        font-size: 44 * $lw;
+        padding-left: 50 * $pw;
+        font-size: 44 * $pw;
         color: #fff;
         display: flex;
         flex-flow: row wrap;
 
         .icon-charger {
-            padding-right: 8 * $lw;
+            padding-right: 8 * $pw;
         }
 
         p {
             flex-grow: 1;
             width: 50%;
             //height: auto;
-            margin: 10 * $lh 0 0;
-            //height: 118 * $lh;
+            margin: 10 * $ph 0 0;
+            //height: 118 * $ph;
             &:nth-child(3),
             &:nth-child(4) {
                 display: inline-block;
-                margin-top: -100 * $lh;
             }
         }
     }
@@ -486,138 +485,139 @@ time {
     .device-count {
         color: $light-blue;
         border-radius: 50%;
-        width: 80 * $lw;
-        height: 80 * $lw;
-        line-height: 80 * $lw;
+        width: 80 * $pw;
+        height: 80 * $pw;
+        line-height: 80 * $pw;
         background-color: #fff;
         text-align: center;
         display: inline-block;
-        margin-right: 10 * $lw;
+        margin-right: 10 * $pw;
     }
 
     .available {
         vertical-align: middle;
         color: $light-blue;
         display: inline-block;
-        margin-top: -14 * $lh;
-        padding-left: 10 * $lw;
+        margin-top: -14 * $ph;
+        padding-left: 10 * $pw;
     }
 
     .unavailable {
         vertical-align: middle;
         color: $red;
         display: inline-block;
-        margin-top: -14 * $lh;
-        padding-left: 10 * $lw;
+        margin-top: -14 * $ph;
+        padding-left: 10 * $pw;
     }
 
     .uris-phone-chargers__availability .available,
     .uris-phone-chargers__availability .unavailable {
-        padding-left: 98 * $lw;
+        padding-left: 88 * $pw;
         display: block;
     }
 
     .olin-header {
         grid-column: 1 / 3;
-        grid-row: 6;
+        grid-row: 7;
         background-color: $bg-medium-blue;
-        padding-left: 50 * $lw;
-        border-left: 1px solid rgba(255,255,255,.2);
-        padding-top: 10 * $lh;
+        padding-left: 50 * $pw;
+        border-top: 1px solid rgba(255,255,255,.2);
+        padding-top: 10 * $ph;
+        //margin-top: 100 * $ph;
 
         h1 {
             text-transform: capitalize;
             font-weight: normal;
-            font-size: 40 * $lw;
-            padding-top: 50 * $lh;
+            font-size: 40 * $pw;
+            padding-top: 50 * $ph;
             margin: 0;
         }
     }
 
     .olin-laptops {
         grid-column: 1 / 2;
-        grid-row: 7;
+        grid-row: 8;
         background-color: $bg-medium-blue;
         margin: 0;
-        font-size: 47 * $lw;
+        font-size: 47 * $pw;
         font-weight: 400;
-        padding-bottom: 30 * $lh;
-        padding-left: 50 * $lw;
+        padding-bottom: 30 * $ph;
+        padding-left: 50 * $pw;
         border-left: 1px solid rgba(255,255,255,.2);
     }
 
     .olin-laptops__availability {
         grid-column: 1 / 2;
-        grid-row: 8;
+        grid-row: 9;
         background-color: $bg-medium-blue;
         border-left: 1px solid rgba(255,255,255,.2);
-        margin-top: -30 * $lh;
-        padding-left: 50 * $lw;
-        font-size: 30 * $lw;
+        margin-top: -30 * $ph;
+        padding-left: 50 * $pw;
+        font-size: 30 * $pw;
         color: #fff;
         display: flex;
         flex-flow: column wrap;
 
         .icon-charger {
-            padding-right: 8 * $lw;
+            padding-right: 8 * $pw;
         }
 
         .device-count {
-            width: 60 * $lw;
-            height: 60 * $lw;
-            line-height: 60 * $lw;
-            margin-right: 10 * $lw;
+            width: 60 * $pw;
+            height: 60 * $pw;
+            line-height: 60 * $pw;
+            margin-right: 10 * $pw;
         }
 
         p {
-            margin: 0 0 30 * $lh;
+            margin: 0 0 30 * $ph;
         }
     }
 
     .olin-phone-chargers {
         grid-column: 2 / 3;
-        grid-row: 7;
+        grid-row: 8;
         background-color: $bg-medium-blue;
-        font-size: 47 * $lw;
+        font-size: 47 * $pw;
         font-weight: 400;
-        padding-bottom: 30 * $lh;
-        padding-left: 50 * $lw;
+        padding-bottom: 30 * $ph;
+        padding-left: 50 * $pw;
         margin: 0;
-        border-left: 1px solid rgba(255,255,255,.2);
+        // border-left: 1px solid rgba(255,255,255,.2);
 
         .icon-charger {
-            font-size: 40 * $lw;
+            font-size: 40 * $pw;
             display: inline-block;
         }
     }
 
     .olin-phone-chargers__availability {
         grid-column: 2 / 3;
-        grid-row: 8;
+        grid-row: 9;
         background-color: $bg-medium-blue;
-        padding-left: 50 * $lw;
-        font-size: 30 * $lw;
+        padding-left: 50 * $pw;
+        font-size: 30 * $pw;
         color: #fff;
         display: flex;
         flex-flow: column wrap;
-        border-left: 1px solid rgba(255,255,255,.2);
-        margin-top: -30 * $lh;
+        // border-left: 1px solid rgba(255,255,255,.2);
+        margin-top: -30 * $ph;
 
         .device-count {
-            width: 60 * $lw;
-            height: 60 * $lw;
-            line-height: 60 * $lw;
+            width: 60 * $pw;
+            height: 60 * $pw;
+            line-height: 60 * $pw;
         }
 
         p {
-            margin: 0 0 30 * $lh;
+            margin: 0 0 30 * $ph;
 
             .available {
-                margin-top: -8 * $lh;
+                margin-top: -8 * $ph;
             }
 
             .unavailable {
-                margin-top: -8 * $lh;
+                margin-top: -8 * $ph;
             }
         }
     }
