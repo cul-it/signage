@@ -1,10 +1,19 @@
 <template>
-  <div class="oku-circ" v-bind:class="okuLocation">
-    <time v-html="currentTime"/>
 
-    <oku-circ location="olin"/>
-    <oku-circ location="uris"/>
-  </div>
+  <main>
+
+    <aside class="support-warning">
+      This page requires CSS Grid and display:contents to display properly in your browser.
+    </aside>
+
+    <section class="grid">
+      <time v-html="currentTime"/>
+      <oku-circ location="olin"/>
+      <oku-circ location="uris"/>
+    </section>
+
+  </main>
+
 </template>
 
 <script>
@@ -13,9 +22,22 @@ import moment from 'moment'
 import { mapState } from 'vuex'
 
 export default {
+  head () {
+    return {
+      bodyAttrs: {
+        class: this.libraryDisplayClass
+      },
+      title: this.location.toUpperCase(),
+      titleTemplate: '%s Signage',
+      link: [
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' },
+        { rel: 'stylesheet', href: 'https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css' }
+      ]
+    }
+  },
   data () {
     return {
-      okuLocation: this.$route.params.location
+      location: this.$route.params.location
     }
   },
   components: {
@@ -24,7 +46,10 @@ export default {
   computed: {
     ...mapState({
       currentTime: state => moment(state.time.now).format('MMM D / h[<span class="blink">:</span>]mm A')
-    })
+    }),
+    libraryDisplayClass () {
+      return this.location + '-display'
+    }
   },
   async fetch ({ store, params }) {
     await store.dispatch('laptops/fetchStatus', 'olin')
@@ -32,7 +57,6 @@ export default {
     await store.dispatch('laptops/fetchStatus', 'uris')
     await store.dispatch('phoneChargers/fetchStatus', 'uris')
   },
-  layout: 'oku',
   mounted () {
     // Sync current time every 10 seconds
     // -- ideally, this would happen within the store itself (as part of the action),
@@ -53,12 +77,33 @@ export default {
 </script>
 
 <style lang="scss">
-  .blink {
-    animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
-  }
 
-  @keyframes blinker {
-    from { opacity: 1.0; }
-    to { opacity: 0.0; }
+/**
+ ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTING display grid and contents properties.
+ **/
+
+.support-warning {
+  background: red;
+  color: #fff;
+  display: block;
+  font-weight: 700;
+  opacity: 0.95;
+  padding: 3rem;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99999;
+}
+
+.support-warning a {
+     color: inherit;
+}
+
+@supports (display: grid) and (display: contents) {
+  .support-warning {
+    display: none;
   }
+}
 </style>
