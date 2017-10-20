@@ -386,15 +386,17 @@ time {
         display: grid;
         width: 100vw;
         height: 100vh;
-        grid-template-columns: .9fr 1.1fr;
-        grid-template-rows: 180*$ph 140*$ph 205*$ph 140*$ph 267*$ph 100*$ph 160*$ph 120*$ph auto;
+        grid-template-columns: .8fr 1.2fr;
+        grid-template-rows: 230*$ph 140*$ph 205*$ph 140*$ph 367*$ph 60*$ph 160*$ph 120*$ph auto;
     }
 
     time {
         grid-column: 2 / 3;
         grid-row: 1;
-        font-size: 20 * $pw;
+        font-size: 25 * $pw;
         align-self: top;
+        padding-right: 20 * $ph;
+
     }
 
     .uris-header {
@@ -402,13 +404,13 @@ time {
         grid-row: 1;
         background-color: $bg-dark-blue;
         padding-left: 50 * $ph;
-        padding-top: 50 * $ph;
+        padding-top: 100 * $ph;
 
 
         h1 {
             text-transform: capitalize;
             font-weight: normal;
-            font-size: 65 * $ph;
+            font-size: 75 * $ph;
             margin: 0;
         }
     }
@@ -418,13 +420,13 @@ time {
         grid-row: 2;
         background-color: $bg-dark-blue;
         margin: 0;
-        font-size: 75 * $ph;
+        font-size: 85 * $pw;
         font-weight: 400;
         padding-bottom: 30 * $ph;
         padding-left: 50 * $pw;
 
         .icon-laptop {
-            font-size: 90 * $pw;
+            font-size: 110 * $pw;
             display: inline-block;
         }
     }
@@ -434,7 +436,7 @@ time {
         grid-row: 3;
         background-color: $bg-dark-blue;
         padding-left: 50 * $pw;
-        font-size: 44 * $pw;
+        font-size: 50 * $pw;
         color: #fff;
         display: flex;
 
@@ -448,7 +450,7 @@ time {
         grid-column: 1 / 3;
         grid-row: 4;
         background-color: $bg-dark-blue;
-        font-size: 67 * $pw;
+        font-size: 85 * $pw;
         font-weight: 400;
         padding-bottom: 30 * $ph;
         padding-left: 50 * $pw;
@@ -460,7 +462,7 @@ time {
         grid-row: 5;
         background-color: $bg-dark-blue;
         padding-left: 50 * $pw;
-        font-size: 44 * $pw;
+        font-size: 50 * $pw;
         color: #fff;
         display: flex;
         flex-flow: row wrap;
@@ -485,13 +487,13 @@ time {
     .device-count {
         color: $light-blue;
         border-radius: 50%;
-        width: 80 * $pw;
-        height: 80 * $pw;
-        line-height: 80 * $pw;
+        width: 100 * $pw;
+        height: 100 * $pw;
+        line-height: 100 * $pw;
         background-color: #fff;
         text-align: center;
         display: inline-block;
-        margin-right: 10 * $pw;
+        margin-right: 20 * $pw;
     }
 
     .available {
@@ -499,7 +501,7 @@ time {
         color: $light-blue;
         display: inline-block;
         margin-top: -14 * $ph;
-        padding-left: 10 * $pw;
+        padding-left: 15 * $pw;
     }
 
     .unavailable {
@@ -507,12 +509,12 @@ time {
         color: $red;
         display: inline-block;
         margin-top: -14 * $ph;
-        padding-left: 10 * $pw;
+        padding-left: 15 * $pw;
     }
 
     .uris-phone-chargers__availability .available,
     .uris-phone-chargers__availability .unavailable {
-        padding-left: 88 * $pw;
+        padding-left: 120 * $pw;
         display: block;
     }
 
@@ -528,7 +530,7 @@ time {
         h1 {
             text-transform: capitalize;
             font-weight: normal;
-            font-size: 40 * $pw;
+            font-size: 55 * $pw;
             padding-top: 50 * $ph;
             margin: 0;
         }
@@ -539,7 +541,7 @@ time {
         grid-row: 8;
         background-color: $bg-medium-blue;
         margin: 0;
-        font-size: 47 * $pw;
+        font-size: 54 * $pw;
         font-weight: 400;
         padding-bottom: 30 * $ph;
         padding-left: 50 * $pw;
@@ -553,7 +555,7 @@ time {
         border-left: 1px solid rgba(255,255,255,.2);
         margin-top: -30 * $ph;
         padding-left: 50 * $pw;
-        font-size: 30 * $pw;
+        font-size: 38 * $pw;
         color: #fff;
         display: flex;
         flex-flow: column wrap;
@@ -563,10 +565,10 @@ time {
         }
 
         .device-count {
-            width: 60 * $pw;
-            height: 60 * $pw;
-            line-height: 60 * $pw;
-            margin-right: 10 * $pw;
+            width: 70 * $pw;
+            height: 70 * $pw;
+            line-height: 70 * $pw;
+            margin-right: 15 * $pw;
         }
 
         p {
@@ -578,15 +580,14 @@ time {
         grid-column: 2 / 3;
         grid-row: 8;
         background-color: $bg-medium-blue;
-        font-size: 47 * $pw;
+        font-size: 54 * $pw;
         font-weight: 400;
         padding-bottom: 30 * $ph;
         padding-left: 50 * $pw;
         margin: 0;
-        // border-left: 1px solid rgba(255,255,255,.2);
 
         .icon-charger {
-            font-size: 40 * $pw;
+            font-size: 43 * $pw;
             display: inline-block;
         }
     }
@@ -596,7 +597,7 @@ time {
         grid-row: 9;
         background-color: $bg-medium-blue;
         padding-left: 50 * $pw;
-        font-size: 30 * $pw;
+        font-size: 38 * $pw;
         color: #fff;
         display: flex;
         flex-flow: column wrap;
@@ -604,9 +605,9 @@ time {
         margin-top: -30 * $ph;
 
         .device-count {
-            width: 60 * $pw;
-            height: 60 * $pw;
-            line-height: 60 * $pw;
+            width: 70 * $pw;
+            height: 70 * $pw;
+            line-height: 70 * $pw;
         }
 
         p {
