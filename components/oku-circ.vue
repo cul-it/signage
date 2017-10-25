@@ -7,47 +7,30 @@
   <h2 v-bind:class="location + '-laptops'"><i class="fa fa-laptop icon-laptop" aria-hidden="true"></i> Laptops </h2>
 
   <div v-bind:class="location + '-laptops__availability'">
-    <p>
-      <span class="device-count">{{ laptops[location].macAvailable }}</span>
-      <i class="fa fa-apple device-icon" aria-hidden="true"></i>
-      <span class="available">available<!--{{ OR laptops[location].macNextDue }}--></span>
-    </p>
-    <p>
-      <span class="device-count">{{ laptops[location].windowsAvailable }}</span>
-      <i class="fa fa-windows device-icon" aria-hidden="true"></i>
-      <span class="available">available<!--{{ OR laptops[location].windowsNextDue }}--></span>
-    </p>
+      <device :type="'apple'" :count="laptops[location].macAvailable"/>
+      <device :type="'windows'" :count="laptops[location].windowsAvailable"/>
   </div>
+
   <h2 v-bind:class="location + '-phone-chargers'">
         <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
   </h2>
+
   <div v-bind:class="location + '-phone-chargers__availability'">
-    <p>
-      <span class="device-count"> {{ phoneChargers[location].iphone4Available }}</span>
-      <span class="device-type__info--availability">iPhone 4</span>
-      <span class="available">available</span>
-    </p>
-    <p>
-      <span class="device-count">{{ phoneChargers[location].iphoneAvailable}}</span>
-      <span class="device-type__info--availability">iPhone 5 &amp; up</span>
-      <span class="available">available</span>
-    </p>
-    <p>
-      <span class="device-count">{{ phoneChargers[location].microUsbAvailable }}</span>
-      <span class="device-type__info--availability">Micro USB</span>
-      <span class="available">available</span>
-    </p>
-    <p>
-      <span class="device-count">{{ phoneChargers[location].usbCAvailable }}</span>
-      <span class="device-type__info--availability">USB-C</span>
-      <span class="available">available</span>
-    </p>
+      <device :type="'phoneCharger'" :model="'iPhone4'" :count="phoneChargers[location].iphone4Available"/>
+      <device :type="'phoneCharger'" :model="'iPhone 5 &amp; up'" :count="phoneChargers[location].iphoneAvailable"/>
+      <device :type="'phoneCharger'" :model="'Micro USB'" :count="phoneChargers[location].microUsbAvailable"/>
+      <device :type="'phoneCharger'" :model="'USB-C'":count="phoneChargers[location].usbCAvailable"/>
   </div>
 </div>
 </template>
 
 <script>
+import DEVICE from '~components/oku-device'
+
 export default {
+  components: {
+    'device': DEVICE
+  },
   computed: {
     laptops () {
       return this.$store.state.laptops.locations
