@@ -240,15 +240,10 @@ time {
     }
 
     .unavailable {
-        vertical-align: middle;
         color: $red;
-        display: inline-block;
-        margin-top: -14 * $lh;
-        padding-left: 10 * $lw;
     }
 
-    .olin-phone-chargers__availability .available,
-    .olin-phone-chargers__availability .unavailable {
+    .olin-phone-chargers__availability .available{
         padding-left: 90 * $lw;
         display: block;
     }
@@ -349,10 +344,6 @@ time {
             margin: 0 0 30 * $lh;
 
             .available {
-                margin-top: -8 * $lh;
-            }
-
-            .unavailable {
                 margin-top: -8 * $lh;
             }
         }
@@ -488,15 +479,10 @@ time {
     }
 
     .unavailable {
-        vertical-align: middle;
         color: $red;
-        display: inline-block;
-        margin-top: -14 * $ph;
-        padding-left: 15 * $pw;
     }
 
-    .uris-phone-chargers__availability .available,
-    .uris-phone-chargers__availability .unavailable {
+    .uris-phone-chargers__availability .available {
         padding-left: 120 * $pw;
         display: block;
     }
@@ -597,10 +583,6 @@ time {
             margin: 0 0 30 * $ph;
 
             .available {
-                margin-top: -8 * $ph;
-            }
-
-            .unavailable {
                 margin-top: -8 * $ph;
             }
         }

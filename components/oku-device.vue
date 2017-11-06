@@ -1,6 +1,6 @@
 <template>
   <p>
-    <span class="device-count">{{ count }}</span>
+    <span class="device-count" :class="{ unavailable: !Number(count) }">{{ count }}</span>
     <span v-html="deviceStatus"></span>
     <span class="available" :class="{ unavailable: !Number(count) }"> available</span>
   </p>
