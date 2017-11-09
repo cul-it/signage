@@ -34,7 +34,7 @@ export default {
         { rel: 'stylesheet', href: 'https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css' }
       ],
       meta: [
-        { 'http-equiv': 'refresh', content: '60' }
+        { 'http-equiv': 'refresh', content: '300' }
       ]
     }
   },
