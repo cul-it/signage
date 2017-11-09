@@ -32,6 +32,9 @@ export default {
       link: [
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' },
         { rel: 'stylesheet', href: 'https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css' }
+      ],
+      meta: [
+        { 'http-equiv': 'refresh', content: '60' }
       ]
     }
   },
