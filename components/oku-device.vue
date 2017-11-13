@@ -10,11 +10,9 @@
 export default {
   computed: {
     deviceStatus () {
-      if (this.type === 'apple') {
+      if (this.type === 'apple' || this.type === 'windows') {
         return '<span class="fa fa-' + this.type + ' device-icon" aria-hidden="true"></span>'
-      } else if (this.type === 'windows') {
-        return '<span class="fa fa-' + this.type + ' device-icon" aria-hidden="true"></span>'
-      } else if (this.type === 'phoneCharger') {
+      } else {
         return '<span class="device-type__info--availability">' + this.model + '</span>'
       }
     }
