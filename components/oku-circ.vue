@@ -71,7 +71,6 @@ $ph: 0.053vh;
 body {
     color: #fff;
     background-color: #121D2E;
-    //background: #121D2E url('../images/insignia.png') no-repeat bottom right;
     background-size: contain;
     font-family: Montserrat, sans-serif;
     font-weight: 400;
@@ -208,9 +207,7 @@ time {
 
         p {
             width: 50%;
-            //height: auto;
             margin: 10 * $lh 0 0;
-            //height: 118 * $lh;
             &:nth-child(3),
             &:nth-child(4) {
                 display: inline-block;
@@ -272,6 +269,7 @@ time {
         margin: 0;
         font-size: 47 * $lw;
         font-weight: 400;
+        padding-top: 35 * $lw;
         padding-bottom: 30 * $lh;
         padding-left: 50 * $lw;
         border-left: 1px solid rgba(255,255,255,.2);
@@ -282,7 +280,6 @@ time {
         grid-row: 3 / 4;
         background-color: $bg-medium-blue;
         border-left: 1px solid rgba(255,255,255,.2);
-        margin-top: -30 * $lh;
         padding-left: 50 * $lw;
         font-size: 30 * $lw;
         color: #fff;
@@ -311,6 +308,7 @@ time {
         background-color: $bg-medium-blue;
         font-size: 47 * $lw;
         font-weight: 400;
+        padding-top: 35 * $lw;
         padding-bottom: 30 * $lh;
         padding-left: 50 * $lw;
         margin: 0;
@@ -332,7 +330,6 @@ time {
         display: flex;
         flex-flow: column wrap;
         border-left: 1px solid rgba(255,255,255,.2);
-        margin-top: -30 * $lh;
 
         .device-count {
             width: 60 * $lw;
@@ -448,9 +445,7 @@ time {
         p {
             flex-grow: 1;
             width: 50%;
-            //height: auto;
             margin: 10 * $ph 0 0;
-            //height: 118 * $ph;
             &:nth-child(3),
             &:nth-child(4) {
                 display: inline-block;
@@ -494,7 +489,6 @@ time {
         padding-left: 50 * $pw;
         border-top: 1px solid rgba(255,255,255,.2);
         padding-top: 10 * $ph;
-        //margin-top: 100 * $ph;
 
         h1 {
             text-transform: capitalize;
@@ -570,7 +564,6 @@ time {
         color: #fff;
         display: flex;
         flex-flow: column wrap;
-        // border-left: 1px solid rgba(255,255,255,.2);
         margin-top: -30 * $ph;
 
         .device-count {
