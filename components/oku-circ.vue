@@ -16,7 +16,7 @@
   </h2>
 
   <div v-bind:class="location + '-phone-chargers__availability'">
-      <device type="phoneCharger" model="iPhone4" :count="phoneChargers[location].iphone4Available"/>
+      <device type="phoneCharger" model="iPhone 4" :count="phoneChargers[location].iphone4Available"/>
       <device type="phoneCharger" model="iPhone 5 &amp; up" :count="phoneChargers[location].iphoneAvailable"/>
       <device type="phoneCharger" model="Micro USB" :count="phoneChargers[location].microUsbAvailable"/>
       <device type="phoneCharger" model="USB-C":count="phoneChargers[location].usbCAvailable"/>
