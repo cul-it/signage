@@ -73,6 +73,7 @@ $ph: 0.053vh;
 body {
     color: #fff;
     background-color: #121D2E;
+    background: #121D2E url('~assets/insignia.png') no-repeat bottom right;
     background-size: contain;
     font-family: Montserrat, sans-serif;
     font-weight: 400;
