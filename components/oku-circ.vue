@@ -4,22 +4,24 @@
     <h1>{{ location }}</h1>
   </header>
 
-  <h2 :class="location + '-laptops'"><i class="fa fa-laptop icon-laptop" aria-hidden="true"></i> Laptops </h2>
+  <h2 :class="location + '-laptops'">
+    <i class="fa fa-laptop icon-laptop" aria-hidden="true"></i> Laptops
+  </h2>
 
   <div :class="location + '-laptops__availability'">
-      <device type="apple" :count="laptops[location].macAvailable"/>
-      <device type="windows" :count="laptops[location].windowsAvailable"/>
+    <device type="apple" :count="laptops[location].macAvailable"/>
+    <device type="windows" :count="laptops[location].windowsAvailable"/>
   </div>
 
   <h2 :class="location + '-phone-chargers'">
-        <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
+    <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
   </h2>
 
   <div :class="location + '-phone-chargers__availability'">
-      <device type="phoneCharger" model="iPhone 4" :count="phoneChargers[location].iphone4Available"/>
-      <device type="phoneCharger" model="iPhone 5 &amp; up" :count="phoneChargers[location].iphoneAvailable"/>
-      <device type="phoneCharger" model="Micro USB" :count="phoneChargers[location].microUsbAvailable"/>
-      <device type="phoneCharger" model="USB-C":count="phoneChargers[location].usbCAvailable"/>
+    <device type="phoneCharger" model="iPhone 4" :count="phoneChargers[location].iphone4Available"/>
+    <device type="phoneCharger" model="iPhone 5 &amp; up" :count="phoneChargers[location].iphoneAvailable"/>
+    <device type="phoneCharger" model="Micro USB" :count="phoneChargers[location].microUsbAvailable"/>
+    <device type="phoneCharger" model="USB-C":count="phoneChargers[location].usbCAvailable"/>
   </div>
 </div>
 </template>
