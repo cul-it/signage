@@ -1,53 +1,38 @@
 <template>
 <div :class="'oku-circ__component--' + location" class="oku-circ__component">
-  <header v-bind:class="location + '-header'">
+  <header :class="location + '-header'">
     <h1>{{ location }}</h1>
   </header>
 
-  <h2 v-bind:class="location + '-laptops'"><i class="fa fa-laptop icon-laptop" aria-hidden="true"></i> Laptops </h2>
-
-  <div v-bind:class="location + '-laptops__availability'">
-    <p>
-      <span class="device-count">{{ laptops[location].macAvailable }}</span>
-      <i class="fa fa-apple device-icon" aria-hidden="true"></i>
-      <span class="available">available<!--{{ OR laptops[location].macNextDue }}--></span>
-    </p>
-    <p>
-      <span class="device-count">{{ laptops[location].windowsAvailable }}</span>
-      <i class="fa fa-windows device-icon" aria-hidden="true"></i>
-      <span class="available">available<!--{{ OR laptops[location].windowsNextDue }}--></span>
-    </p>
-  </div>
-  <h2 v-bind:class="location + '-phone-chargers'">
-        <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
+  <h2 :class="location + '-laptops'">
+    <i class="fa fa-laptop icon-laptop" aria-hidden="true"></i> Laptops
   </h2>
-  <div v-bind:class="location + '-phone-chargers__availability'">
-    <p>
-      <span class="device-count"> {{ phoneChargers[location].iphone4Available }}</span>
-      <span class="device-type__info--availability">iPhone 4</span>
-      <span class="available">available</span>
-    </p>
-    <p>
-      <span class="device-count">{{ phoneChargers[location].iphoneAvailable}}</span>
-      <span class="device-type__info--availability">iPhone 5 &amp; up</span>
-      <span class="available">available</span>
-    </p>
-    <p>
-      <span class="device-count">{{ phoneChargers[location].microUsbAvailable }}</span>
-      <span class="device-type__info--availability">Micro USB</span>
-      <span class="available">available</span>
-    </p>
-    <p>
-      <span class="device-count">{{ phoneChargers[location].usbCAvailable }}</span>
-      <span class="device-type__info--availability">USB-C</span>
-      <span class="available">available</span>
-    </p>
+
+  <div :class="location + '-laptops__availability'">
+    <device type="apple" :count="laptops[location].macAvailable"/>
+    <device type="windows" :count="laptops[location].windowsAvailable"/>
+  </div>
+
+  <h2 :class="location + '-phone-chargers'">
+    <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
+  </h2>
+
+  <div :class="location + '-phone-chargers__availability'">
+    <device type="phoneCharger" model="iPhone 4" :count="phoneChargers[location].iphone4Available"/>
+    <device type="phoneCharger" model="iPhone 5 &amp; up" :count="phoneChargers[location].iphoneAvailable"/>
+    <device type="phoneCharger" model="Micro USB" :count="phoneChargers[location].microUsbAvailable"/>
+    <device type="phoneCharger" model="USB-C":count="phoneChargers[location].usbCAvailable"/>
   </div>
 </div>
 </template>
 
 <script>
+import DEVICE from '~components/oku-device'
+
 export default {
+  components: {
+    'device': DEVICE
+  },
   computed: {
     laptops () {
       return this.$store.state.laptops.locations
@@ -225,9 +210,7 @@ time {
 
         p {
             width: 50%;
-            //height: auto;
             margin: 10 * $lh 0 0;
-            //height: 118 * $lh;
             &:nth-child(3),
             &:nth-child(4) {
                 display: inline-block;
@@ -257,15 +240,10 @@ time {
     }
 
     .unavailable {
-        vertical-align: middle;
         color: $red;
-        display: inline-block;
-        margin-top: -14 * $lh;
-        padding-left: 10 * $lw;
     }
 
-    .olin-phone-chargers__availability .available,
-    .olin-phone-chargers__availability .unavailable {
+    .olin-phone-chargers__availability .available{
         padding-left: 90 * $lw;
         display: block;
     }
@@ -294,6 +272,7 @@ time {
         margin: 0;
         font-size: 47 * $lw;
         font-weight: 400;
+        padding-top: 35 * $lw;
         padding-bottom: 30 * $lh;
         padding-left: 50 * $lw;
         border-left: 1px solid rgba(255,255,255,.2);
@@ -304,7 +283,6 @@ time {
         grid-row: 3 / 4;
         background-color: $bg-medium-blue;
         border-left: 1px solid rgba(255,255,255,.2);
-        margin-top: -30 * $lh;
         padding-left: 50 * $lw;
         font-size: 30 * $lw;
         color: #fff;
@@ -333,6 +311,7 @@ time {
         background-color: $bg-medium-blue;
         font-size: 47 * $lw;
         font-weight: 400;
+        padding-top: 35 * $lw;
         padding-bottom: 30 * $lh;
         padding-left: 50 * $lw;
         margin: 0;
@@ -354,7 +333,6 @@ time {
         display: flex;
         flex-flow: column wrap;
         border-left: 1px solid rgba(255,255,255,.2);
-        margin-top: -30 * $lh;
 
         .device-count {
             width: 60 * $lw;
@@ -366,10 +344,6 @@ time {
             margin: 0 0 30 * $lh;
 
             .available {
-                margin-top: -8 * $lh;
-            }
-
-            .unavailable {
                 margin-top: -8 * $lh;
             }
         }
@@ -474,9 +448,7 @@ time {
         p {
             flex-grow: 1;
             width: 50%;
-            //height: auto;
             margin: 10 * $ph 0 0;
-            //height: 118 * $ph;
             &:nth-child(3),
             &:nth-child(4) {
                 display: inline-block;
@@ -505,15 +477,10 @@ time {
     }
 
     .unavailable {
-        vertical-align: middle;
         color: $red;
-        display: inline-block;
-        margin-top: -14 * $ph;
-        padding-left: 15 * $pw;
     }
 
-    .uris-phone-chargers__availability .available,
-    .uris-phone-chargers__availability .unavailable {
+    .uris-phone-chargers__availability .available {
         padding-left: 120 * $pw;
         display: block;
     }
@@ -525,7 +492,6 @@ time {
         padding-left: 50 * $pw;
         border-top: 1px solid rgba(255,255,255,.2);
         padding-top: 10 * $ph;
-        //margin-top: 100 * $ph;
 
         h1 {
             text-transform: capitalize;
@@ -601,7 +567,6 @@ time {
         color: #fff;
         display: flex;
         flex-flow: column wrap;
-        // border-left: 1px solid rgba(255,255,255,.2);
         margin-top: -30 * $ph;
 
         .device-count {
@@ -614,10 +579,6 @@ time {
             margin: 0 0 30 * $ph;
 
             .available {
-                margin-top: -8 * $ph;
-            }
-
-            .unavailable {
                 margin-top: -8 * $ph;
             }
         }
