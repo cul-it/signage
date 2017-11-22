@@ -5,7 +5,7 @@
     <p class="description" v-if="deskInfo.description">{{ deskInfo.description }}</p>
 
     <div class="status">
-      <span class="status__current">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
+      <span class="status__current" :class="this.deskInfo.status">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
       <time class="status__change" v-html="relativeStatusChange"/>
     </div>
   </div>
@@ -64,7 +64,8 @@ export default {
 <style lang="scss">
   html {
     &.status {
-      &--by-appointment {
+      &--by-appointment,
+      &--reserved {
         background: #485963;
       }
 
@@ -104,7 +105,8 @@ export default {
     line-height: .9em;
     text-transform: uppercase;
 
-    &.status--by-appointment {
+    &.status--by-appointment,
+    &.status--reserved {
       background: #657c8a;
       border-color: #41515a;
     }
@@ -132,6 +134,12 @@ export default {
       padding-left: 0;
       letter-spacing: 5.3vw;
     }
+
+    &.reference {
+      padding: .05em 0 0;
+      font-size: 25.6vh;
+      letter-spacing: -1vw;
+    }
   }
 
   .knockout {
@@ -158,6 +166,10 @@ export default {
     &__current {
       font-size: 27vh;
       text-transform: capitalize;
+
+      &.reserved {
+        font-size: 24vh;
+      }
     }
   }
 

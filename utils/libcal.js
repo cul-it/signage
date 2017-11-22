@@ -60,6 +60,10 @@ export default {
         description: [
           'research data management'
         ]
+      },
+      reference: {
+        id: 1710,
+        description: []
       }
     }
   },
@@ -166,5 +170,13 @@ export default {
     // -- test float against 1.9 to account for synchronous calls
     // TODO: Return promise & join async/await bandwagon
     return moment().diff(lastUpdated, 'minutes', true) >= 1.9
+  },
+  statusLabel: function (desk, status) {
+    // Reference desk is considered 'reserved' when open
+    if (desk === 'reference' && status === 'open') {
+      return 'reserved'
+    }
+
+    return status
   }
 }

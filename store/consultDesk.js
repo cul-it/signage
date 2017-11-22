@@ -27,11 +27,14 @@ export const actions = {
       const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
       const status = await Robin.openNow(payload.desk, libcalStatus, allHours, payload.jsonp)
 
+      // Relabel status under certain circumstances
+      let statusLabel = Robin.statusLabel(payload.desk, status.current)
+
       const deskData = {
         'name': feed.locations[0].name,
         'description': description,
         'hours': allHours,
-        'status': status.current,
+        'status': statusLabel,
         'statusChange': status.change,
         'updated': status.timestamp
       }
