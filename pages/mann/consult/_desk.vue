@@ -64,7 +64,7 @@ export default {
 <style lang="scss">
   html {
     &.status {
-      &--by-appointment,
+      &--by-appt,
       &--reserved {
         background: #485963;
       }
@@ -105,7 +105,7 @@ export default {
     line-height: .9em;
     text-transform: uppercase;
 
-    &.status--by-appointment,
+    &.status--by-appt,
     &.status--reserved {
       background: #657c8a;
       border-color: #41515a;

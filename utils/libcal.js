@@ -177,6 +177,11 @@ export default {
       return 'reserved'
     }
 
+    // Abbreviate the mouthful
+    if (status === 'by appointment') {
+      return 'by appt'
+    }
+
     return status
   }
 }
