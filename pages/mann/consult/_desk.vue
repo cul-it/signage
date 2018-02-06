@@ -125,6 +125,10 @@ export default {
       letter-spacing: 9.6vw;
     }
 
+    &.elso {
+      letter-spacing: 15.1vw;
+    }
+
     &.knight {
       padding-left: 0;
       letter-spacing: 3vw;

@@ -36,6 +36,12 @@ export default {
           'statistical consulting'
         ]
       },
+      elso: {
+        id: 7701,
+        description: [
+          'english language support'
+        ]
+      },
       gis: {
         id: 2204,
         description: []
