@@ -167,7 +167,7 @@ export default {
 
     &__change {
       display: block;
-      font-size: 15vh;
+      font-size: 14.2vh;
       line-height: .8em;
     }
 
