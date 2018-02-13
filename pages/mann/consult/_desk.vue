@@ -121,12 +121,16 @@ export default {
       border-color: #37867b;
     }
 
-    &.ciser {
-      letter-spacing: 9.6vw;
-    }
-
     &.elso {
       letter-spacing: 15.1vw;
+    }
+
+    &.career {
+      letter-spacing: 2.9vw;
+    }
+
+    &.ciser {
+      letter-spacing: 9.6vw;
     }
 
     &.knight {
