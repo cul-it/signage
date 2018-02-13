@@ -1,6 +1,6 @@
 <template>
   <div class="mann-consult">
-    <h1 class="desk" :class="[desk, statusClass]">{{ desk }}</h1>
+    <h1 class="desk" :class="[desk, statusClass]">{{ desk.replace('-', ' ') }}</h1>
 
     <p class="description" v-if="deskInfo.description">{{ deskInfo.description }}</p>
 
@@ -127,6 +127,12 @@ export default {
 
     &.career {
       letter-spacing: 2.9vw;
+    }
+
+    &.cu-career {
+      padding: .05em 0 0 .04em;
+      font-size: 26vh;
+      letter-spacing: -1vw;
     }
 
     &.ciser {

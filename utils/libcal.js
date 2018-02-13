@@ -42,6 +42,12 @@ export default {
           'statistical consulting'
         ]
       },
+      'cu-career': {
+        id: 7734,
+        description: [
+          'Cornell career services'
+        ]
+      },
       elso: {
         id: 7701,
         description: [
