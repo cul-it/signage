@@ -26,6 +26,12 @@ export default {
       hours: baseUrl + 'api_hours_date.php?iid=973&format=json&nocache=1&lid='
     },
     desks: {
+      career: {
+        id: 7733,
+        description: [
+          'CALS student services'
+        ]
+      },
       ciser: {
         id: 3016,
         description: []
@@ -34,6 +40,12 @@ export default {
         id: 3017,
         description: [
           'statistical consulting'
+        ]
+      },
+      'cu-career': {
+        id: 7734,
+        description: [
+          'Cornell career services'
         ]
       },
       elso: {
