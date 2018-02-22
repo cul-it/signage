@@ -45,7 +45,8 @@ export default {
       'cu-career': {
         id: 7734,
         description: [
-          'Cornell career services'
+          'Graduate',
+          'Cornell Career Services'
         ]
       },
       elso: {
