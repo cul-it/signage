@@ -1,8 +1,8 @@
 import { assign, isEmpty } from 'lodash'
 import Robin from '~/utils/libcal'
 
-export const state = {
-}
+export const state = () => ({
+})
 
 export const mutations = {
   update (state, data) {

@@ -1,9 +1,9 @@
 import { $get } from '~/.nuxt-helpers/axios'
 import Batman from '~/utils/libservices'
 
-export const state = {
+export const state = () => ({
   locations: {}
-}
+})
 
 export const mutations = {
   update (state, feed) {
