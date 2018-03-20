@@ -1,8 +1,7 @@
-const NuxtHelpers = require('nuxt-helpers')
-
-module.exports = NuxtHelpers([
-  'axios'
-], {
+module.exports = {
+  modules: [
+    '@nuxtjs/axios'
+  ],
   /*
   ** Headers of the page
   */
@@ -40,4 +39,4 @@ module.exports = NuxtHelpers([
       }
     }
   }
-})
+}

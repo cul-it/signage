@@ -1,4 +1,3 @@
-import { $get } from '~/.nuxt-helpers/axios'
 import Batman from '~/utils/libservices'
 
 export const state = () => ({
@@ -18,7 +17,7 @@ export const mutations = {
 
 export const actions = {
   async fetchStatus ({ commit }, location) {
-    let feed = await $get(Batman.api.endpoints.laptops + Batman.api.locations[location])
+    let feed = await this.$axios.$get(Batman.api.endpoints.laptops + Batman.api.locations[location])
     feed['location'] = location
     commit('update', feed)
   }

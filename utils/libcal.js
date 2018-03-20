@@ -1,4 +1,3 @@
-import { $get } from '~/.nuxt-helpers/axios'
 import moment from 'moment'
 import jsonpPromise from 'jsonp-promise'
 
@@ -100,7 +99,7 @@ export default {
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
-  getHours: function (desk, date, jsonp = false) {
+  getHours: function (axios, desk, date, jsonp = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
     const url = this.api.endpoints.hours + this.api.desks[desk].id + requestDate
 
@@ -110,19 +109,19 @@ export default {
       return jsonpPromise(url).promise
     } else {
       // Non-issue when proxied through server on initial load (thanks Nuxt)
-      return $get(url)
+      return axios.$get(url)
     }
   },
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
   },
-  async nextOpening (desk, jsonp = false) {
+  async nextOpening (axios, desk, jsonp = false) {
     var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await this.openingTime(desk, this.formatDate(dateToCheck), jsonp)
+      var openingTime = await this.openingTime(axios, desk, this.formatDate(dateToCheck), jsonp)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -137,8 +136,8 @@ export default {
 
     return bigWinner
   },
-  async openingTime (desk, date, jsonp = false) {
-    let feed = await this.getHours(desk, date, jsonp)
+  async openingTime (axios, desk, date, jsonp = false) {
+    let feed = await this.getHours(axios, desk, date, jsonp)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
 
     // Copy hours since it gets emptied after using as function param
@@ -152,7 +151,7 @@ export default {
 
     return hours !== null ? hours[0].from : null
   },
-  async openNow (desk, libcalStatus, hours, jsonp = false) {
+  async openNow (axios, desk, libcalStatus, hours, jsonp = false) {
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
@@ -171,7 +170,7 @@ export default {
       }
     }
 
-    let statusChange = await this.nextOpening(desk, jsonp)
+    let statusChange = await this.nextOpening(axios, desk, jsonp)
 
     status.change = statusChange
 
