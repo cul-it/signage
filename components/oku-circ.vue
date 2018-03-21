@@ -21,13 +21,13 @@
     <device type="phoneCharger" model="iPhone 4" :count="phoneChargers[location].iphone4Available"/>
     <device type="phoneCharger" model="iPhone 5 &amp; up" :count="phoneChargers[location].iphoneAvailable"/>
     <device type="phoneCharger" model="Micro USB" :count="phoneChargers[location].microUsbAvailable"/>
-    <device type="phoneCharger" model="USB-C":count="phoneChargers[location].usbCAvailable"/>
+    <device type="phoneCharger" model="USB-C" :count="phoneChargers[location].usbCAvailable"/>
   </div>
 </div>
 </template>
 
 <script>
-import DEVICE from '~components/oku-device'
+import DEVICE from '~/components/oku-device'
 
 export default {
   components: {
@@ -46,7 +46,6 @@ export default {
   ]
 }
 </script>
-
 
 <style lang="scss">
 /**
@@ -379,7 +378,6 @@ time {
         background-color: $bg-dark-blue;
         padding-left: 50 * $ph;
         padding-top: 100 * $ph;
-
 
         h1 {
             text-transform: capitalize;

@@ -1,10 +1,9 @@
 import { assign } from 'lodash'
-import { $get } from '~/.nuxt-helpers/axios'
 import Batman from '~/utils/libservices'
 
-export const state = {
+export const state = () => ({
   locations: {}
-}
+})
 
 export const mutations = {
   update (state, feed) {
@@ -15,7 +14,7 @@ export const mutations = {
 
 export const actions = {
   async fetchStatus ({ commit }, location) {
-    let feed = await $get(Batman.api.endpoints.phoneChargers + Batman.api.locations[location])
+    let feed = await this.$axios.$get(Batman.api.endpoints.phoneChargers + Batman.api.locations[location])
     const list = feed.equipmentList
     const phoneChargers = {
       'availability': {

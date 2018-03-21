@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import OKU from '~components/oku-circ'
+import OKU from '~/components/oku-circ'
 import moment from 'moment'
 import { mapState } from 'vuex'
 

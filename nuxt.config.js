@@ -1,8 +1,7 @@
-const NuxtHelpers = require('nuxt-helpers')
-
-module.exports = NuxtHelpers([
-  'axios'
-], {
+module.exports = {
+  modules: [
+    '@nuxtjs/axios'
+  ],
   /*
   ** Headers of the page
   */
@@ -29,8 +28,8 @@ module.exports = NuxtHelpers([
     /*
     ** Run ESLINT on save
     */
-    extend (config, ctx) {
-      if (ctx.isClient) {
+    extend (config, { isDev, isClient }) {
+      if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -40,4 +39,4 @@ module.exports = NuxtHelpers([
       }
     }
   }
-})
+}
