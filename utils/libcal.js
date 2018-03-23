@@ -1,5 +1,6 @@
-import moment from 'moment'
 import jsonpPromise from 'jsonp-promise'
+import { each, filter } from 'lodash'
+import moment from 'moment'
 
 const baseUrl = 'https://api3.libcal.com/'
 
@@ -83,6 +84,29 @@ export default {
         id: 1710,
         description: []
       }
+    },
+    spaces: {
+      270: {
+        id: 20087,
+        category: {
+          id: 5395,
+          name: 'group study'
+        }
+      },
+      271: {
+        id: 20088,
+        category: {
+          id: 5396,
+          name: 'individual study'
+        }
+      },
+      272: {
+        id: 20089,
+        category: {
+          id: 5396,
+          name: 'individual study'
+        }
+      }
     }
   },
   timeFormat: 'h:mm a',
@@ -92,6 +116,11 @@ export default {
     const lastClosing = hours.pop().to
 
     return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
+  },
+  bookingsByRoom: function (bookings, room) {
+    const spaceId = this.api.spaces[room].id
+    // LibCal API response includes cancelled reservations!
+    return filter(bookings, {eid: spaceId, status: 'Confirmed'})
   },
   formatFutureOpening: function (datetime) {
     return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
@@ -179,6 +208,27 @@ export default {
     }
 
     return status
+  },
+  // TODO: Cleanup date parsing once real LibCal API response replaces mock data
+  // parseDate: function (date) {
+  //   let startDate = moment(date)
+  //   let startTime = {}
+  //   startTime.hour = startDate.format('h')
+  //   startTime.minute = startDate.format('mm')
+  //   startTime.meridiem = startDate.format('a')
+  //   return startTime
+  // },
+  parseDate: function (bookings) {
+    each(bookings, function (booking) {
+      let startDate = moment(booking.fromDate)
+      let startTime = {}
+      startTime.hour = startDate.format('h')
+      startTime.minute = startDate.format('mm')
+      startTime.meridiem = startDate.format('a')
+      booking.startTime = startTime
+    })
+
+    return bookings
   },
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))

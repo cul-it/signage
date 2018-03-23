@@ -1,0 +1,50 @@
+[
+    {
+        "bookId": "cs_1OZO2ir",
+        "eid": 20088,
+        "cid": 5396,
+        "lid": 3182,
+        "fromDate": "2018-03-20T18:00:00-04:00",
+        "toDate": "2018-03-20T20:00:00-04:00",
+        "firstName": "Scott",
+        "lastName": "Stevens",
+        "email": "stevens@nhl.com",
+        "status": "Confirmed"
+    },
+    {
+        "bookId": "cs_kwMreUK",
+        "eid": 20089,
+        "cid": 5396,
+        "lid": 3182,
+        "fromDate": "2018-03-20T19:30:00-04:00",
+        "toDate": "2018-03-20T21:00:00-04:00",
+        "firstName": "Martin",
+        "lastName": "Brodeur",
+        "email": "brodeur@nhl.com",
+        "status": "Confirmed"
+    },
+    {
+        "bookId": "cs_1OZO2ir",
+        "eid": 20088,
+        "cid": 5396,
+        "lid": 3182,
+        "fromDate": "2018-03-20T18:00:00-04:00",
+        "toDate": "2018-03-20T20:00:00-04:00",
+        "firstName": "Scott",
+        "lastName": "Niedermayer",
+        "email": "niedermayer@nhl.com",
+        "status": "Cancelled by User"
+    },
+    {
+        "bookId": "cs_kwMreUK",
+        "eid": 20089,
+        "cid": 5396,
+        "lid": 3182,
+        "fromDate": "2018-03-20T19:30:00-04:00",
+        "toDate": "2018-03-20T21:00:00-04:00",
+        "firstName": "Patrick",
+        "lastName": "Elias",
+        "email": "elias@nhl.com",
+        "status": "Cancelled by User"
+    }
+]
