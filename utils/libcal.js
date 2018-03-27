@@ -85,6 +85,11 @@ export default {
         description: []
       }
     },
+    libraries: {
+      mann: {
+        id: 1707
+      }
+    },
     spaces: {
       270: {
         id: 20087,
@@ -117,10 +122,52 @@ export default {
 
     return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
   },
-  bookingsByRoom: function (bookings, room) {
+  bookingsByRoom: function (bookings, room, closingTime) {
     const spaceId = this.api.spaces[room].id
+    // const closingTime = await this.closingTime(axios)
     // LibCal API response includes cancelled reservations!
-    return filter(bookings, {eid: spaceId, status: 'Confirmed'})
+    const roomBookings = filter(bookings, {eid: spaceId, status: 'Confirmed'})
+    const parseSingle = this.parseSingleDate
+    const timeFormat = this.timeFormat
+    let prevEnd = ''
+    let availSlots = 1
+    each(roomBookings, function (booking, index, allBookings) {
+      const startTime = booking.fromDate
+      if (index > 0) {
+        if (!moment(startTime).isSame(prevEnd)) {
+          const availableSlot = {
+            bookId: 'avail_randomString',
+            fromDate: prevEnd,
+            isAvailable: true,
+            startTime: parseSingle(prevEnd)
+          }
+          allBookings.splice(index, 0, availableSlot)
+          availSlots++
+          // console.log(index, availableSlot)
+        }
+      }
+      console.log('booking end | closing:', booking.toDate, ', ', closingTime)
+      console.log('booking end < closing?', moment(booking.toDate).isBefore(moment(closingTime, timeFormat)))
+      console.log('(index | availableSlots | array length)', index, availSlots, allBookings.length)
+      // if (index + availSlots === allBookings.length && moment(booking.toDate).isBefore(moment(closingTime, timeFormat), 'day')) {
+      if (index + availSlots === allBookings.length) {
+        if (moment(booking.toDate).isBefore(moment(closingTime, timeFormat), 'day')) {
+          const lastAvailSlot = {
+            bookId: 'avail_randomString',
+            fromDate: booking.toDate,
+            isAvailable: true,
+            lastUp: true,
+            startTime: parseSingle(booking.toDate)
+          }
+          allBookings.push(lastAvailSlot)
+        } else {
+          booking.lastUp = true
+        }
+      }
+      prevEnd = booking.toDate
+    })
+    // console.log(roomBookings)
+    return roomBookings
   },
   formatFutureOpening: function (datetime) {
     return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
@@ -130,7 +177,8 @@ export default {
   },
   getHours: function (axios, desk, date, jsonp = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
-    const url = this.api.endpoints.hours + this.api.desks[desk].id + requestDate
+    const locId = typeof desk === 'undefined' ? this.api.libraries.mann.id : this.api.desks[desk].id
+    const url = this.api.endpoints.hours + locId + requestDate
 
     if (jsonp) {
       // If fetching updates from client, need to deal with JSONP
@@ -165,9 +213,14 @@ export default {
 
     return bigWinner
   },
-  async openingTime (axios, desk, date, jsonp = false) {
+  async hoursForDate (axios, desk, date, jsonp = false) {
     let feed = await this.getHours(axios, desk, date, jsonp)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+
+    return hours
+  },
+  async openingTime (axios, desk, date, jsonp = false) {
+    const hours = await this.hoursForDate(axios, desk, date, jsonp)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
@@ -179,6 +232,18 @@ export default {
     }
 
     return hours !== null ? hours[0].from : null
+  },
+  async closingTime (axios, desk, date, jsonp = false) {
+    const hours = await this.hoursForDate(axios, desk, date, jsonp)
+
+    let closingTime = hours !== null ? hours[0].to : null
+
+    // Set to end of day if closing is midnight
+    // -- TODO: Refactor for early morning closings during study/finals week
+    closingTime = moment(closingTime, this.timeFormat).isSame(moment('12am', this.timeFormat)) ? moment().endOf('day') : closingTime
+
+    return closingTime
+    // return moment('2018-03-21T00:00:00-04:00')
   },
   async openNow (axios, desk, libcalStatus, hours, jsonp = false) {
     let status = {
@@ -210,14 +275,14 @@ export default {
     return status
   },
   // TODO: Cleanup date parsing once real LibCal API response replaces mock data
-  // parseDate: function (date) {
-  //   let startDate = moment(date)
-  //   let startTime = {}
-  //   startTime.hour = startDate.format('h')
-  //   startTime.minute = startDate.format('mm')
-  //   startTime.meridiem = startDate.format('a')
-  //   return startTime
-  // },
+  parseSingleDate: function (date) {
+    let startDate = moment(date)
+    let startTime = {}
+    startTime.hour = startDate.format('h')
+    startTime.minute = startDate.format('mm')
+    startTime.meridiem = startDate.format('a')
+    return startTime
+  },
   parseDate: function (bookings) {
     each(bookings, function (booking) {
       let startDate = moment(booking.fromDate)

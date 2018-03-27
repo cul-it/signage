@@ -8,7 +8,7 @@
       <li
         v-for="booking in confirmedBookingsByRoom"
         :key="booking.bookId"
-        class="room__slot"
+        :class="['room__slot', {'room__slot--available': booking.isAvailable}]"
       >
         <time class="slot__start">
           {{ booking.startTime.hour }}
@@ -17,7 +17,13 @@
             <span class="start__meridiem">{{ booking.startTime.meridiem }}</span>
           </div>
         </time>
-        {{ booking.firstName }} {{ booking.lastName[0] }}.
+        <span v-if="!booking.isAvailable">
+          {{ booking.firstName }} {{ booking.lastName[0] }}.
+        </span>
+        <span v-else>
+          Available
+        </span>
+        <span v-if="booking.lastUp" class="room__closing">until closing at 12:00 am</span>
       </li>
     </ul>
   </div>
@@ -35,12 +41,13 @@ export default {
   data () {
     return {
       bookings: bookingsMock,
+      // closingTime: Robin.closingTime(this.$axios, 1707),
       libcalSpaceId: Robin.api.spaces[this.room].id
     }
   },
   computed: {
     confirmedBookingsByRoom () {
-      return Robin.bookingsByRoom(this.preppedBookings, this.room)
+      return Robin.bookingsByRoom(this.preppedBookings, this.room, this.closingTime)
     },
     preppedBookings () {
       return Robin.parseDate(this.bookings)
@@ -53,6 +60,7 @@ export default {
     // }
   },
   props: [
+    'closingTime',
     'room'
   ]
 }

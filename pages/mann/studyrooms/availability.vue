@@ -6,13 +6,14 @@
       <time class="studyrooms__time" v-html="currentTime"/>
     </header>
 
-    <mann-studyrooms-mock />
+    <!-- <mann-studyrooms-mock /> -->
 
     <div class="studyrooms__availability">
       <mann-studyroom-availability
         v-for="room in rooms"
         :key="room"
         :room="room"
+        :closingTime="closingTime"
       />
     </div>
   </div>
@@ -21,6 +22,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
+import Robin from '~/utils/libcal.js'
 import RoomAvailability from '~/components/MannStudyroomAvailability'
 import MannStudyroomsMock from '~/components/MannStudyroomsLcdMock'
 
@@ -48,6 +50,11 @@ export default {
       currentDate: state => moment(state.time.now).format('ddd D'),
       currentTime: state => moment(state.time.now).format('h[<span class="blink">:</span>]mm A')
     })
+  },
+  async asyncData ({ app }) {
+    // const mannLocId = Robin.api.libraries.mann.id
+    const closingTime = await Robin.closingTime(app.$axios)
+    return { closingTime: closingTime }
   }
 }
 </script>
