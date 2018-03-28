@@ -35,7 +35,7 @@ import Robin from '~/utils/libcal.js'
 // Load mock LibCal bookings data for initial development
 // -- TODO: Remove mock data and load-json-file package
 const loadJsonFile = (process.server ? require('load-json-file') : null)
-const bookingsMock = loadJsonFile.sync('data-mocks/libcal-space-avail.json')
+const bookingsMock = loadJsonFile.sync('data-mocks/libcal-studyroom-bookings.json')
 
 export default {
   data () {
