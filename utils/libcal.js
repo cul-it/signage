@@ -1,5 +1,5 @@
 import jsonpPromise from 'jsonp-promise'
-import { each, filter } from 'lodash'
+import { _ } from 'lodash'
 import moment from 'moment'
 
 const baseUrl = 'https://api3.libcal.com/'
@@ -20,7 +20,7 @@ moment.updateLocale('en', {
   }
 })
 
-export default {
+const libCal = {
   api: {
     endpoints: {
       hours: baseUrl + 'api_hours_date.php?iid=973&format=json&nocache=1&lid='
@@ -122,52 +122,58 @@ export default {
 
     return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
   },
-  bookingsByRoom: function (bookings, room, closingTime) {
-    const spaceId = this.api.spaces[room].id
-    // const closingTime = await this.closingTime(axios)
-    // LibCal API response includes cancelled reservations!
-    const roomBookings = filter(bookings, {eid: spaceId, status: 'Confirmed'})
-    const parseSingle = this.parseSingleDate
-    const timeFormat = this.timeFormat
-    let prevEnd = ''
-    let availSlots = 1
-    each(roomBookings, function (booking, index, allBookings) {
-      const startTime = booking.fromDate
-      if (index > 0) {
-        if (!moment(startTime).isSame(prevEnd)) {
-          const availableSlot = {
-            bookId: 'avail_randomString',
-            fromDate: prevEnd,
-            isAvailable: true,
-            startTime: parseSingle(prevEnd)
-          }
-          allBookings.splice(index, 0, availableSlot)
-          availSlots++
-          // console.log(index, availableSlot)
+  availableSlot: function (date) {
+    return {
+      bookId: 'avail_randomString',
+      fromDate: date,
+      isAvailable: true,
+      startTime: libCal.parseDate(date)
+    }
+  },
+  bookingsYeah: function (bookings, room, closingTime) {
+    const spaceId = libCal.api.spaces[room].id
+    const roomAvailability = _(bookings)
+      // Filter bookings by room, current/upcoming, and status(confirmed)
+      .filter(function (booking, index, allBookings) {
+        const thisRoom = booking.eid === spaceId
+        // TODO: Remove hardcoded 'now' -- here to accomodate mock data
+        const notPast = moment('2018-03-27T08:00:00-04:00').isSameOrBefore(booking.toDate)
+        const confirmed = booking.status === 'Confirmed'
+        return thisRoom &&
+          notPast &&
+          confirmed
+      })
+      // Fill gaps between & pad bookings with available slots
+      // -- TODO: Account for leading availability!
+      .flatMap(function (booking, index, allBookings) {
+        const paddedBooking = [booking]
+        const prevIndex = index - 1
+        // console.log('previously on', prevIndex)
+        booking.startTime = libCal.parseDate(booking.fromDate)
+        // Insert available slot if two bookings are not back to back
+        if (prevIndex > -1 &&
+          !moment(booking.fromDate).isSame(allBookings[prevIndex].toDate)
+        ) {
+          const availableSlot = libCal.availableSlot(allBookings[prevIndex].toDate)
+          paddedBooking.splice(0, 0, availableSlot)
         }
-      }
-      console.log('booking end | closing:', booking.toDate, ', ', closingTime)
-      console.log('booking end < closing?', moment(booking.toDate).isBefore(moment(closingTime, timeFormat)))
-      console.log('(index | availableSlots | array length)', index, availSlots, allBookings.length)
-      // if (index + availSlots === allBookings.length && moment(booking.toDate).isBefore(moment(closingTime, timeFormat), 'day')) {
-      if (index + availSlots === allBookings.length) {
-        if (moment(booking.toDate).isBefore(moment(closingTime, timeFormat), 'day')) {
-          const lastAvailSlot = {
-            bookId: 'avail_randomString',
-            fromDate: booking.toDate,
-            isAvailable: true,
-            lastUp: true,
-            startTime: parseSingle(booking.toDate)
+        if (index + 1 === allBookings.length) {
+          // Insert an available slot if last booking falls short of closing
+          if (moment(booking.toDate).isBefore(moment(closingTime), 'day')) {
+            const availableTilClose = libCal.availableSlot(booking.toDate)
+            availableTilClose.lastUp = true
+            paddedBooking.push(availableTilClose)
+          } else {
+            booking.lastUp = true
           }
-          allBookings.push(lastAvailSlot)
-        } else {
-          booking.lastUp = true
         }
-      }
-      prevEnd = booking.toDate
-    })
-    // console.log(roomBookings)
-    return roomBookings
+        return paddedBooking
+      })
+      .value()
+
+    // console.log('----------------\nALL THE THINGS!\n----------------\n', roomAvailability)
+
+    return roomAvailability
   },
   formatFutureOpening: function (datetime) {
     return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
@@ -275,25 +281,13 @@ export default {
     return status
   },
   // TODO: Cleanup date parsing once real LibCal API response replaces mock data
-  parseSingleDate: function (date) {
+  parseDate: function (date) {
     let startDate = moment(date)
     let startTime = {}
     startTime.hour = startDate.format('h')
     startTime.minute = startDate.format('mm')
     startTime.meridiem = startDate.format('a')
     return startTime
-  },
-  parseDate: function (bookings) {
-    each(bookings, function (booking) {
-      let startDate = moment(booking.fromDate)
-      let startTime = {}
-      startTime.hour = startDate.format('h')
-      startTime.minute = startDate.format('mm')
-      startTime.meridiem = startDate.format('a')
-      booking.startTime = startTime
-    })
-
-    return bookings
   },
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))
@@ -318,3 +312,5 @@ export default {
     return status
   }
 }
+
+export default libCal

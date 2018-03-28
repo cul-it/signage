@@ -6,7 +6,7 @@
 
     <ul class="room__slot-list">
       <li
-        v-for="booking in confirmedBookingsByRoom"
+        v-for="booking in roomSchedule"
         :key="booking.bookId"
         :class="['room__slot', {'room__slot--available': booking.isAvailable}]"
       >
@@ -41,23 +41,13 @@ export default {
   data () {
     return {
       bookings: bookingsMock,
-      // closingTime: Robin.closingTime(this.$axios, 1707),
       libcalSpaceId: Robin.api.spaces[this.room].id
     }
   },
   computed: {
-    confirmedBookingsByRoom () {
-      return Robin.bookingsByRoom(this.preppedBookings, this.room, this.closingTime)
-    },
-    preppedBookings () {
-      return Robin.parseDate(this.bookings)
+    roomSchedule () {
+      return Robin.bookingsYeah(this.bookings, this.room, this.closingTime)
     }
-    // confirmedBookings (bookings) {
-    //   return this.bookings.filter(function (booking) {
-    //     booking.startTime = Robin.parseDate(booking.fromDate)
-    //     return booking.status === 'Confirmed'
-    //   })
-    // }
   },
   props: [
     'closingTime',
