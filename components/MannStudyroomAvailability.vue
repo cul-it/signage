@@ -23,7 +23,7 @@
         <span v-else>
           Available
         </span>
-        <span v-if="booking.lastUp" class="room__closing">until closing at 12:00 am</span>
+        <span v-if="booking.lastUp" class="room__closing">until closing at {{ closingTime }}</span>
       </li>
     </ul>
   </div>
@@ -46,11 +46,12 @@ export default {
   },
   computed: {
     roomSchedule () {
-      return Robin.bookingsYeah(this.bookings, this.room, this.closingTime)
+      return Robin.bookingsYeah(this.bookings, this.room, this.openingTime, this.closingTime)
     }
   },
   props: [
     'closingTime',
+    'openingTime',
     'room'
   ]
 }

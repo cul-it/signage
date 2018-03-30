@@ -131,19 +131,22 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
-  bookingsYeah: function (bookings, room, closingTime) {
+  bookingsYeah: function (bookings, room, openingTime, closingTime) {
     const spaceId = libCal.api.spaces[room].id
-    // TODO: Remove hardcoded opening time
-    const openingTime = '2018-03-27T08:00:00-04:00'
+    openingTime = moment(openingTime, libCal.timeFormat)
+    closingTime = moment(closingTime, libCal.timeFormat)
+    // TODO: Remove hardcoded opening & closing times used for testing data mock
+    openingTime = '2018-03-27T08:00:00-04:00'
+    closingTime = '2018-03-28T00:00:00-04:00'
     const roomAvailability = _(bookings)
-      // Filter bookings by room, status(confirmed), and after opening
+      // Filter bookings by room, status(confirmed), and while open
       .filter(function (booking, index, allBookings) {
-        const afterOpen = moment(booking.fromDate).isSameOrAfter(openingTime)
         const confirmed = booking.status === 'Confirmed'
         const thisRoom = booking.eid === spaceId
+        const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
         return thisRoom &&
           confirmed &&
-          afterOpen
+          whileOpen
       })
       // Fill gaps between & pad bookings with available slots
       .flatMap(function (booking, index, allBookings) {
@@ -168,7 +171,7 @@ const libCal = {
         // If final booking...
         if (index + 1 === allBookings.length) {
           // Pad after if it falls short of closing
-          if (moment(booking.toDate).isBefore(moment(closingTime), 'day')) {
+          if (moment(booking.toDate).isBefore(moment(closingTime))) {
             const availableTilClose = libCal.availableSlot(booking.toDate, closingTime)
             availableTilClose.lastUp = true
             paddedBooking.push(availableTilClose)
@@ -265,7 +268,6 @@ const libCal = {
     closingTime = moment(closingTime, this.timeFormat).isSame(moment('12am', this.timeFormat)) ? moment().endOf('day') : closingTime
 
     return closingTime
-    // return moment('2018-03-21T00:00:00-04:00')
   },
   async openNow (axios, desk, libcalStatus, hours, jsonp = false) {
     let status = {

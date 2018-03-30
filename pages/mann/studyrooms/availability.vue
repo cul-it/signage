@@ -13,6 +13,7 @@
         v-for="room in rooms"
         :key="room"
         :room="room"
+        :openingTime="openingTime"
         :closingTime="closingTime"
       />
     </div>
@@ -54,7 +55,11 @@ export default {
   async asyncData ({ app }) {
     // const mannLocId = Robin.api.libraries.mann.id
     const closingTime = await Robin.closingTime(app.$axios)
-    return { closingTime: closingTime }
+    const openingTime = await Robin.openingTime(app.$axios)
+    return {
+      closingTime: closingTime,
+      openingTime: openingTime
+    }
   }
 }
 </script>
