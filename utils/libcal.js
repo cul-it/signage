@@ -122,52 +122,68 @@ const libCal = {
 
     return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
   },
-  availableSlot: function (date) {
+  availableSlot: function (start, end) {
     return {
       bookId: 'avail_randomString',
-      fromDate: date,
+      fromDate: start,
+      toDate: end,
       isAvailable: true,
-      startTime: libCal.parseDate(date)
+      startTime: libCal.parseDate(start)
     }
   },
   bookingsYeah: function (bookings, room, closingTime) {
     const spaceId = libCal.api.spaces[room].id
+    // TODO: Remove hardcoded opening time
+    const openingTime = '2018-03-27T08:00:00-04:00'
     const roomAvailability = _(bookings)
-      // Filter bookings by room, current/upcoming, and status(confirmed)
+      // Filter bookings by room, status(confirmed), and after opening
       .filter(function (booking, index, allBookings) {
-        const thisRoom = booking.eid === spaceId
-        // TODO: Remove hardcoded 'now' -- here to accomodate mock data
-        const notPast = moment('2018-03-27T08:00:00-04:00').isSameOrBefore(booking.toDate)
+        const afterOpen = moment(booking.fromDate).isSameOrAfter(openingTime)
         const confirmed = booking.status === 'Confirmed'
+        const thisRoom = booking.eid === spaceId
         return thisRoom &&
-          notPast &&
-          confirmed
+          confirmed &&
+          afterOpen
       })
       // Fill gaps between & pad bookings with available slots
-      // -- TODO: Account for leading availability!
       .flatMap(function (booking, index, allBookings) {
         const paddedBooking = [booking]
         const prevIndex = index - 1
-        // console.log('previously on', prevIndex)
         booking.startTime = libCal.parseDate(booking.fromDate)
-        // Insert available slot if two bookings are not back to back
+
+        // If first booking & starts after opening, pad before
+        if (index === 0 &&
+          moment(booking.fromDate).isAfter(openingTime)
+        ) {
+          const availableNow = libCal.availableSlot(openingTime, booking.fromDate)
+          paddedBooking.splice(0, 0, availableNow)
+        }
+        // If not back-to-back with previous booking, pad before (aka between)
         if (prevIndex > -1 &&
           !moment(booking.fromDate).isSame(allBookings[prevIndex].toDate)
         ) {
-          const availableSlot = libCal.availableSlot(allBookings[prevIndex].toDate)
+          const availableSlot = libCal.availableSlot(allBookings[prevIndex].toDate, booking.fromDate)
           paddedBooking.splice(0, 0, availableSlot)
         }
+        // If final booking...
         if (index + 1 === allBookings.length) {
-          // Insert an available slot if last booking falls short of closing
+          // Pad after if it falls short of closing
           if (moment(booking.toDate).isBefore(moment(closingTime), 'day')) {
-            const availableTilClose = libCal.availableSlot(booking.toDate)
+            const availableTilClose = libCal.availableSlot(booking.toDate, closingTime)
             availableTilClose.lastUp = true
             paddedBooking.push(availableTilClose)
+          // Otherwise, mark it as running through to closing
           } else {
             booking.lastUp = true
           }
         }
         return paddedBooking
+      })
+      // Now filter out past bookings
+      .filter(function (booking, index, allBookings) {
+        // TODO: Remove hardcoded 'now' -- here to accomodate mock data
+        const notPast = moment('2018-03-27T08:00:00-04:00').isSameOrBefore(booking.toDate)
+        return notPast
       })
       .value()
 
