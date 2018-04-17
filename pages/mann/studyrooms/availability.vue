@@ -65,6 +65,9 @@ export default {
 </script>
 
 <style lang="scss">
+// TODO: DRY util styles
+// -- Most likely via nuxt-sass-resources-loader
+// -- https://github.com/anteriovieira/nuxt-sass-resources-loader
 .blink {
   animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
 }
@@ -84,7 +87,6 @@ export default {
     clear: both;
     grid-column-gap: 1.5rem;
     grid-template-columns: 1fr 1fr 1fr;
-    // justify-items: center;
   }
   &__datetime {
     font-size: 2.1em;
