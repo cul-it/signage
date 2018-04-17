@@ -1,12 +1,9 @@
-<!-- TODO: Remove mock studyroom component -->
 <template>
   <div class="studyrooms">
     <header class="studyrooms__datetime">
       <time class="studyrooms__date">{{ currentDate }}</time>
       <time class="studyrooms__time" v-html="currentTime"/>
     </header>
-
-    <!-- <mann-studyrooms-mock /> -->
 
     <div class="studyrooms__availability">
       <mann-studyroom-availability
@@ -25,7 +22,6 @@ import moment from 'moment'
 import { mapState } from 'vuex'
 import Robin from '~/utils/libcal.js'
 import RoomAvailability from '~/components/MannStudyroomAvailability'
-import MannStudyroomsMock from '~/components/MannStudyroomsLcdMock'
 
 export default {
   head () {
@@ -43,8 +39,7 @@ export default {
     }
   },
   components: {
-    MannStudyroomAvailability: RoomAvailability,
-    MannStudyroomsMock: MannStudyroomsMock
+    MannStudyroomAvailability: RoomAvailability
   },
   computed: {
     ...mapState({
