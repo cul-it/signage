@@ -195,7 +195,7 @@ const libCal = {
     return roomAvailability
   },
   earlyMorningClose: function (closing) {
-    return moment(closing, this.timeFormat).isBefore(moment('6am', this.timeFormat)) ? closing.add(1, 'day') : closing
+    return moment(closing, libCal.timeFormat).isBefore(moment('6am', libCal.timeFormat)) ? closing.add(1, 'day') : closing
   },
   formatFutureOpening: function (datetime) {
     return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
@@ -207,9 +207,9 @@ const libCal = {
     return moment(date).format(libCal.timeFormat)
   },
   getHours: function (axios, desk, date, jsonp = false) {
-    const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
-    const locId = typeof desk === 'undefined' ? this.api.libraries.mann.id : this.api.desks[desk].id
-    const url = this.api.endpoints.hours + locId + requestDate
+    const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
+    const locId = typeof desk === 'undefined' ? libCal.api.libraries.mann.id : libCal.api.desks[desk].id
+    const url = libCal.api.endpoints.hours + locId + requestDate
 
     if (jsonp) {
       // If fetching updates from client, need to deal with JSONP
@@ -229,7 +229,7 @@ const libCal = {
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await this.openingTime(axios, desk, this.formatDate(dateToCheck), jsonp)
+      var openingTime = await libCal.openingTime(axios, desk, libCal.formatDate(dateToCheck), jsonp)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -244,27 +244,27 @@ const libCal = {
     return bigWinner
   },
   async hoursForDate (axios, desk, date, jsonp = false) {
-    let feed = await this.getHours(axios, desk, date, jsonp)
+    let feed = await libCal.getHours(axios, desk, date, jsonp)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
 
     return hours
   },
   async openingTime (axios, desk, date, jsonp = false) {
-    const hours = await this.hoursForDate(axios, desk, date, jsonp)
+    const hours = await libCal.hoursForDate(axios, desk, date, jsonp)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
     const hoursClone = hours !== null ? hours.slice(0) : null
 
     // If dealing with today, ensure we're not already closed
-    if (moment().isSame(moment(date), 'd') && this.alreadyClosed(hoursClone)) {
+    if (moment().isSame(moment(date), 'd') && libCal.alreadyClosed(hoursClone)) {
       return null
     }
 
     return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
   async closingTime (axios, desk, date, jsonp = false) {
-    const hours = await this.hoursForDate(axios, desk, date, jsonp)
+    const hours = await libCal.hoursForDate(axios, desk, date, jsonp)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 
@@ -285,17 +285,17 @@ const libCal = {
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
-        return (moment().isBetween(moment(hoursBlock.from, this.timeFormat), moment(hoursBlock.to, this.timeFormat), null, []))
+        return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), moment(hoursBlock.to, libCal.timeFormat), null, []))
       })
 
       if (isOpen !== undefined) {
         status.current = 'open'
-        status.change = moment(isOpen.to, this.timeFormat)
+        status.change = moment(isOpen.to, libCal.timeFormat)
         return status
       }
     }
 
-    let statusChange = await this.nextOpening(axios, desk, jsonp)
+    let statusChange = await libCal.nextOpening(axios, desk, jsonp)
 
     status.change = statusChange
 
