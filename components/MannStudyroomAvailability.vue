@@ -41,17 +41,18 @@ export default {
   data () {
     return {
       bookings: bookingsMock,
-      libcalSpaceId: Robin.api.spaces[this.room].id
+      libcalSpaceId: Robin.api.spaces[this.room].id,
+      closingTime: Robin.formatTime(this.closing)
     }
   },
   computed: {
     roomSchedule () {
-      return Robin.bookingsYeah(this.bookings, this.room, this.openingTime, this.closingTime)
+      return Robin.bookingsYeah(this.bookings, this.room, this.opening, this.closing)
     }
   },
   props: [
-    'closingTime',
-    'openingTime',
+    'closing',
+    'opening',
     'room'
   ]
 }

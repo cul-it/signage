@@ -118,9 +118,11 @@ const libCal = {
   alreadyClosed: function (hours) {
     if (hours === null) return false
     // If multiple openings/closings, compare against last one for the day
-    const lastClosing = hours.pop().to
+    let lastClosing = moment(hours.pop().to, libCal.timeFormat)
 
-    return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
+    lastClosing = libCal.earlyMorningClose(lastClosing)
+
+    return moment().isSameOrAfter(lastClosing)
   },
   availableSlot: function (start, end) {
     return {
@@ -133,8 +135,6 @@ const libCal = {
   },
   bookingsYeah: function (bookings, room, openingTime, closingTime) {
     const spaceId = libCal.api.spaces[room].id
-    openingTime = moment(openingTime, libCal.timeFormat)
-    closingTime = moment(closingTime, libCal.timeFormat)
     // TODO: Remove hardcoded opening & closing times used for testing data mock
     openingTime = '2018-03-27T08:00:00-04:00'
     closingTime = '2018-03-28T00:00:00-04:00'
@@ -194,11 +194,17 @@ const libCal = {
 
     return roomAvailability
   },
+  earlyMorningClose: function (closing) {
+    return moment(closing, this.timeFormat).isBefore(moment('6am', this.timeFormat)) ? closing.add(1, 'day') : closing
+  },
   formatFutureOpening: function (datetime) {
     return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
   },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
+  },
+  formatTime: function (date) {
+    return moment(date).format(libCal.timeFormat)
   },
   getHours: function (axios, desk, date, jsonp = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
@@ -227,7 +233,6 @@ const libCal = {
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
-        openingTime = moment(openingTime, this.timeFormat)
         bigWinner = dateToCheck.set({
           'hour': openingTime.get('hour'),
           'minute': openingTime.get('minute')
@@ -256,16 +261,18 @@ const libCal = {
       return null
     }
 
-    return hours !== null ? hours[0].from : null
+    return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
   async closingTime (axios, desk, date, jsonp = false) {
     const hours = await this.hoursForDate(axios, desk, date, jsonp)
 
-    let closingTime = hours !== null ? hours[0].to : null
+    let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 
-    // Set to end of day if closing is midnight
-    // -- TODO: Refactor for early morning closings during study/finals week
-    closingTime = moment(closingTime, this.timeFormat).isSame(moment('12am', this.timeFormat)) ? moment().endOf('day') : closingTime
+    if (closingTime) {
+      // Account for early morning closings the following day
+      // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
+      closingTime = libCal.earlyMorningClose(closingTime)
+    }
 
     return closingTime
   },
