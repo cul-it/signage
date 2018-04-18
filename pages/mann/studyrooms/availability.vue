@@ -47,6 +47,11 @@ export default {
       currentTime: state => moment(state.time.now).format('h[<span class="blink">:</span>]mm A')
     })
   },
+  async fetch ({ store }) {
+    await store.dispatch('spaces/fetchSchedule', {
+      location: Robin.api.libraries.mann.locations.studyrooms
+    })
+  },
   async asyncData ({ app }) {
     // const mannLocId = Robin.api.libraries.mann.id
     const closing = await Robin.closingTime(app.$axios)

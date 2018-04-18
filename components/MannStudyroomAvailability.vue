@@ -2,8 +2,6 @@
   <div class="studyrooms__room">
     <h1 class="room__number">{{ room }}</h1>
 
-    {{ libcalSpaceId }}
-
     <ul class="room__slot-list">
       <li
         v-for="booking in roomSchedule"
@@ -32,22 +30,15 @@
 <script>
 import Robin from '~/utils/libcal.js'
 
-// Load mock LibCal bookings data for initial development
-// -- TODO: Remove mock data and load-json-file package
-const loadJsonFile = (process.server ? require('load-json-file') : null)
-const bookingsMock = loadJsonFile.sync('data-mocks/libcal-studyroom-bookings.json')
-
 export default {
   data () {
     return {
-      bookings: bookingsMock,
-      libcalSpaceId: Robin.api.spaces[this.room].id,
       closingTime: Robin.formatTime(this.closing)
     }
   },
   computed: {
     roomSchedule () {
-      return Robin.bookingsYeah(this.bookings, this.room, this.opening, this.closing)
+      return this.$store.state.spaces[this.room].schedule
     }
   },
   props: [

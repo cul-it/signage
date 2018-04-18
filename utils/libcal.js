@@ -2,7 +2,8 @@ import jsonpPromise from 'jsonp-promise'
 import { _ } from 'lodash'
 import moment from 'moment'
 
-const baseUrl = 'https://api3.libcal.com/'
+const baseUrl = 'https://api2.libcal.com/'
+const baseUrlHours = 'https://api3.libcal.com/'
 
 // Set formatting strings for Moment's calendar method
 // http://momentjs.com/docs/#/customization/calendar
@@ -23,7 +24,11 @@ moment.updateLocale('en', {
 const libCal = {
   api: {
     endpoints: {
-      hours: baseUrl + 'api_hours_date.php?iid=973&format=json&nocache=1&lid='
+      auth: baseUrl + '1.1/oauth/token',
+      hours: baseUrlHours + 'api_hours_date.php?iid=973&format=json&nocache=1&lid=',
+      spaces: {
+        bookings: baseUrl + '1.1/space/bookings?lid='
+      }
     },
     desks: {
       career: {
@@ -87,26 +92,29 @@ const libCal = {
     },
     libraries: {
       mann: {
-        id: 1707
+        id: 1707,
+        locations: {
+          studyrooms: 3182
+        }
       }
     },
     spaces: {
-      270: {
-        id: 20087,
+      20087: {
+        room: 270,
         category: {
           id: 5395,
           name: 'group study'
         }
       },
-      271: {
-        id: 20088,
+      20088: {
+        room: 271,
         category: {
           id: 5396,
           name: 'individual study'
         }
       },
-      272: {
-        id: 20089,
+      20089: {
+        room: 272,
         category: {
           id: 5396,
           name: 'individual study'
@@ -124,6 +132,16 @@ const libCal = {
 
     return moment().isSameOrAfter(lastClosing)
   },
+  authenticate: function (axios) {
+    // TODO: Handle sensitive LibCal oAuth (potentially via dotenv)
+    // -- https://spaces.library.cornell.edu/admin_api.php?action=authentication
+    // -- https://github.com/nuxt-community/dotenv-module
+    return axios.$post(libCal.api.endpoints.auth, {
+      client_id: 'changeMe',
+      client_secret: 'changeMe',
+      grant_type: 'client_credentials'
+    })
+  },
   availableSlot: function (start, end) {
     return {
       bookId: 'avail_randomString',
@@ -133,16 +151,25 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
+  buildSchedule: (bookings, opening, closing) => {
+    let schedule = {}
+    bookings
+      .forEach(b => {
+        let room = libCal.api.spaces[b.eid].room
+        schedule[room] = {
+          id: b.eid,
+          name: room,
+          schedule: libCal.bookingsYeah(bookings, b.eid, opening, closing)
+        }
+      })
+    return schedule
+  },
   bookingsYeah: function (bookings, room, openingTime, closingTime) {
-    const spaceId = libCal.api.spaces[room].id
-    // TODO: Remove hardcoded opening & closing times used for testing data mock
-    openingTime = '2018-03-27T08:00:00-04:00'
-    closingTime = '2018-03-28T00:00:00-04:00'
     const roomAvailability = _(bookings)
       // Filter bookings by room, status(confirmed), and while open
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed'
-        const thisRoom = booking.eid === spaceId
+        const thisRoom = booking.eid === room
         const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
         return thisRoom &&
           confirmed &&
@@ -184,9 +211,7 @@ const libCal = {
       })
       // Now filter out past bookings
       .filter(function (booking, index, allBookings) {
-        // TODO: Remove hardcoded 'now' -- here to accomodate mock data
-        const notPast = moment('2018-03-27T08:00:00-04:00').isSameOrBefore(booking.toDate)
-        return notPast
+        return moment().isSameOrBefore(booking.toDate)
       })
       .value()
 
@@ -219,6 +244,15 @@ const libCal = {
       // Non-issue when proxied through server on initial load (thanks Nuxt)
       return axios.$get(url)
     }
+  },
+  async getReservations (axios, location, date) {
+    const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
+    const url = libCal.api.endpoints.spaces.bookings + location + requestDate
+
+    let authorize = await libCal.authenticate(axios)
+    axios.setHeader('Authorization', 'Bearer ' + authorize.access_token)
+
+    return axios.$get(url)
   },
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
@@ -305,7 +339,6 @@ const libCal = {
 
     return status
   },
-  // TODO: Cleanup date parsing once real LibCal API response replaces mock data
   parseDate: function (date) {
     let startDate = moment(date)
     let startTime = {}
