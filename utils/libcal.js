@@ -143,6 +143,7 @@ const libCal = {
     })
   },
   availableSlot: function (start, end) {
+    // QUESTION: Unique ID necessary for available slots?
     return {
       bookId: 'avail_randomString',
       fromDate: start,
