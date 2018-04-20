@@ -73,30 +73,23 @@ export default {
     mann: {
       id: 1707,
       categories: {
-        studyrooms: 3182
-      }
-    }
-  },
-  spaces: {
-    20087: {
-      room: 270,
-      category: {
-        id: 5395,
-        name: 'group study'
-      }
-    },
-    20088: {
-      room: 271,
-      category: {
-        id: 5396,
-        name: 'individual study'
-      }
-    },
-    20089: {
-      room: 272,
-      category: {
-        id: 5396,
-        name: 'individual study'
+        studyrooms: {
+          id: 3182,
+          spaces: [
+            {
+              id: 20087,
+              room: 270
+            },
+            {
+              id: 20088,
+              room: 271
+            },
+            {
+              id: 20089,
+              room: 272
+            }
+          ]
+        }
       }
     }
   }

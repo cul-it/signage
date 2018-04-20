@@ -1,15 +1,15 @@
 <template>
-  <div class="studyrooms">
-    <header class="studyrooms__datetime">
-      <time class="studyrooms__date">{{ currentDate }}</time>
-      <time class="studyrooms__time" v-html="currentTime"/>
+  <div class="spaces">
+    <header class="spaces__datetime">
+      <time class="spaces__date">{{ currentDate }}</time>
+      <time class="spaces__time" v-html="currentTime"/>
     </header>
 
-    <div class="studyrooms__availability">
+    <div class="spaces__availability">
       <space-availability
-        v-for="room in rooms"
-        :key="room"
-        :room="room"
+        v-for="space in spaces"
+        :key="space"
+        :space="space"
         :opening="opening"
         :closing="closing"
       />
@@ -35,7 +35,7 @@ export default {
   },
   data () {
     return {
-      rooms: [272, 271, 270]
+      spaces: Robin.requestedSpaces(this.$route.params.location, this.$route.params.category)
     }
   },
   components: {
@@ -80,7 +80,7 @@ export default {
         opacity: 0.0;
     }
 }
-.studyrooms {
+.spaces {
   font-family: 'Lato', sans-serif;
 
   &__availability {
@@ -96,9 +96,6 @@ export default {
     float: left;
     font-weight: 700;
     text-transform: uppercase;
-  }
-  &__room {
-    text-align: center;
   }
   &__time {
     float: right;

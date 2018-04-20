@@ -63,6 +63,14 @@ const libCal = {
       })
     return schedule
   },
+  requestedSpaces: (location, category) => {
+    const spacesInCategory = api.locations[location].categories[category].spaces
+    let spaces = []
+    spacesInCategory
+      .forEach(s => spaces.push(s.room))
+    if (category === 'studyrooms') spaces.reverse()
+    return spaces
+  },
   bookingsYeah: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
       // Filter bookings by room, status(confirmed), and while open
@@ -147,7 +155,7 @@ const libCal = {
   async getReservations (axios, location, category = false, date = false) {
     // console.log('history', location, '|', category)
     const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
-    const scope = category ? 'cid=' + api.locations[location].categories[category] : 'lid=' + api.locations[location]
+    const scope = category ? 'cid=' + api.locations[location].categories[category].id : 'lid=' + api.locations[location]
     const url = api.endpoints.spaces.bookings + scope + requestDate
 
     // console.log('where to?', url)

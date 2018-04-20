@@ -1,12 +1,12 @@
 <template>
-  <div class="studyrooms__room">
-    <h1 class="room__number">{{ room }}</h1>
+  <div class="space">
+    <h1 class="space__number">{{ space }}</h1>
 
-    <ul class="room__slot-list">
+    <ul class="space__slot-list">
       <li
-        v-for="booking in roomSchedule"
+        v-for="booking in spaceSchedule"
         :key="booking.bookId"
-        :class="['room__slot', {'room__slot--available': booking.isAvailable}]"
+        :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
       >
         <time class="slot__start">
           {{ booking.startTime.hour }}
@@ -21,7 +21,7 @@
         <span v-else>
           Available
         </span>
-        <span v-if="booking.lastUp" class="room__closing">until closing at {{ closingTime }}</span>
+        <span v-if="booking.lastUp" class="space__closing">until closing at {{ closingTime }}</span>
       </li>
     </ul>
   </div>
@@ -37,30 +37,33 @@ export default {
     }
   },
   computed: {
-    roomSchedule () {
-      return this.$store.state.spaces[this.room].schedule
+    spaceSchedule () {
+      return this.$store.state.spaces[this.space]
     }
   },
   props: [
     'closing',
     'opening',
-    'room'
+    'space'
   ]
 }
 </script>
 
 <style lang="scss">
-.room__closing {
+.space {
+  text-align: center;
+}
+.space__closing {
   display: block;
   color: #fff;
   font-size: .5em;
   font-weight: 100;
 }
-.room__number {
+.space__number {
   margin: 0;
   font-size: 6em;
 }
-.room__slot {
+.space__slot {
   position: relative;
   margin: .4em 0;
   padding: .5em;
@@ -73,7 +76,7 @@ export default {
     color: #7edafe;
   }
 }
-.room__slot-list {
+.space__slot-list {
   margin: 0;
   padding-left: 0;
   list-style-type: none;
