@@ -6,7 +6,7 @@
     </header>
 
     <div class="studyrooms__availability">
-      <mann-studyroom-availability
+      <space-availability
         v-for="room in rooms"
         :key="room"
         :room="room"
@@ -21,7 +21,7 @@
 import moment from 'moment'
 import { mapState } from 'vuex'
 import Robin from '~/utils/libcal.js'
-import RoomAvailability from '~/components/MannStudyroomAvailability'
+import SpaceAvailability from '~/components/SpaceAvailability'
 
 export default {
   head () {
@@ -39,7 +39,7 @@ export default {
     }
   },
   components: {
-    MannStudyroomAvailability: RoomAvailability
+    SpaceAvailability: SpaceAvailability
   },
   computed: {
     ...mapState({
@@ -47,10 +47,12 @@ export default {
       currentTime: state => moment(state.time.now).format('h[<span class="blink">:</span>]mm A')
     })
   },
-  async fetch ({ store }) {
-    await store.dispatch('spaces/fetchSchedule', {
-      location: Robin.api.libraries.mann.locations.studyrooms
-    })
+  async fetch ({ store, route }) {
+    console.log('fetcher', route)
+    await store.dispatch('spaces/primeSpaces', this.rooms)
+    // await store.dispatch('spaces/fetchSchedule', {
+    //   location: Robin.api.libraries.mann.locations.studyrooms
+    // })
   },
   async asyncData ({ app }) {
     // const mannLocId = Robin.api.libraries.mann.id
