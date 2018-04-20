@@ -5,9 +5,8 @@ export const state = () => ({
 })
 
 export const mutations = {
-  update (state, data) {
-    assign(state, data)
-  }
+  prime: (state, data) => data.forEach(d => (state[d] = {})),
+  update: (state, data) => assign(state, data)
 }
 
 export const actions = {
@@ -24,5 +23,6 @@ export const actions = {
 
       commit('update', schedule)
     }
-  }
+  },
+  primeSpaces: ({ commit }, spaces) => commit('prime', spaces)
 }
