@@ -20,7 +20,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
-import Robin from '~/utils/libcal.js'
+import Robin from '~/utils/libcal'
 import SpaceAvailability from '~/components/SpaceAvailability'
 
 export default {
@@ -47,17 +47,16 @@ export default {
       currentTime: state => moment(state.time.now).format('h[<span class="blink">:</span>]mm A')
     })
   },
-  async fetch ({ store, route }) {
-    console.log('fetcher', route)
-    await store.dispatch('spaces/primeSpaces', this.rooms)
-    // await store.dispatch('spaces/fetchSchedule', {
-    //   location: Robin.api.libraries.mann.locations.studyrooms
-    // })
+  async fetch ({ store, params }) {
+    // await store.dispatch('spaces/primeSpaces', this.rooms)
+    await store.dispatch('spaces/fetchSchedule', {
+      location: params.location,
+      category: params.category
+    })
   },
-  async asyncData ({ app }) {
-    // const mannLocId = Robin.api.libraries.mann.id
-    const closing = await Robin.closingTime(app.$axios)
-    const opening = await Robin.openingTime(app.$axios)
+  async asyncData ({ app, params }) {
+    const closing = await Robin.closingTime(app.$axios, params.location)
+    const opening = await Robin.openingTime(app.$axios, params.location)
     return {
       closing: closing,
       opening: opening

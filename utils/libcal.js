@@ -1,9 +1,7 @@
+import api from '~/utils/libcal-schema'
 import jsonpPromise from 'jsonp-promise'
 import { _ } from 'lodash'
 import moment from 'moment'
-
-const baseUrl = 'https://api2.libcal.com/'
-const baseUrlHours = 'https://api3.libcal.com/'
 
 // Set formatting strings for Moment's calendar method
 // http://momentjs.com/docs/#/customization/calendar
@@ -22,106 +20,6 @@ moment.updateLocale('en', {
 })
 
 const libCal = {
-  api: {
-    endpoints: {
-      auth: baseUrl + '1.1/oauth/token',
-      hours: baseUrlHours + 'api_hours_date.php?iid=973&format=json&nocache=1&lid=',
-      spaces: {
-        bookings: baseUrl + '1.1/space/bookings?lid='
-      }
-    },
-    desks: {
-      career: {
-        id: 7733,
-        description: [
-          'CALS student services'
-        ]
-      },
-      ciser: {
-        id: 3016,
-        description: []
-      },
-      cscu: {
-        id: 3017,
-        description: [
-          'statistical consulting'
-        ]
-      },
-      'cu-career': {
-        id: 7734,
-        description: [
-          'Graduate',
-          'Cornell Career Services'
-        ]
-      },
-      elso: {
-        id: 7701,
-        description: [
-          'english language support'
-        ]
-      },
-      gis: {
-        id: 2204,
-        description: []
-      },
-      gws: {
-        id: 3303,
-        description: [
-          'writing',
-          'grad',
-          'appt only'
-        ]
-      },
-      knight: {
-        id: 3018,
-        description: [
-          'writing',
-          'walk-in'
-        ]
-      },
-      rdmsg: {
-        id: 3302,
-        description: [
-          'research data management'
-        ]
-      },
-      reference: {
-        id: 1710,
-        description: []
-      }
-    },
-    libraries: {
-      mann: {
-        id: 1707,
-        locations: {
-          studyrooms: 3182
-        }
-      }
-    },
-    spaces: {
-      20087: {
-        room: 270,
-        category: {
-          id: 5395,
-          name: 'group study'
-        }
-      },
-      20088: {
-        room: 271,
-        category: {
-          id: 5396,
-          name: 'individual study'
-        }
-      },
-      20089: {
-        room: 272,
-        category: {
-          id: 5396,
-          name: 'individual study'
-        }
-      }
-    }
-  },
   timeFormat: 'h:mm a',
   alreadyClosed: function (hours) {
     if (hours === null) return false
@@ -136,7 +34,7 @@ const libCal = {
     // TODO: Handle sensitive LibCal oAuth (potentially via dotenv)
     // -- https://spaces.library.cornell.edu/admin_api.php?action=authentication
     // -- https://github.com/nuxt-community/dotenv-module
-    return axios.$post(libCal.api.endpoints.auth, {
+    return axios.$post(api.endpoints.auth, {
       client_id: 'changeMe',
       client_secret: 'changeMe',
       grant_type: 'client_credentials'
@@ -156,7 +54,7 @@ const libCal = {
     let schedule = {}
     bookings
       .forEach(b => {
-        let room = libCal.api.spaces[b.eid].room
+        let room = api.spaces[b.eid].room
         schedule[room] = {
           id: b.eid,
           name: room,
@@ -232,10 +130,10 @@ const libCal = {
   formatTime: function (date) {
     return moment(date).format(libCal.timeFormat)
   },
-  getHours: function (axios, desk, date, jsonp = false) {
+  getHours: function (axios, location, date, isDesk = false, jsonp = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
-    const locId = typeof desk === 'undefined' ? libCal.api.libraries.mann.id : libCal.api.desks[desk].id
-    const url = libCal.api.endpoints.hours + locId + requestDate
+    const locId = isDesk ? api.desks[location].id : api.locations[location].id
+    const url = api.endpoints.hours + locId + requestDate
 
     if (jsonp) {
       // If fetching updates from client, need to deal with JSONP
@@ -246,9 +144,13 @@ const libCal = {
       return axios.$get(url)
     }
   },
-  async getReservations (axios, location, date) {
-    const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
-    const url = libCal.api.endpoints.spaces.bookings + location + requestDate
+  async getReservations (axios, location, category = false, date = false) {
+    // console.log('history', location, '|', category)
+    const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
+    const scope = category ? 'cid=' + api.locations[location].categories[category] : 'lid=' + api.locations[location]
+    const url = api.endpoints.spaces.bookings + scope + requestDate
+
+    // console.log('where to?', url)
 
     let authorize = await libCal.authenticate(axios)
     axios.setHeader('Authorization', 'Bearer ' + authorize.access_token)
@@ -258,13 +160,13 @@ const libCal = {
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
   },
-  async nextOpening (axios, desk, jsonp = false) {
+  async nextOpening (axios, location, isDesk = false, jsonp = false) {
     var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await libCal.openingTime(axios, desk, libCal.formatDate(dateToCheck), jsonp)
+      var openingTime = await libCal.openingTime(axios, location, libCal.formatDate(dateToCheck), isDesk, jsonp)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -278,14 +180,14 @@ const libCal = {
 
     return bigWinner
   },
-  async hoursForDate (axios, desk, date, jsonp = false) {
-    let feed = await libCal.getHours(axios, desk, date, jsonp)
+  async hoursForDate (axios, location, date, isDesk = false, jsonp = false) {
+    let feed = await libCal.getHours(axios, location, date, isDesk, jsonp)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
 
     return hours
   },
-  async openingTime (axios, desk, date, jsonp = false) {
-    const hours = await libCal.hoursForDate(axios, desk, date, jsonp)
+  async openingTime (axios, location, date, isDesk = false, jsonp = false) {
+    const hours = await libCal.hoursForDate(axios, location, date, isDesk, jsonp)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
@@ -298,8 +200,8 @@ const libCal = {
 
     return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
-  async closingTime (axios, desk, date, jsonp = false) {
-    const hours = await libCal.hoursForDate(axios, desk, date, jsonp)
+  async closingTime (axios, location, date, isDesk = false, jsonp = false) {
+    const hours = await libCal.hoursForDate(axios, location, date, isDesk, jsonp)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 
@@ -311,7 +213,7 @@ const libCal = {
 
     return closingTime
   },
-  async openNow (axios, desk, libcalStatus, hours, jsonp = false) {
+  async openNow (axios, location, libcalStatus, hours, isDesk = false, jsonp = false) {
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
@@ -330,7 +232,7 @@ const libCal = {
       }
     }
 
-    let statusChange = await libCal.nextOpening(axios, desk, jsonp)
+    let statusChange = await libCal.nextOpening(axios, location, isDesk, jsonp)
 
     status.change = statusChange
 
