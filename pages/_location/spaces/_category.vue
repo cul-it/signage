@@ -10,8 +10,7 @@
         v-for="space in spaces"
         :key="space"
         :space="space"
-        :opening="opening"
-        :closing="closing"
+        :hours="hours"
       />
     </div>
   </div>
@@ -45,22 +44,21 @@ export default {
     ...mapState({
       currentDate: state => moment(state.time.now).format('ddd D'),
       currentTime: state => moment(state.time.now).format('h[<span class="blink">:</span>]mm A')
-    })
+    }),
+    hours () {
+      return this.$store.state.hours
+    }
   },
-  async fetch ({ store, params }) {
+  fetch: async ({ store, params }) => {
     await store.dispatch('spaces/primeSpaces', Robin.requestedSpaces(params.location, params.category))
+    await store.dispatch('hours/fetch', {
+      location: params.location,
+      jsonp: false
+    })
     await store.dispatch('spaces/fetchSchedule', {
       location: params.location,
       category: params.category
     })
-  },
-  async asyncData ({ app, params }) {
-    const closing = await Robin.closingTime(app.$axios, params.location)
-    const opening = await Robin.openingTime(app.$axios, params.location)
-    return {
-      closing: closing,
-      opening: opening
-    }
   }
 }
 </script>

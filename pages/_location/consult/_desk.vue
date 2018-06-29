@@ -2,10 +2,10 @@
   <div class="mann-consult">
     <h1 class="desk" :class="[desk, statusClass]">{{ desk.replace('-', ' ') }}</h1>
 
-    <p class="description" v-if="deskInfo.description">{{ deskInfo.description }}</p>
+    <p class="description" v-if="hours.description">{{ hours.description }}</p>
 
     <div class="status">
-      <span class="status__current" :class="this.deskInfo.status">{{ deskInfo.status }}</span> <span class="until knockout">until</span>
+      <span class="status__current" :class="hours.status">{{ hours.status }}</span> <span class="until knockout">until</span>
       <time class="status__change" v-html="relativeStatusChange"/>
     </div>
   </div>
@@ -33,27 +33,29 @@ export default {
     }
   },
   computed: {
-    deskInfo () {
-      return this.$store.state.consultDesk
+    hours () {
+      return this.$store.state.hours
     },
     relativeStatusChange () {
-      return Robin.formatFutureOpening(this.deskInfo.statusChange)
+      return Robin.formatFutureOpening(this.hours.statusChange)
     },
     statusClass () {
-      return 'status--' + this.deskInfo.status.replace(/\s/g, '-')
+      return 'status--' + this.hours.status.replace(/\s/g, '-')
     }
   },
   async fetch ({ store, params }) {
-    await store.dispatch('consultDesk/fetchStatus', {
-      desk: params.desk,
+    await store.dispatch('hours/fetch', {
+      location: params.desk,
+      desk: true,
       jsonp: false
     })
   },
   mounted () {
     // Update desk status every 30 seconds
     setInterval(() => {
-      this.$store.dispatch('consultDesk/fetchStatus', {
-        desk: this.$route.params.desk,
+      this.$store.dispatch('hours/fetch', {
+        location: this.$route.params.desk,
+        desk: true,
         jsonp: true
       })
     }, 1000 * 30)

@@ -21,7 +21,7 @@
         <span v-else>
           Available
         </span>
-        <span v-if="booking.lastUp" class="space__closing">until closing at {{ closingTime }}</span>
+        <span v-if="booking.lastUp" class="space__closing">until closing at {{ changeTime }}</span>
       </li>
     </ul>
   </div>
@@ -33,7 +33,7 @@ import Robin from '~/utils/libcal.js'
 export default {
   data () {
     return {
-      closingTime: Robin.formatTime(this.closing)
+      changeTime: Robin.formatTime(this.hours.statusChange)
     }
   },
   computed: {
@@ -42,8 +42,7 @@ export default {
     }
   },
   props: [
-    'closing',
-    'opening',
+    'hours',
     'space'
   ]
 }
