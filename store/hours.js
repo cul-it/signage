@@ -24,7 +24,7 @@ export const actions = {
 
       const libcalStatus = feed.locations[0].times.status
       const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
-      const status = await Robin.openNow(this.$axios, payload.location, libcalStatus, allHours, true, payload.jsonp)
+      const status = await Robin.openNow(this.$axios, payload.location, libcalStatus, allHours, isDesk, payload.jsonp)
 
       // Relabel status under certain circumstances
       let statusLabel = Robin.statusLabel(payload.location, status.current)

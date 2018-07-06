@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     spaceSchedule () {
-      return this.$store.state.spaces[this.space]
+      return this.$store.state.spaces[this.space].schedule
     }
   },
   props: [

@@ -11,40 +11,40 @@ export default {
   },
   desks: {
     career: {
-      id: 7733,
+      hoursId: 7733,
       description: [
         'CALS student services'
       ]
     },
     ciser: {
-      id: 3016,
+      hoursId: 3016,
       description: []
     },
     cscu: {
-      id: 3017,
+      hoursId: 3017,
       description: [
         'statistical consulting'
       ]
     },
     'cu-career': {
-      id: 7734,
+      hoursId: 7734,
       description: [
         'Graduate',
         'Cornell Career Services'
       ]
     },
     elso: {
-      id: 7701,
+      hoursId: 7701,
       description: [
         'english language support'
       ]
     },
     gis: {
-      id: 2204,
+      hoursId: 2204,
       description: []
     },
     gws: {
-      id: 3303,
+      hoursId: 3303,
       description: [
         'writing',
         'grad',
@@ -52,29 +52,30 @@ export default {
       ]
     },
     knight: {
-      id: 3018,
+      hoursId: 3018,
       description: [
         'writing',
         'walk-in'
       ]
     },
     rdmsg: {
-      id: 3302,
+      hoursId: 3302,
       description: [
         'research data management'
       ]
     },
     reference: {
-      id: 1710,
+      hoursId: 1710,
       description: []
     }
   },
   locations: {
     mann: {
-      id: 1707,
+      id: 96,
+      hoursId: 1707,
       categories: {
         studyrooms: {
-          id: 3182,
+          id: false,
           spaces: [
             {
               id: 20087,

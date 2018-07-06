@@ -32,11 +32,6 @@ export default {
       ]
     }
   },
-  data () {
-    return {
-      spaces: Robin.requestedSpaces(this.$route.params.location, this.$route.params.category)
-    }
-  },
   components: {
     SpaceAvailability: SpaceAvailability
   },
@@ -47,6 +42,9 @@ export default {
     }),
     hours () {
       return this.$store.state.hours
+    },
+    spaces () {
+      return Object.keys(this.$store.state.spaces)
     }
   },
   fetch: async ({ store, params }) => {
@@ -56,8 +54,7 @@ export default {
       jsonp: false
     })
     await store.dispatch('spaces/fetchSchedule', {
-      location: params.location,
-      category: params.category
+      location: params.location
     })
   }
 }

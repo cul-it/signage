@@ -50,14 +50,24 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
-  buildSchedule: (bookings, opening, closing) => {
+  buildSchedule: (bookings, location, spaces, opening, closing) => {
     let schedule = {}
     bookings
+      // Only include reservations for requested spaces
+      .filter(b => _.includes(spaces, b.eid))
+      // Add schedule object for each space
       .forEach(b => {
-        let room = api.spaces[b.eid].room
-        schedule[room] = {
+        console.log('id:', b.eid)
+
+        // Use room name from schema
+        // let room = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
+        let room = Object.entries(spaces).find(s => s[1].id === b.eid)
+
+        let name = typeof room === 'undefined' ? 'nick' : room[0]
+        console.log('bueller?', room)
+
+        schedule[name] = {
           id: b.eid,
-          name: room,
           schedule: libCal.bookingsYeah(bookings, b.eid, opening, closing)
         }
       })
@@ -67,7 +77,7 @@ const libCal = {
     const spacesInCategory = api.locations[location].categories[category].spaces
     let spaces = []
     spacesInCategory
-      .forEach(s => spaces.push(s.room))
+      .forEach(s => spaces.push({ 'id': s.id, 'name': s.room }))
     if (category === 'studyrooms') spaces.reverse()
     return spaces
   },
@@ -140,7 +150,7 @@ const libCal = {
   },
   getHours: function (axios, location, date, isDesk = false, jsonp = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
-    const locId = isDesk ? api.desks[location].id : api.locations[location].id
+    const locId = isDesk ? api.desks[location].hoursId : api.locations[location].hoursId
     const url = api.endpoints.hours + locId + requestDate
 
     if (jsonp) {
@@ -152,10 +162,9 @@ const libCal = {
       return axios.$get(url)
     }
   },
-  async getReservations (axios, location, category = false, date = false) {
-    // console.log('history', location, '|', category)
+  async getReservations (axios, location, date = false) {
     const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
-    const scope = category ? 'cid=' + api.locations[location].categories[category].id : 'lid=' + api.locations[location]
+    const scope = 'lid=' + api.locations[location].id
     const url = api.endpoints.spaces.bookings + scope + requestDate
 
     // console.log('where to?', url)
