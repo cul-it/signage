@@ -54,17 +54,14 @@ const libCal = {
     let schedule = {}
     bookings
       // Only include reservations for requested spaces
-      .filter(b => _.includes(spaces, b.eid))
+      .filter(b => _.includes(Object.values(spaces).map(s => s.id), b.eid))
       // Add schedule object for each space
       .forEach(b => {
-        console.log('id:', b.eid)
+        // console.log('include?', _.includes(Object.values(spaces).map(s => s.id), b.eid), '|', Object.values(spaces).map(s => s.id), '|', b.eid)
 
         // Use room name from schema
         // let room = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
-        let room = Object.entries(spaces).find(s => s[1].id === b.eid)
-
-        let name = typeof room === 'undefined' ? 'nick' : room[0]
-        console.log('bueller?', room)
+        let name = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
 
         schedule[name] = {
           id: b.eid,
