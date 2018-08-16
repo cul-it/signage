@@ -1,12 +1,9 @@
-const baseUrl = 'https://api2.libcal.com/'
-const baseUrlHours = 'https://api3.libcal.com/'
-
 export default {
   endpoints: {
-    auth: baseUrl + '1.1/oauth/token',
-    hours: baseUrlHours + 'api_hours_date.php?iid=973&format=json&nocache=1&lid=',
+    auth: 'libcal/1.1/oauth/token',
+    hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
     spaces: {
-      bookings: baseUrl + '1.1/space/bookings?'
+      bookings: 'libcal/1.1/space/bookings?'
     }
   },
   desks: {

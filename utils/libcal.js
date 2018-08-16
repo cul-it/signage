@@ -30,16 +30,6 @@ const libCal = {
 
     return moment().isSameOrAfter(lastClosing)
   },
-  authenticate: function (axios) {
-    // TODO: Handle sensitive LibCal oAuth (potentially via dotenv)
-    // -- https://spaces.library.cornell.edu/admin_api.php?action=authentication
-    // -- https://github.com/nuxt-community/dotenv-module
-    return axios.$post(api.endpoints.auth, {
-      client_id: 'changeMe',
-      client_secret: 'changeMe',
-      grant_type: 'client_credentials'
-    })
-  },
   availableSlot: function (start, end) {
     // QUESTION: Unique ID necessary for available slots?
     return {
@@ -166,8 +156,8 @@ const libCal = {
 
     // console.log('where to?', url)
 
-    let authorize = await libCal.authenticate(axios)
-    axios.setHeader('Authorization', 'Bearer ' + authorize.access_token)
+    let authorize = await axios.$post(api.endpoints.auth)
+    axios.setToken(authorize.access_token, 'Bearer')
 
     return axios.$get(url)
   },

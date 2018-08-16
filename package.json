@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.1.1",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
     "jsonp-promise": "^0.1.2",
     "lodash": "^4.17.4",
     "nuxt": "^1.4.0"
