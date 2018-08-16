@@ -11,6 +11,26 @@ const libcalApiPath = '/api/libcal/'
 const libcalHoursApi = 'https://api3.libcal.com'
 const libcalHoursApiPath = '/api/libcal-hours/'
 
+var restreamClientCreds = (proxyReq, req, res) => {
+  if (req.method === 'POST' && req.body) {
+    // Build object for POST request to obtain access token
+    let body = {
+      client_id: process.env.LIBCAL_CLIENT_ID,
+      client_secret: process.env.LIBCAL_CLIENT_SECRET,
+      grant_type: 'client_credentials'
+    }
+
+    body = JSON.stringify(body)
+
+    // Update headers
+    proxyReq.setHeader('Content-Type', 'application/json')
+    proxyReq.setHeader('Content-Length', Buffer.byteLength(body))
+
+    // Write new body to the proxyReq stream
+    proxyReq.write(body)
+  }
+}
+
 module.exports = {
   modules: [
     '@nuxtjs/axios'
@@ -28,25 +48,7 @@ module.exports = {
     [libcalApiPath]: {
       target: libcalApi,
       pathRewrite: { [`^${libcalApiPath}`]: '' },
-      onProxyReq: (proxyReq, req, res) => {
-        if (req.method === 'POST' && req.body) {
-          // Build object for POST request to obtain access token
-          let body = {
-            client_id: process.env.LIBCAL_CLIENT_ID,
-            client_secret: process.env.LIBCAL_CLIENT_SECRET,
-            grant_type: 'client_credentials'
-          }
-
-          body = JSON.stringify(body)
-
-          // Update headers
-          proxyReq.setHeader('Content-Type', 'application/json')
-          proxyReq.setHeader('Content-Length', Buffer.byteLength(body))
-
-          // Write new body to the proxyReq stream
-          proxyReq.write(body)
-        }
-      }
+      onProxyReq: restreamClientCreds
     },
     [libcalHoursApiPath]: {
       target: libcalHoursApi,
