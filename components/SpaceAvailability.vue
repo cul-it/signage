@@ -3,7 +3,11 @@
     <h1 class="space__number">{{ space }}</h1>
 
     <ul class="space__slot-list">
-      <li
+      <li v-if="hours.status === 'closed'" class="space__slot">
+        <span class="space__status--closed">{{ hours.status }}</span>
+        <span class="space__closing">until {{ relativeStatusChange }}</span>
+      </li>
+      <li v-else
         v-for="booking in spaceSchedule"
         :key="booking.bookId"
         :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
@@ -21,7 +25,7 @@
         <span v-else>
           Available
         </span>
-        <span v-if="booking.lastUp" class="space__closing">until closing at {{ changeTime }}</span>
+        <span v-if="booking.lastUp" class="space__closing">until closing at {{ relativeStatusChange }}</span>
       </li>
     </ul>
   </div>
@@ -31,14 +35,12 @@
 import Robin from '~/utils/libcal.js'
 
 export default {
-  data () {
-    return {
-      changeTime: Robin.formatTime(this.hours.statusChange)
-    }
-  },
   computed: {
     spaceSchedule () {
       return this.$store.state.spaces[this.space].schedule
+    },
+    relativeStatusChange () {
+      return Robin.formatStatusChange(this.hours.statusChange)
     }
   },
   props: [
@@ -79,6 +81,9 @@ export default {
   margin: 0;
   padding-left: 0;
   list-style-type: none;
+}
+.space__status--closed {
+  text-transform: capitalize;
 }
 .slot__start {
   position: absolute;

@@ -37,7 +37,7 @@ export default {
       return this.$store.state.hours
     },
     relativeStatusChange () {
-      return Robin.formatFutureOpening(this.hours.statusChange)
+      return Robin.formatStatusChange(this.hours.statusChange)
     },
     statusClass () {
       return 'status--' + this.hours.status.replace(/\s/g, '-')

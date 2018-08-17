@@ -126,11 +126,11 @@ const libCal = {
   earlyMorningClose: function (closing) {
     return moment(closing, libCal.timeFormat).isBefore(moment('6am', libCal.timeFormat)) ? closing.add(1, 'day') : closing
   },
-  formatFutureOpening: function (datetime) {
-    return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
-  },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
+  },
+  formatStatusChange: function (datetime) {
+    return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
   },
   formatTime: function (date) {
     return moment(date).format(libCal.timeFormat)
