@@ -1,5 +1,4 @@
 import api from '~/utils/libcal-schema'
-import jsonpPromise from 'jsonp-promise'
 import { _ } from 'lodash'
 import moment from 'moment'
 
@@ -135,19 +134,12 @@ const libCal = {
   formatTime: function (date) {
     return moment(date).format(libCal.timeFormat)
   },
-  getHours: function (axios, location, date, isDesk = false, jsonp = false) {
+  getHours: function (axios, location, date, isDesk = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
     const locId = isDesk ? api.desks[location].hoursId : api.locations[location].hoursId
     const url = api.endpoints.hours + locId + requestDate
 
-    if (jsonp) {
-      // If fetching updates from client, need to deal with JSONP
-      // -- LibCal doesn't set Access-Control-Allow-Origin header
-      return jsonpPromise(url).promise
-    } else {
-      // Non-issue when proxied through server on initial load (thanks Nuxt)
-      return axios.$get(url)
-    }
+    return axios.$get(url)
   },
   async getReservations (axios, location, date = false) {
     const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
@@ -164,13 +156,13 @@ const libCal = {
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
   },
-  async nextOpening (axios, location, isDesk = false, jsonp = false) {
+  async nextOpening (axios, location, isDesk = false) {
     var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await libCal.openingTime(axios, location, libCal.formatDate(dateToCheck), isDesk, jsonp)
+      var openingTime = await libCal.openingTime(axios, location, libCal.formatDate(dateToCheck), isDesk)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -184,14 +176,14 @@ const libCal = {
 
     return bigWinner
   },
-  async hoursForDate (axios, location, date, isDesk = false, jsonp = false) {
-    let feed = await libCal.getHours(axios, location, date, isDesk, jsonp)
+  async hoursForDate (axios, location, date, isDesk = false) {
+    let feed = await libCal.getHours(axios, location, date, isDesk)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
 
     return hours
   },
-  async openingTime (axios, location, date, isDesk = false, jsonp = false) {
-    const hours = await libCal.hoursForDate(axios, location, date, isDesk, jsonp)
+  async openingTime (axios, location, date, isDesk = false) {
+    const hours = await libCal.hoursForDate(axios, location, date, isDesk)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
@@ -204,8 +196,8 @@ const libCal = {
 
     return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
-  async closingTime (axios, location, date, isDesk = false, jsonp = false) {
-    const hours = await libCal.hoursForDate(axios, location, date, isDesk, jsonp)
+  async closingTime (axios, location, date, isDesk = false) {
+    const hours = await libCal.hoursForDate(axios, location, date, isDesk)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 
@@ -217,7 +209,7 @@ const libCal = {
 
     return closingTime
   },
-  async openNow (axios, location, libcalStatus, hours, isDesk = false, jsonp = false) {
+  async openNow (axios, location, libcalStatus, hours, isDesk = false) {
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
@@ -236,7 +228,7 @@ const libCal = {
       }
     }
 
-    let statusChange = await libCal.nextOpening(axios, location, isDesk, jsonp)
+    let statusChange = await libCal.nextOpening(axios, location, isDesk)
 
     status.change = statusChange
 

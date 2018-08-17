@@ -20,11 +20,11 @@ export const actions = {
     // -- d. the clock has struck midnight (we've crossed over to the next day)
     if (isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
       let isDesk = typeof payload.desk === 'undefined' ? false : payload.desk
-      let feed = await Robin.getHours(this.$axios, payload.location, undefined, isDesk, payload.jsonp)
+      let feed = await Robin.getHours(this.$axios, payload.location, undefined, isDesk)
 
       const libcalStatus = feed.locations[0].times.status
       const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
-      const status = await Robin.openNow(this.$axios, payload.location, libcalStatus, allHours, isDesk, payload.jsonp)
+      const status = await Robin.openNow(this.$axios, payload.location, libcalStatus, allHours, isDesk)
 
       // Relabel status under certain circumstances
       let statusLabel = Robin.statusLabel(payload.location, status.current)

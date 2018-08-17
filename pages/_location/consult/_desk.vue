@@ -46,8 +46,7 @@ export default {
   async fetch ({ store, params }) {
     await store.dispatch('hours/fetch', {
       location: params.desk,
-      desk: true,
-      jsonp: false
+      desk: true
     })
   },
   mounted () {
@@ -55,8 +54,7 @@ export default {
     setInterval(() => {
       this.$store.dispatch('hours/fetch', {
         location: this.$route.params.desk,
-        desk: true,
-        jsonp: true
+        desk: true
       })
     }, 1000 * 30)
   }
