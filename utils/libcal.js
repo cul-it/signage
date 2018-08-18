@@ -1,5 +1,5 @@
 import api from '~/utils/libcal-schema'
-import { _ } from 'lodash'
+import _ from 'lodash'
 import moment from 'moment'
 
 // Set formatting strings for Moment's calendar method
