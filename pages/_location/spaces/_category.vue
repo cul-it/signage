@@ -55,6 +55,28 @@ export default {
     await store.dispatch('spaces/fetchSchedule', {
       location: params.location
     })
+  },
+  mounted () {
+    // Sync current time every 10 seconds
+    // -- ideally, this would happen within the store itself (as part of the action),
+    // -- but encountered a bug when attempting this via Nuxt. No issue in vanilla Vue.
+    setInterval(() => {
+      this.$store.dispatch('time/sync')
+    }, 1000 * 10)
+
+    // Update hours every 30 seconds
+    setInterval(() => {
+      this.$store.dispatch('hours/fetch', {
+        location: this.$route.params.location
+      })
+    }, 1000 * 30)
+
+    // Check for reservation changes every minute
+    setInterval(() => {
+      this.$store.dispatch('spaces/fetchSchedule', {
+        location: this.$route.params.location
+      })
+    }, 1000 * 60)
   }
 }
 </script>
