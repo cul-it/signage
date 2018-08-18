@@ -57,6 +57,20 @@ const libCal = {
           schedule: libCal.bookingsYeah(bookings, b.eid, opening, closing)
         }
       })
+
+    // Insert 'available until closing' slot for any space with empty schedule
+    Object.keys(spaces).forEach(s => {
+      if (typeof schedule[s] === 'undefined') {
+        const availableTilClose = libCal.availableSlot(opening, closing)
+        availableTilClose.lastUp = true
+
+        schedule[s] = {
+          id: spaces[s].id,
+          schedule: [availableTilClose]
+        }
+      }
+    })
+
     return schedule
   },
   requestedSpaces: (location, category) => {
