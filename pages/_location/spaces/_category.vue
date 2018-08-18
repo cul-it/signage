@@ -13,6 +13,8 @@
         :hours="hours"
       />
     </div>
+
+    <a class="reserve-link" href="http://mannlib.cornell.edu/reserve">mannlib.cornell.edu/reserve</a>
   </div>
 </template>
 
@@ -117,5 +119,15 @@ export default {
     float: right;
     font-weight: 100;
   }
+}
+.reserve-link {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: .25em;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 2em;
 }
 </style>
