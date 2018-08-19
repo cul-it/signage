@@ -2,6 +2,11 @@
   <div class="space">
     <h1 class="space__number">{{ space }}</h1>
 
+    <!-- TODO: Refactor logic for FA icons -->
+    <i class="fas space__type" aria-hidden="true"
+      :class="{ 'fa-users': space == 270, 'fa-user': space != 270 }"
+    ></i>
+
     <ul class="space__slot-list">
       <li v-if="hours.status === 'closed'" class="space__slot">
         <span class="space__status--closed">{{ hours.status }}</span>
@@ -84,6 +89,14 @@ export default {
 }
 .space__status--closed {
   text-transform: capitalize;
+}
+.space__type {
+  position: absolute;
+  margin-left: -.63em;
+  line-height: .3em;
+  font-size: 2.6em;
+  color: #657c8a;
+  z-index: 10000;
 }
 .slot__start {
   position: absolute;
