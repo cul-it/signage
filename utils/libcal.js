@@ -232,7 +232,10 @@ const libCal = {
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
-        return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), moment(hoursBlock.to, libCal.timeFormat), null, []))
+        // Account for early morning closings the following day
+        // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
+        const closingTime = libCal.earlyMorningClose(moment(hoursBlock.to, libCal.timeFormat))
+        return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), closingTime, null, []))
       })
 
       if (isOpen !== undefined) {
