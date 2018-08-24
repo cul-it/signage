@@ -14,7 +14,7 @@
       />
     </div>
 
-    <a class="reserve-link" href="http://mannlib.cornell.edu/reserve">mannlib.cornell.edu/reserve</a>
+    <a class="reserve-link" href="https://mannlib.cornell.edu/reserve">mannlib.cornell.edu/reserve</a>
   </div>
 </template>
 
