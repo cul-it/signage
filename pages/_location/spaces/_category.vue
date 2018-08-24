@@ -87,9 +87,11 @@ export default {
 </script>
 
 <style lang="scss">
-// TODO: DRY util styles
+// TODO: DRY util styles & variables
 // -- Most likely via nuxt-sass-resources-loader
 // -- https://github.com/anteriovieira/nuxt-sass-resources-loader
+$sf: 1.43vw;
+
 .blink {
   animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
 }
@@ -111,7 +113,7 @@ export default {
     grid-template-columns: 1fr 1fr 1fr;
   }
   &__datetime {
-    font-size: 2.1em;
+    font-size: 1.8 * $sf;
   }
   &__date {
     float: left;
@@ -131,6 +133,6 @@ export default {
   text-align: center;
   color: #fff;
   text-decoration: none;
-  font-size: 2em;
+  font-size: 1.6 * $sf;
 }
 </style>

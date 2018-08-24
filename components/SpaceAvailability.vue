@@ -56,24 +56,28 @@ export default {
 </script>
 
 <style lang="scss">
+// TODO: Revisit font scaling and pull variables into global include (DRY)
+$sf: 1.43vw;
+
 .space {
   text-align: center;
 }
 .space__closing {
   display: block;
   color: #fff;
-  font-size: .5em;
+  font-size: 1 * $sf;
   font-weight: 100;
 }
 .space__number {
   margin: 0;
-  font-size: 6em;
+  font-size: 4 * $sf;
+  line-height: .7em;
 }
 .space__slot {
   position: relative;
   margin: .4em 0;
   padding: .5em;
-  font-size: 2em;
+  font-size: 2 * $sf;
   color: #d93663;
   border-radius: .3em;
   background: #192639;
@@ -92,18 +96,23 @@ export default {
 }
 .space__type {
   position: absolute;
-  margin-left: -.63em;
-  line-height: .3em;
-  font-size: 2.6em;
+  margin-left: -.43em;
+  line-height: 1.4em;
+  font-size: 1.6 * $sf;
   color: #657c8a;
   z-index: 10000;
+}
+.fa-users {
+  margin-left: -.63em;
+  line-height: 1.2em;
+  font-size: 1.9 * $sf;
 }
 .slot__start {
   position: absolute;
   left: 5px;
   color: #fff;
   display: flex;
-  font-size: 1.1em;
+  font-size: 2.2 * $sf;
 }
 .start__stack {
   margin-top: .1em;
