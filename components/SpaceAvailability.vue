@@ -66,7 +66,6 @@ $sf: 1.43vw;
   display: block;
   color: #fff;
   font-size: 1 * $sf;
-  font-weight: 100;
 }
 .space__number {
   margin: 0;

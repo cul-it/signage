@@ -122,7 +122,6 @@ $sf: 1.43vw;
   }
   &__time {
     float: right;
-    font-weight: 100;
   }
 }
 .reserve-link {
