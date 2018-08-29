@@ -143,7 +143,8 @@ const libCal = {
     return moment(date).format('Y-MM-DD')
   },
   formatStatusChange: function (datetime) {
-    return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
+    const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
+    return statusChange === '12:00 am' ? 'Midnight' : statusChange
   },
   formatTime: function (date) {
     return moment(date).format(libCal.timeFormat)
