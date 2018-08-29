@@ -2,6 +2,7 @@
   <div class="spaces">
     <header class="spaces__datetime">
       <time class="spaces__date">{{ currentDate }}</time>
+      <a class="spaces__reserve-link" href="https://mannlib.cornell.edu/reserve">mannlib.cornell.edu/reserve</a>
       <time class="spaces__time" v-html="currentTime"/>
     </header>
 
@@ -13,8 +14,6 @@
         :hours="hours"
       />
     </div>
-
-    <a class="reserve-link" href="https://mannlib.cornell.edu/reserve">mannlib.cornell.edu/reserve</a>
   </div>
 </template>
 
@@ -111,27 +110,24 @@ $sf: 1.43vw;
     clear: both;
     grid-column-gap: 1.5rem;
     grid-template-columns: 1fr 1fr 1fr;
+    padding-top: 2.5em;
   }
   &__datetime {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
     font-size: 1.8 * $sf;
   }
   &__date {
-    float: left;
-    font-weight: 700;
     text-transform: uppercase;
   }
-  &__time {
-    float: right;
+  &__reserve-link {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: .9em
   }
-}
-.reserve-link {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding-bottom: .25em;
-  text-align: center;
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.6 * $sf;
+  &__time {
+    text-align: right;
+  }
 }
 </style>
