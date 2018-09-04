@@ -92,6 +92,8 @@ const libCal = {
           confirmed &&
           whileOpen
       })
+      // Sort by start time
+      .sortBy('fromDate')
       // Fill gaps between & pad bookings with available slots
       .flatMap(function (booking, index, allBookings) {
         const paddedBooking = [booking]
