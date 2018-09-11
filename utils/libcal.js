@@ -1,6 +1,7 @@
 import api from '~/utils/libcal-schema'
 import _ from 'lodash'
 import moment from 'moment'
+import uniqueString from 'unique-string'
 
 // Set formatting strings for Moment's calendar method
 // http://momentjs.com/docs/#/customization/calendar
@@ -30,9 +31,8 @@ const libCal = {
     return moment().isSameOrAfter(lastClosing)
   },
   availableSlot: function (start, end) {
-    // QUESTION: Unique ID necessary for available slots?
     return {
-      bookId: 'avail_randomString',
+      bookId: 'avail_' + uniqueString(),
       fromDate: start,
       toDate: end,
       isAvailable: true,
