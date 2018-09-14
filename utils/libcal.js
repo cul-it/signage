@@ -60,7 +60,7 @@ const libCal = {
 
     // Insert 'available until closing' slot for any space with empty schedule
     Object.keys(spaces).forEach(s => {
-      if (typeof schedule[s] === 'undefined') {
+      if (typeof schedule[s] === 'undefined' || !schedule[s].schedule.length) {
         const availableTilClose = libCal.availableSlot(opening, closing)
         availableTilClose.lastUp = true
 
