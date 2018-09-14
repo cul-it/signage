@@ -46,15 +46,12 @@ const libCal = {
       .filter(b => _.includes(Object.values(spaces).map(s => s.id), b.eid))
       // Add schedule object for each space
       .forEach(b => {
-        // console.log('include?', _.includes(Object.values(spaces).map(s => s.id), b.eid), '|', Object.values(spaces).map(s => s.id), '|', b.eid)
-
         // Use room name from schema
-        // let room = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
         let name = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
 
         schedule[name] = {
           id: b.eid,
-          schedule: libCal.bookingsYeah(bookings, b.eid, opening, closing)
+          schedule: libCal.bookingsParser(bookings, b.eid, opening, closing)
         }
       })
 
@@ -81,7 +78,7 @@ const libCal = {
     if (category === 'studyrooms') spaces.reverse()
     return spaces
   },
-  bookingsYeah: function (bookings, room, openingTime, closingTime) {
+  bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
       // Filter bookings by room, status(confirmed), and while open
       .filter(function (booking, index, allBookings) {
@@ -134,8 +131,6 @@ const libCal = {
       })
       .value()
 
-    // console.log('----------------\nALL THE THINGS!\n----------------\n', roomAvailability)
-
     return roomAvailability
   },
   earlyMorningClose: function (closing) {
@@ -162,8 +157,6 @@ const libCal = {
     const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
     const scope = 'lid=' + api.locations[location].id
     const url = api.endpoints.spaces.bookings + scope + requestDate
-
-    // console.log('where to?', url)
 
     let authorize = await axios.$post(api.endpoints.auth)
     axios.setToken(authorize.access_token, 'Bearer')
