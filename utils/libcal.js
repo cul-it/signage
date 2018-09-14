@@ -1,7 +1,7 @@
+import api from '~/utils/libcal-schema'
+import _ from 'lodash'
 import moment from 'moment'
-import jsonpPromise from 'jsonp-promise'
-
-const baseUrl = 'https://api3.libcal.com/'
+import uniqueString from 'unique-string'
 
 // Set formatting strings for Moment's calendar method
 // http://momentjs.com/docs/#/customization/calendar
@@ -19,113 +19,163 @@ moment.updateLocale('en', {
   }
 })
 
-export default {
-  api: {
-    endpoints: {
-      hours: baseUrl + 'api_hours_date.php?iid=973&format=json&nocache=1&lid='
-    },
-    desks: {
-      career: {
-        id: 7733,
-        description: [
-          'CALS student services'
-        ]
-      },
-      ciser: {
-        id: 3016,
-        description: []
-      },
-      cscu: {
-        id: 3017,
-        description: [
-          'statistical consulting'
-        ]
-      },
-      'cu-career': {
-        id: 7734,
-        description: [
-          'Graduate',
-          'Cornell Career Services'
-        ]
-      },
-      elso: {
-        id: 7701,
-        description: [
-          'english language support'
-        ]
-      },
-      gis: {
-        id: 2204,
-        description: []
-      },
-      gws: {
-        id: 3303,
-        description: [
-          'writing',
-          'grad',
-          'appt only'
-        ]
-      },
-      knight: {
-        id: 3018,
-        description: [
-          'writing',
-          'walk-in'
-        ]
-      },
-      rdmsg: {
-        id: 3302,
-        description: [
-          'research data management'
-        ]
-      },
-      reference: {
-        id: 1710,
-        description: []
-      }
-    }
-  },
+const libCal = {
   timeFormat: 'h:mm a',
   alreadyClosed: function (hours) {
     if (hours === null) return false
     // If multiple openings/closings, compare against last one for the day
-    const lastClosing = hours.pop().to
+    let lastClosing = moment(hours.pop().to, libCal.timeFormat)
 
-    return moment().isSameOrAfter(moment(lastClosing, this.timeFormat))
+    lastClosing = libCal.earlyMorningClose(lastClosing)
+
+    return moment().isSameOrAfter(lastClosing)
   },
-  formatFutureOpening: function (datetime) {
-    return datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
+  availableSlot: function (start, end) {
+    return {
+      bookId: 'avail_' + uniqueString(),
+      fromDate: start,
+      toDate: end,
+      isAvailable: true,
+      startTime: libCal.parseDate(start)
+    }
+  },
+  buildSchedule: (bookings, location, spaces, opening, closing) => {
+    let schedule = {}
+    bookings
+      // Only include reservations for requested spaces
+      .filter(b => _.includes(Object.values(spaces).map(s => s.id), b.eid))
+      // Add schedule object for each space
+      .forEach(b => {
+        // Use room name from schema
+        let name = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
+
+        schedule[name] = {
+          id: b.eid,
+          schedule: libCal.bookingsParser(bookings, b.eid, opening, closing)
+        }
+      })
+
+    // Insert 'available until closing' slot for any space with empty schedule
+    Object.keys(spaces).forEach(s => {
+      if (typeof schedule[s] === 'undefined' || !schedule[s].schedule.length) {
+        const availableTilClose = libCal.availableSlot(opening, closing)
+        availableTilClose.lastUp = true
+
+        schedule[s] = {
+          id: spaces[s].id,
+          schedule: [availableTilClose]
+        }
+      }
+    })
+
+    return schedule
+  },
+  requestedSpaces: (location, category) => {
+    const spacesInCategory = api.locations[location].categories[category].spaces
+    let spaces = []
+    spacesInCategory
+      .forEach(s => spaces.push({ 'id': s.id, 'name': s.room }))
+    if (category === 'studyrooms') spaces.reverse()
+    return spaces
+  },
+  bookingsParser: function (bookings, room, openingTime, closingTime) {
+    const roomAvailability = _(bookings)
+      // Filter bookings by room, status(confirmed), and while open
+      .filter(function (booking, index, allBookings) {
+        const confirmed = booking.status === 'Confirmed'
+        const thisRoom = booking.eid === room
+        const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
+        return thisRoom &&
+          confirmed &&
+          whileOpen
+      })
+      // Sort by start time
+      .sortBy('fromDate')
+      // Fill gaps between & pad bookings with available slots
+      .flatMap(function (booking, index, allBookings) {
+        const paddedBooking = [booking]
+        const prevIndex = index - 1
+        booking.startTime = libCal.parseDate(booking.fromDate)
+
+        // If first booking & starts after opening, pad before
+        if (index === 0 &&
+          moment(booking.fromDate).isAfter(openingTime)
+        ) {
+          const availableNow = libCal.availableSlot(openingTime, booking.fromDate)
+          paddedBooking.splice(0, 0, availableNow)
+        }
+        // If not back-to-back with previous booking, pad before (aka between)
+        if (prevIndex > -1 &&
+          !moment(booking.fromDate).isSame(allBookings[prevIndex].toDate)
+        ) {
+          const availableSlot = libCal.availableSlot(allBookings[prevIndex].toDate, booking.fromDate)
+          paddedBooking.splice(0, 0, availableSlot)
+        }
+        // If final booking...
+        if (index + 1 === allBookings.length) {
+          // Pad after if it falls short of closing
+          if (moment(booking.toDate).isBefore(moment(closingTime))) {
+            const availableTilClose = libCal.availableSlot(booking.toDate, closingTime)
+            availableTilClose.lastUp = true
+            paddedBooking.push(availableTilClose)
+          // Otherwise, mark it as running through to closing
+          } else {
+            booking.lastUp = true
+          }
+        }
+        return paddedBooking
+      })
+      // Now filter out past bookings
+      .filter(function (booking, index, allBookings) {
+        return moment().isSameOrBefore(booking.toDate)
+      })
+      .value()
+
+    return roomAvailability
+  },
+  earlyMorningClose: function (closing) {
+    return moment(closing, libCal.timeFormat).isBefore(moment('6am', libCal.timeFormat)) ? closing.add(1, 'day') : closing
   },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
-  getHours: function (axios, desk, date, jsonp = false) {
-    const requestDate = typeof date === 'undefined' ? '' : '&date=' + this.formatDate(date)
-    const url = this.api.endpoints.hours + this.api.desks[desk].id + requestDate
+  formatStatusChange: function (datetime) {
+    const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
+    return statusChange === '12:00 am' ? 'Midnight' : statusChange
+  },
+  formatTime: function (date) {
+    return moment(date).format(libCal.timeFormat)
+  },
+  getHours: function (axios, location, date, isDesk = false) {
+    const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
+    const locId = isDesk ? api.desks[location].hoursId : api.locations[location].hoursId
+    const url = api.endpoints.hours + locId + requestDate
 
-    if (jsonp) {
-      // If fetching updates from client, need to deal with JSONP
-      // -- LibCal doesn't set Access-Control-Allow-Origin header
-      return jsonpPromise(url).promise
-    } else {
-      // Non-issue when proxied through server on initial load (thanks Nuxt)
-      return axios.$get(url)
-    }
+    return axios.$get(url)
+  },
+  async getReservations (axios, location, date = false) {
+    const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
+    const scope = 'lid=' + api.locations[location].id
+    const url = api.endpoints.spaces.bookings + scope + requestDate
+
+    let authorize = await axios.$post(api.endpoints.auth)
+    axios.setToken(authorize.access_token, 'Bearer')
+
+    return axios.$get(url)
   },
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
   },
-  async nextOpening (axios, desk, jsonp = false) {
+  async nextOpening (axios, location, isDesk = false) {
     var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await this.openingTime(axios, desk, this.formatDate(dateToCheck), jsonp)
+      var openingTime = await libCal.openingTime(axios, location, libCal.formatDate(dateToCheck), isDesk)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
-        openingTime = moment(openingTime, this.timeFormat)
         bigWinner = dateToCheck.set({
           'hour': openingTime.get('hour'),
           'minute': openingTime.get('minute')
@@ -136,22 +186,40 @@ export default {
 
     return bigWinner
   },
-  async openingTime (axios, desk, date, jsonp = false) {
-    let feed = await this.getHours(axios, desk, date, jsonp)
+  async hoursForDate (axios, location, date, isDesk = false) {
+    let feed = await libCal.getHours(axios, location, date, isDesk)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+
+    return hours
+  },
+  async openingTime (axios, location, date, isDesk = false) {
+    const hours = await libCal.hoursForDate(axios, location, date, isDesk)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
     const hoursClone = hours !== null ? hours.slice(0) : null
 
     // If dealing with today, ensure we're not already closed
-    if (moment().isSame(moment(date), 'd') && this.alreadyClosed(hoursClone)) {
+    if (moment().isSame(moment(date), 'd') && libCal.alreadyClosed(hoursClone)) {
       return null
     }
 
-    return hours !== null ? hours[0].from : null
+    return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
-  async openNow (axios, desk, libcalStatus, hours, jsonp = false) {
+  async closingTime (axios, location, date, isDesk = false) {
+    const hours = await libCal.hoursForDate(axios, location, date, isDesk)
+
+    let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
+
+    if (closingTime) {
+      // Account for early morning closings the following day
+      // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
+      closingTime = libCal.earlyMorningClose(closingTime)
+    }
+
+    return closingTime
+  },
+  async openNow (axios, location, libcalStatus, hours, isDesk = false) {
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
@@ -160,17 +228,20 @@ export default {
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
-        return (moment().isBetween(moment(hoursBlock.from, this.timeFormat), moment(hoursBlock.to, this.timeFormat), null, []))
+        // Account for early morning closings the following day
+        // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
+        const closingTime = libCal.earlyMorningClose(moment(hoursBlock.to, libCal.timeFormat))
+        return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), closingTime, null, []))
       })
 
       if (isOpen !== undefined) {
         status.current = 'open'
-        status.change = moment(isOpen.to, this.timeFormat)
+        status.change = moment(isOpen.to, libCal.timeFormat)
         return status
       }
     }
 
-    let statusChange = await this.nextOpening(axios, desk, jsonp)
+    let statusChange = await libCal.nextOpening(axios, location, isDesk)
 
     status.change = statusChange
 
@@ -179,6 +250,14 @@ export default {
     }
 
     return status
+  },
+  parseDate: function (date) {
+    let startDate = moment(date)
+    let startTime = {}
+    startTime.hour = startDate.format('h')
+    startTime.minute = startDate.format('mm')
+    startTime.meridiem = startDate.format('a')
+    return startTime
   },
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))
@@ -203,3 +282,5 @@ export default {
     return status
   }
 }
+
+export default libCal
