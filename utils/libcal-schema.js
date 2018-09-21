@@ -3,7 +3,7 @@ export default {
     auth: 'libcal/1.1/oauth/token',
     hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
     spaces: {
-      bookings: 'libcal/1.1/space/bookings?limit=100'
+      bookings: 'libcal/1.1/space/bookings?limit=100&'
     }
   },
   desks: {
