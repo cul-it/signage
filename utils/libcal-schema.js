@@ -71,6 +71,16 @@ export default {
       id: 96,
       hoursId: 1707,
       categories: {
+        'multimedia': {
+          id: false,
+          spaces: [
+            {
+              category: 8958,
+              id: 33374,
+              room: 'Multimedia Studio'
+            }
+          ]
+        },
         studyrooms: {
           id: false,
           spaces: [
