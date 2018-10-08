@@ -89,6 +89,21 @@ export default {
           ]
         }
       }
+    },
+    mannufactory: {
+      id: 96,
+      hoursId: 8658,
+      categories: {
+        multimedia: {
+          id: false,
+          spaces: [
+            {
+              id: 33374,
+              room: 'Multimedia Studio'
+            }
+          ]
+        }
+      }
     }
   }
 }
