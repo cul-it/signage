@@ -71,16 +71,6 @@ export default {
       id: 96,
       hoursId: 1707,
       categories: {
-        'multimedia': {
-          id: false,
-          spaces: [
-            {
-              category: 8958,
-              id: 33374,
-              room: 'Multimedia Studio'
-            }
-          ]
-        },
         studyrooms: {
           id: false,
           spaces: [
@@ -95,6 +85,21 @@ export default {
             {
               id: 20089,
               room: 272
+            }
+          ]
+        }
+      }
+    },
+    mannufactory: {
+      id: 96,
+      hoursId: 8658,
+      categories: {
+        multimedia: {
+          id: false,
+          spaces: [
+            {
+              id: 33374,
+              room: 'Multimedia Studio'
             }
           ]
         }
