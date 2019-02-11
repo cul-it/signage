@@ -26,8 +26,8 @@ import SpaceAvailability from '~/components/SpaceAvailability'
 export default {
   head () {
     return {
-      title: 'Reservable Study Rooms',
-      titleTemplate: '%s - Mann Library',
+      title: this.capitalize(this.$route.params.category),
+      titleTemplate: this.capitalize(this.$route.params.location) + ' - %s',
       link: [
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:100,400,700' },
         // TODO: Use packages for officiaal Vue.js component
@@ -59,6 +59,11 @@ export default {
     await store.dispatch('spaces/fetchSchedule', {
       location: params.location
     })
+  },
+  methods: {
+    capitalize (string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    }
   },
   mounted () {
     // Sync current time every 10 seconds
