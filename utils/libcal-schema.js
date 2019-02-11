@@ -70,6 +70,7 @@ export default {
     mann: {
       id: 96,
       hoursId: 1707,
+      url: 'https://mannlib.cornell.edu/reserve',
       categories: {
         studyrooms: {
           id: false,

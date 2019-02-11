@@ -262,6 +262,9 @@ const libCal = {
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))
   },
+  reserveUrl: function (location) {
+    return api.locations[location].url || null
+  },
   staleCache: function (lastUpdated) {
     // Cache LibCal API response for at least 2 minutes
     // -- test float against 1.9 to account for synchronous calls

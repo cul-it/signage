@@ -2,7 +2,7 @@
   <div class="spaces">
     <header class="spaces__datetime">
       <time class="spaces__date">{{ currentDate }}</time>
-      <a class="spaces__reserve-link" href="https://mannlib.cornell.edu/reserve">mannlib.cornell.edu/reserve</a>
+      <a v-if="url" class="spaces__reserve-link" :href="url">{{ urlClean }}</a>
       <time class="spaces__time" v-html="currentTime"/>
     </header>
 
@@ -49,6 +49,12 @@ export default {
     },
     spaces () {
       return Object.keys(this.$store.state.spaces)
+    },
+    url () {
+      return Robin.reserveUrl(this.$route.params.location)
+    },
+    urlClean () {
+      return this.url.replace(/(^\w+:|^)\/\//, '')
     }
   },
   fetch: async ({ store, params }) => {
