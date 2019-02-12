@@ -6,7 +6,7 @@
       <time class="spaces__time" v-html="currentTime"/>
     </header>
 
-    <div class="spaces__availability">
+    <div :class="'spaces__availability col-' + spaces.length">
       <space-availability
         v-for="space in spaces"
         :key="space"
@@ -100,7 +100,31 @@ export default {
 // TODO: DRY util styles & variables
 // -- Most likely via nuxt-sass-resources-loader
 // -- https://github.com/anteriovieira/nuxt-sass-resources-loader
+$columns: 4;
 $sf: 1.43vw;
+
+// Repeat function inspired by native CSS repeat & incomparable Miriam Suzanne
+// -- https://developer.mozilla.org/en-US/docs/Web/CSS/repeat
+// -- https://oddbird.net/susy/docs/config.html#function--susy-repeat
+@function cul-repeat($count, $value: 1) {
+  $return: ();
+
+  @for $i from 1 through $count {
+    $return: join($return, $value);
+  }
+
+  @return $return;
+}
+// TODO: Revisit max number of columns/spaces supported for css-grid
+// Determine column numbers based on spaces count
+// -- currently support up to 4 columns via $columns variable (see above)
+@mixin gen-columns {
+  @for $i from 1 through $columns {
+    &.col-#{$i} {
+      grid-template-columns: cul-repeat($i, 1fr);
+    }
+  }
+}
 
 .blink {
   animation: blinker infinite cubic-bezier(1.0,0,0,1.0) 1s;
@@ -120,8 +144,9 @@ $sf: 1.43vw;
     display: grid;
     clear: both;
     grid-column-gap: 1.5rem;
-    grid-template-columns: 1fr 1fr 1fr;
     padding-top: 2.5em;
+
+    @include gen-columns;
   }
   &__datetime {
     display: grid;
