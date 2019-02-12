@@ -2,9 +2,8 @@
   <div class="space">
     <h1 class="space__number">{{ space }}</h1>
 
-    <!-- TODO: Refactor logic for FA icons -->
-    <i class="fas space__type" aria-hidden="true"
-      :class="{ 'fa-users': space == 270, 'fa-user': space != 270 }"
+    <i v-if="capacity" class="fas space__type" aria-hidden="true"
+      :class="{ 'fa-users': capacity === 'group', 'fa-user': capacity === 'individual' }"
     ></i>
 
     <ul class="space__slot-list">
@@ -41,6 +40,9 @@ import Robin from '~/utils/libcal.js'
 
 export default {
   computed: {
+    capacity () {
+      return this.$store.state.spaces[this.space].capacity || null
+    },
     spaceSchedule () {
       return this.$store.state.spaces[this.space].schedule
     },
