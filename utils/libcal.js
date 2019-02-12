@@ -51,6 +51,7 @@ const libCal = {
 
         schedule[name] = {
           id: b.eid,
+          capacity: spaces[name].capacity,
           schedule: libCal.bookingsParser(bookings, b.eid, opening, closing)
         }
       })
@@ -63,6 +64,7 @@ const libCal = {
 
         schedule[s] = {
           id: spaces[s].id,
+          capacity: spaces[s].capacity,
           schedule: [availableTilClose]
         }
       }
@@ -74,7 +76,7 @@ const libCal = {
     const spacesInCategory = api.locations[location].categories[category].spaces
     let spaces = []
     spacesInCategory
-      .forEach(s => spaces.push({ 'id': s.id, 'name': s.room }))
+      .forEach(s => spaces.push({ 'id': s.id, 'name': s.room, 'capacity': s.capacity }))
     if (category === 'studyrooms') spaces.reverse()
     return spaces
   },
@@ -261,6 +263,9 @@ const libCal = {
   },
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))
+  },
+  reserveUrl: function (location) {
+    return api.locations[location].url || null
   },
   staleCache: function (lastUpdated) {
     // Cache LibCal API response for at least 2 minutes
