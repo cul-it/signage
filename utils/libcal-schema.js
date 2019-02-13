@@ -85,6 +85,24 @@ export default {
             }
           ]
         },
+        interview: {
+          id: false,
+          spaces: [
+            {
+              id: 18635,
+              room: 'Interview Room'
+            }
+          ]
+        },
+        room261: {
+          id: false,
+          spaces: [
+            {
+              id: 18632,
+              room: 'Group Room 261'
+            }
+          ]
+        },
         studyrooms: {
           id: false,
           spaces: [
