@@ -110,6 +110,7 @@ $sf: 1.43vw;
 }
 .slot__start {
   position: absolute;
+  top: 23%;
   left: 5px;
   color: #fff;
   display: flex;
