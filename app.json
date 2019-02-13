@@ -1,0 +1,39 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "HOST": {
+      "required": true
+    },
+    "LIBCAL_CLIENT_ID": {
+      "required": true
+    },
+    "LIBCAL_CLIENT_SECRET": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    },
+    "TZ": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "signage",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
