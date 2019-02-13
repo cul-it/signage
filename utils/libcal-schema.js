@@ -108,6 +108,23 @@ export default {
           ]
         }
       }
+    },
+    olin: {
+      id: 528,
+      hoursId: 2818,
+      // TODO: Allow for URL at category level to override location?
+      url: 'https://spaces.library.cornell.edu/reserve/olincolab',
+      categories: {
+        colab: {
+          id: false,
+          spaces: [
+            {
+              id: 42377,
+              room: 'Olin CoLab'
+            }
+          ]
+        }
+      }
     }
   }
 }
