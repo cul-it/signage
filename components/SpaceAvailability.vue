@@ -66,7 +66,7 @@ $sf: 1.43vw;
 }
 .space__closing {
   display: block;
-  color: #fff;
+  color: #192639;
   font-size: 1 * $sf;
 }
 .space__number {
@@ -79,12 +79,12 @@ $sf: 1.43vw;
   margin: .4em 0;
   padding: .5em;
   font-size: 2 * $sf;
-  color: #d93663;
+  color: #fff;
   border-radius: .3em;
-  background: #192639;
+  background: #d93663;
 
   &--available {
-    color: #7edafe;
+    background: #009edd;
   }
 }
 .space__slot-list {
@@ -100,7 +100,6 @@ $sf: 1.43vw;
   margin-left: -.43em;
   line-height: 1.4em;
   font-size: 1.6 * $sf;
-  color: #657c8a;
   z-index: 10000;
 }
 .fa-users {
