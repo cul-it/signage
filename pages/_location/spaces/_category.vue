@@ -29,7 +29,7 @@ export default {
       title: this.capitalize(this.$route.params.category),
       titleTemplate: this.capitalize(this.$route.params.location) + ' - %s',
       link: [
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:100,400,700' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' },
         // TODO: Use packages for officiaal Vue.js component
         // -- https://fontawesome.com/how-to-use/on-the-web/using-with/vuejs
         { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.2.0/css/all.css', integrity: 'sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ', crossorigin: 'anonymous' }

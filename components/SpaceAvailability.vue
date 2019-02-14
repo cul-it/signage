@@ -126,7 +126,7 @@ $sf: 1.43vw;
   font-size: .5em;
 }
 .start__meridiem {
-  font-weight: 100;
+  font-weight: 300;
   line-height: .3em;
 }
 </style>
