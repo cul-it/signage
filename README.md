@@ -1,7 +1,7 @@
 # CUL Digital Signage
 
 ### Prerequisites
-* [node](http://nodejs.org)
+* [node](https://nodejs.org)
 * [yarn](https://yarnpkg.com)
 
 ### Quickstart
@@ -25,24 +25,4 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
-
-### Heroku Deploy
-
-1. Configure the Heroku app as specified in the offical [Nuxt.js guide](https://nuxtjs.org/faq/heroku-deployment).
-
-1. Push the latest
-
-   ```sh
-   $ git push heroku master
-   ```
-
-   > if you need to deploy another branch:
-   > ```sh
-   > $ git push heroku <branch-name>:master
-   > ```
-   >
-   > and if you then need to deploy master once again, most likely will need to force:
-   > ```sh
-   > $ git push heroku master --force
-   > ```
+For detailed explanation on how things work, checkout the [Nuxt.js docs](https://nuxtjs.org/guide).
