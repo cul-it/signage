@@ -1,29 +1,59 @@
 <template>
-<div :class="'oku-circ__component--' + location" class="oku-circ__component">
-  <header :class="location + '-header'">
-    <h1>{{ location }}</h1>
-  </header>
+  <div
+    :class="'oku-circ__component--' + location"
+    class="oku-circ__component"
+  >
+    <header :class="location + '-header'">
+      <h1>{{ location }}</h1>
+    </header>
 
-  <h2 :class="location + '-laptops'">
-    <i class="fa fa-laptop icon-laptop" aria-hidden="true"></i> Laptops
-  </h2>
+    <h2 :class="location + '-laptops'">
+      <i
+        class="fa fa-laptop icon-laptop"
+        aria-hidden="true"
+      /> Laptops
+    </h2>
 
-  <div :class="location + '-laptops__availability'">
-    <device type="apple" :count="laptops[location].macAvailable"/>
-    <device type="windows" :count="laptops[location].windowsAvailable"/>
+    <div :class="location + '-laptops__availability'">
+      <device
+        :count="laptops[location].macAvailable"
+        type="apple"
+      />
+      <device
+        :count="laptops[location].windowsAvailable"
+        type="windows"/>
+    </div>
+
+    <h2 :class="location + '-phone-chargers'">
+      <i
+        class="fa fa-battery-quarter icon-charger"
+        aria-hidden="true"
+      /> Phone Chargers
+    </h2>
+
+    <div :class="location + '-phone-chargers__availability'">
+      <device
+        :count="phoneChargers[location].iphone4Available"
+        type="phoneCharger"
+        model="iPhone 4"
+      />
+      <device
+        :count="phoneChargers[location].iphoneAvailable"
+        type="phoneCharger"
+        model="iPhone 5 &amp; up"
+      />
+      <device
+        :count="phoneChargers[location].microUsbAvailable"
+        type="phoneCharger"
+        model="Micro USB"
+      />
+      <device
+        :count="phoneChargers[location].usbCAvailable"
+        type="phoneCharger"
+        model="USB-C"
+      />
+    </div>
   </div>
-
-  <h2 :class="location + '-phone-chargers'">
-    <i class="fa fa-battery-quarter icon-charger" aria-hidden="true"></i> Phone Chargers
-  </h2>
-
-  <div :class="location + '-phone-chargers__availability'">
-    <device type="phoneCharger" model="iPhone 4" :count="phoneChargers[location].iphone4Available"/>
-    <device type="phoneCharger" model="iPhone 5 &amp; up" :count="phoneChargers[location].iphoneAvailable"/>
-    <device type="phoneCharger" model="Micro USB" :count="phoneChargers[location].microUsbAvailable"/>
-    <device type="phoneCharger" model="USB-C" :count="phoneChargers[location].usbCAvailable"/>
-  </div>
-</div>
 </template>
 
 <script>
@@ -33,6 +63,12 @@ export default {
   components: {
     'device': DEVICE
   },
+  props: {
+    location: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     laptops () {
       return this.$store.state.laptops.locations
@@ -40,10 +76,7 @@ export default {
     phoneChargers () {
       return this.$store.state.phoneChargers.locations
     }
-  },
-  props: [
-    'location'
-  ]
+  }
 }
 </script>
 

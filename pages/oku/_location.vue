@@ -38,13 +38,13 @@ export default {
       ]
     }
   },
+  components: {
+    'oku-circ': OKU
+  },
   data () {
     return {
       location: this.$route.params.location
     }
-  },
-  components: {
-    'oku-circ': OKU
   },
   computed: {
     ...mapState({

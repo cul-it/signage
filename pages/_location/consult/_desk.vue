@@ -1,12 +1,24 @@
 <template>
   <div class="mann-consult">
-    <h1 class="desk" :class="[desk, statusClass]">{{ desk.replace('-', ' ') }}</h1>
+    <h1
+      :class="[desk, statusClass]"
+      class="desk"
+    >{{ desk.replace('-', ' ') }}</h1>
 
-    <p class="description" v-if="hours.description">{{ hours.description }}</p>
+    <p
+      v-if="hours.description"
+      class="description"
+    >{{ hours.description }}</p>
 
     <div class="status">
-      <span class="status__current" :class="hours.status">{{ hours.status }}</span> <span class="until knockout">until</span>
-      <time class="status__change" v-html="relativeStatusChange"/>
+      <span
+        :class="hours.status"
+        class="status__current"
+      >{{ hours.status }}</span> <span class="until knockout">until</span>
+      <time
+        class="status__change"
+        v-html="relativeStatusChange"
+      />
     </div>
   </div>
 </template>

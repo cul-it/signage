@@ -1,13 +1,34 @@
 <template>
-<p>
-  <span class="device-count" :class="{ unavailable: !Number(count) }">{{ count }}</span>
-  <span v-html="deviceStatus"></span>
-  <span class="available" :class="{ unavailable: !Number(count) }"> available</span>
-</p>
+  <p>
+    <span
+      :class="{ unavailable: !Number(count) }"
+      class="device-count"
+    >{{ count }}</span>
+    <span v-html="deviceStatus"/>
+    <span
+      :class="{ unavailable: !Number(count) }"
+      class="available"
+    > available</span>
+  </p>
 </template>
 
 <script>
 export default {
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    model: {
+      type: String,
+      default: null,
+      required: false
+    },
+    count: {
+      type: Number,
+      required: true
+    }
+  },
   computed: {
     deviceStatus () {
       if (this.type === 'apple') {
@@ -18,11 +39,6 @@ export default {
         return '<span class="device-type__info--availability">' + this.model + '</span>'
       }
     }
-  },
-  props: [
-    'type',
-    'model',
-    'count'
-  ]
+  }
 }
 </script>
