@@ -8,8 +8,8 @@
 
     <section class="grid">
       <time v-html="currentTime"/>
-      <oku-circ location="olin"/>
-      <oku-circ location="uris"/>
+      <Circulation location="olin"/>
+      <Circulation location="uris"/>
     </section>
 
   </main>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import OKU from '~/components/oku-circ'
+import Circulation from '~/components/Circulation'
 import moment from 'moment'
 import { mapState } from 'vuex'
 
@@ -39,7 +39,7 @@ export default {
     }
   },
   components: {
-    'oku-circ': OKU
+    'Circulation': Circulation
   },
   data () {
     return {

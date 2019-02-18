@@ -15,11 +15,11 @@
     </h2>
 
     <div :class="location + '-laptops__availability'">
-      <device
+      <Device
         :count="laptops[location].macAvailable"
         type="apple"
       />
-      <device
+      <Device
         :count="laptops[location].windowsAvailable"
         type="windows"/>
     </div>
@@ -32,22 +32,22 @@
     </h2>
 
     <div :class="location + '-phone-chargers__availability'">
-      <device
+      <Device
         :count="phoneChargers[location].iphone4Available"
         type="phoneCharger"
         model="iPhone 4"
       />
-      <device
+      <Device
         :count="phoneChargers[location].iphoneAvailable"
         type="phoneCharger"
         model="iPhone 5 &amp; up"
       />
-      <device
+      <Device
         :count="phoneChargers[location].microUsbAvailable"
         type="phoneCharger"
         model="Micro USB"
       />
-      <device
+      <Device
         :count="phoneChargers[location].usbCAvailable"
         type="phoneCharger"
         model="USB-C"
@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import DEVICE from '~/components/oku-device'
+import CirculationDevice from '~/components/CirculationDevice'
 
 export default {
   components: {
-    'device': DEVICE
+    'Device': CirculationDevice
   },
   props: {
     location: {
