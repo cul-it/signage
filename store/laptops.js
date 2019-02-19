@@ -7,9 +7,9 @@ export const state = () => ({
 export const mutations = {
   update (state, feed) {
     state.locations[feed.location] = {
-      windowsAvailable: feed.laptopAvailable,
+      windowsAvailable: Number(feed.laptopAvailable),
       windowsNextDue: feed.laptopNextAvailable,
-      macAvailable: feed.macbookAvailable,
+      macAvailable: Number(feed.macbookAvailable),
       macNextDue: feed.macbookNextAvailable
     }
   }
