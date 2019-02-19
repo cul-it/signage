@@ -2,17 +2,24 @@
   <div class="space">
     <h1 class="space__number">{{ space }}</h1>
 
-    <i v-if="capacity" class="fas space__type" aria-hidden="true"
+    <i
+      v-if="capacity"
       :class="{ 'fa-users': capacity === 'group', 'fa-user': capacity === 'individual' }"
-    ></i>
+      class="fas space__type"
+      aria-hidden="true"
+    />
 
     <ul class="space__slot-list">
-      <li v-if="hours.status === 'closed'" class="space__slot">
+      <li
+        v-if="hours.status === 'closed'"
+        class="space__slot"
+      >
         <span class="space__status--closed">{{ hours.status }}</span>
         <span class="space__closing">until {{ relativeStatusChange }}</span>
       </li>
-      <li v-else
+      <li
         v-for="booking in spaceSchedule"
+        v-else
         :key="booking.bookId"
         :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
       >
@@ -29,7 +36,10 @@
         <span v-else>
           Available
         </span>
-        <span v-if="booking.lastUp" class="space__closing">until closing at {{ relativeStatusChange }}</span>
+        <span
+          v-if="booking.lastUp"
+          class="space__closing"
+        >until closing at {{ relativeStatusChange }}</span>
       </li>
     </ul>
   </div>
@@ -39,6 +49,16 @@
 import Robin from '~/utils/libcal.js'
 
 export default {
+  props: {
+    hours: {
+      type: Object,
+      required: true
+    },
+    space: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     capacity () {
       return this.$store.state.spaces[this.space].capacity || null
@@ -49,11 +69,7 @@ export default {
     relativeStatusChange () {
       return Robin.formatStatusChange(this.hours.statusChange)
     }
-  },
-  props: [
-    'hours',
-    'space'
-  ]
+  }
 }
 </script>
 

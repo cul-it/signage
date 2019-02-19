@@ -2,8 +2,14 @@
   <div class="spaces">
     <header class="spaces__datetime">
       <time class="spaces__date">{{ currentDate }}</time>
-      <a class="spaces__reserve-link" :href="url">{{ urlClean }}</a>
-      <time class="spaces__time" v-html="currentTime"/>
+      <a
+        :href="url"
+        class="spaces__reserve-link"
+      >{{ urlClean }}</a>
+      <time
+        class="spaces__time"
+        v-html="currentTime"
+      />
     </header>
 
     <div :class="'spaces__availability col-' + spaces.length">
@@ -66,11 +72,6 @@ export default {
       location: params.location
     })
   },
-  methods: {
-    capitalize (string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-  },
   mounted () {
     // Sync current time every 10 seconds
     // -- ideally, this would happen within the store itself (as part of the action),
@@ -92,6 +93,11 @@ export default {
         location: this.$route.params.location
       })
     }, 1000 * 60)
+  },
+  methods: {
+    capitalize (string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    }
   }
 }
 </script>
