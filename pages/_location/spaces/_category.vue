@@ -66,10 +66,12 @@ export default {
   fetch: async ({ store, params }) => {
     await store.dispatch('spaces/primeSpaces', Robin.requestedSpaces(params.location, params.category))
     await store.dispatch('hours/fetch', {
-      location: params.location
+      location: params.location,
+      category: params.category
     })
     await store.dispatch('spaces/fetchSchedule', {
-      location: params.location
+      location: params.location,
+      category: params.category
     })
   },
   mounted () {
