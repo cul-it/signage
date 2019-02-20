@@ -57,7 +57,7 @@ export default {
       return Object.keys(this.$store.state.spaces)
     },
     url () {
-      return Robin.reserveUrl(this.$route.params.location)
+      return Robin.reserveUrl(this.$route.params.location, this.$route.params.category)
     },
     urlClean () {
       return this.url ? this.url.replace(/(^\w+:|^)\/\//, '') : ''
