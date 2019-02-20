@@ -85,14 +85,16 @@ export default {
     // Update hours every 30 seconds
     setInterval(() => {
       this.$store.dispatch('hours/fetch', {
-        location: this.$route.params.location
+        location: this.$route.params.location,
+        category: this.$route.params.category
       })
     }, 1000 * 30)
 
     // Check for reservation changes every minute
     setInterval(() => {
       this.$store.dispatch('spaces/fetchSchedule', {
-        location: this.$route.params.location
+        location: this.$route.params.location,
+        category: this.$route.params.category
       })
     }, 1000 * 60)
   },
