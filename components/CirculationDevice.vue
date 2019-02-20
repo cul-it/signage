@@ -1,12 +1,12 @@
 <template>
   <p>
     <span
-      :class="{ unavailable: !Number(count) }"
+      :class="{ unavailable: !count }"
       class="device-count"
     >{{ count }}</span>
     <span v-html="deviceStatus"/>
     <span
-      :class="{ unavailable: !Number(count) }"
+      :class="{ unavailable: !count }"
       class="available"
     > available</span>
   </p>
