@@ -148,10 +148,14 @@ const libCal = {
   formatTime: function (date) {
     return moment(date).format(libCal.timeFormat)
   },
-  getHours: function (axios, location, date, isDesk = false) {
+  getHours: function (axios, location, category, date, isDesk = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
-    const locId = isDesk ? api.desks[location].hoursId : api.locations[location].hoursId
-    const url = api.endpoints.hours + locId + requestDate
+    if (isDesk) {
+      var libcalId = api.desks[location].hoursId
+    } else {
+      libcalId = api.locations[location].categories[category].hoursId || api.locations[location].hoursId
+    }
+    const url = api.endpoints.hours + libcalId + requestDate
 
     return axios.$get(url)
   },
@@ -168,13 +172,13 @@ const libCal = {
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
   },
-  async nextOpening (axios, location, isDesk = false) {
+  async nextOpening (axios, location, category, isDesk = false) {
     var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await libCal.openingTime(axios, location, libCal.formatDate(dateToCheck), isDesk)
+      var openingTime = await libCal.openingTime(axios, location, category, libCal.formatDate(dateToCheck), isDesk)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -188,14 +192,14 @@ const libCal = {
 
     return bigWinner
   },
-  async hoursForDate (axios, location, date, isDesk = false) {
-    let feed = await libCal.getHours(axios, location, date, isDesk)
+  async hoursForDate (axios, location, category, date, isDesk = false) {
+    let feed = await libCal.getHours(axios, location, category, date, isDesk)
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
 
     return hours
   },
-  async openingTime (axios, location, date, isDesk = false) {
-    const hours = await libCal.hoursForDate(axios, location, date, isDesk)
+  async openingTime (axios, location, category, date, isDesk = false) {
+    const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
 
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
@@ -208,8 +212,8 @@ const libCal = {
 
     return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
-  async closingTime (axios, location, date, isDesk = false) {
-    const hours = await libCal.hoursForDate(axios, location, date, isDesk)
+  async closingTime (axios, location, category, date, isDesk = false) {
+    const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 
@@ -221,7 +225,7 @@ const libCal = {
 
     return closingTime
   },
-  async openNow (axios, location, libcalStatus, hours, isDesk = false) {
+  async openNow (axios, location, category, libcalStatus, hours, isDesk = false) {
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
@@ -243,7 +247,7 @@ const libCal = {
       }
     }
 
-    let statusChange = await libCal.nextOpening(axios, location, isDesk)
+    let statusChange = await libCal.nextOpening(axios, location, category, isDesk)
 
     status.change = statusChange
 
@@ -264,8 +268,8 @@ const libCal = {
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))
   },
-  reserveUrl: function (location) {
-    return api.locations[location].url || null
+  reserveUrl: function (location, category) {
+    return api.locations[location].categories[category].url || api.locations[location].url || null
   },
   staleCache: function (lastUpdated) {
     // Cache LibCal API response for at least 2 minutes

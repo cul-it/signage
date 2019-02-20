@@ -57,7 +57,7 @@ export default {
       return Object.keys(this.$store.state.spaces)
     },
     url () {
-      return Robin.reserveUrl(this.$route.params.location)
+      return Robin.reserveUrl(this.$route.params.location, this.$route.params.category)
     },
     urlClean () {
       return this.url ? this.url.replace(/(^\w+:|^)\/\//, '') : ''
@@ -66,10 +66,12 @@ export default {
   fetch: async ({ store, params }) => {
     await store.dispatch('spaces/primeSpaces', Robin.requestedSpaces(params.location, params.category))
     await store.dispatch('hours/fetch', {
-      location: params.location
+      location: params.location,
+      category: params.category
     })
     await store.dispatch('spaces/fetchSchedule', {
-      location: params.location
+      location: params.location,
+      category: params.category
     })
   },
   mounted () {
@@ -83,14 +85,16 @@ export default {
     // Update hours every 30 seconds
     setInterval(() => {
       this.$store.dispatch('hours/fetch', {
-        location: this.$route.params.location
+        location: this.$route.params.location,
+        category: this.$route.params.category
       })
     }, 1000 * 30)
 
     // Check for reservation changes every minute
     setInterval(() => {
       this.$store.dispatch('spaces/fetchSchedule', {
-        location: this.$route.params.location
+        location: this.$route.params.location,
+        category: this.$route.params.category
       })
     }, 1000 * 60)
   },
