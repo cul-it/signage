@@ -86,10 +86,8 @@ const libCal = {
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed'
         const thisRoom = booking.eid === room
-        const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
         return thisRoom &&
-          confirmed &&
-          whileOpen
+          confirmed
       })
       // Sort by start time
       .sortBy('fromDate')
