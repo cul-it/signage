@@ -82,7 +82,7 @@ const libCal = {
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
-      // Filter bookings by room, status(confirmed), and while open
+      // Filter bookings by room and status(confirmed)
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed'
         const thisRoom = booking.eid === room
