@@ -72,6 +72,22 @@ export default {
       hoursId: 1707,
       url: 'https://mannlib.cornell.edu/reserve',
       categories: {
+        b30: {
+          id: false,
+          hoursId: 2319,
+          url: 'https://mannlib.cornell.edu/reserve/classrooms',
+          r25: true,
+          spaces: [
+            {
+              id: 705,
+              room: 'B30A'
+            },
+            {
+              id: 704,
+              room: 'B30B'
+            }
+          ]
+        },
         bissett: {
           id: false,
           spaces: [

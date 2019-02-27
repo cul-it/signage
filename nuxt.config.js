@@ -10,6 +10,8 @@ const libcalApi = 'https://api2.libcal.com'
 const libcalApiPath = '/api/libcal/'
 const libcalHoursApi = 'https://api3.libcal.com'
 const libcalHoursApiPath = '/api/libcal-hours/'
+const r25Api = 'https://r25.registrar.cornell.edu/r25ws/servlet/wrd/run'
+const r25ApiPath = '/api/r25/'
 
 var restreamClientCreds = (proxyReq, req, res) => {
   if (req.method === 'POST' && req.body) {
@@ -53,6 +55,14 @@ module.exports = {
     [libcalHoursApiPath]: {
       target: libcalHoursApi,
       pathRewrite: { [`^${libcalHoursApiPath}`]: '' }
+    },
+    [r25ApiPath]: {
+      target: r25Api,
+      pathRewrite: { [`^${r25ApiPath}`]: '' },
+      onProxyReq: (proxyReq, req, res) => {
+        // Auth header
+        proxyReq.setHeader('Authorization', process.env.R25_AUTH)
+      }
     }
   },
   /*
