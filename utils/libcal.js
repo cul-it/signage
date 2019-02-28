@@ -48,7 +48,7 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
-  buildSchedule: (bookings, location, spaces, opening, closing) => {
+  buildSchedule: (bookings, spaces, opening, closing) => {
     let schedule = {}
     bookings
       // Only include reservations for requested spaces
