@@ -86,7 +86,8 @@ const libCal = {
     let spaces = []
     spacesInCategory
       .forEach(s => spaces.push({ 'id': s.id, 'name': s.room, 'capacity': s.capacity }))
-    if (category === 'studyrooms') spaces.reverse()
+    // REVIEW: How common will this be? Should it be configurable via the schema?
+    if (category === 'studyrooms' || category === 'b30') spaces.reverse()
     return spaces
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
