@@ -1,5 +1,5 @@
 import { assign } from 'lodash'
-import Batman from '~/utils/libservices'
+import libServices from '~/utils/libservices'
 
 export const state = () => ({
   locations: {}
@@ -14,14 +14,14 @@ export const mutations = {
 
 export const actions = {
   async fetchStatus ({ commit }, location) {
-    let feed = await this.$axios.$get(Batman.api.endpoints.phoneChargers + Batman.api.locations[location])
+    let feed = await this.$axios.$get(libServices.api.endpoints.phoneChargers + libServices.api.locations[location])
     const list = feed.equipmentList
     const phoneChargers = {
       'availability': {
-        'iphone4Available': Batman.availableEquipmentType(list, 'phone-charger-iphone4'),
-        'iphoneAvailable': Batman.availableEquipmentType(list, 'phone-charger-iphone'),
-        'microUsbAvailable': Batman.availableEquipmentType(list, 'phone-charger-micro-usb'),
-        'usbCAvailable': Batman.availableEquipmentType(list, 'phone-charger-usb-c')
+        'iphone4Available': libServices.availableEquipmentType(list, 'phone-charger-iphone4'),
+        'iphoneAvailable': libServices.availableEquipmentType(list, 'phone-charger-iphone'),
+        'microUsbAvailable': libServices.availableEquipmentType(list, 'phone-charger-micro-usb'),
+        'usbCAvailable': libServices.availableEquipmentType(list, 'phone-charger-usb-c')
       },
       'location': location
     }

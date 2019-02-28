@@ -1,4 +1,4 @@
-import api from '~/utils/libcal-schema'
+import schema from '~/utils/schema'
 import libCal from '~/utils/libcal'
 import _ from 'lodash'
 import moment from 'moment'
@@ -127,7 +127,7 @@ const r25 = {
     return response.space_reservations.space_reservation
   },
   isR25: function (location, category) {
-    return api.locations[location].categories[category].r25
+    return schema.locations[location].categories[category].r25
   }
 }
 

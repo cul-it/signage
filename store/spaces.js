@@ -1,5 +1,5 @@
 import { assign, isEmpty } from 'lodash'
-import Robin from '~/utils/libcal'
+import libCal from '~/utils/libcal'
 import R25 from '~/utils/r25'
 
 export const state = () => ({
@@ -17,22 +17,22 @@ export const actions = {
     // -- b. cache has expired
     // -- c. the stored change in status has past
     // -- d. the clock has struck midnight (we've crossed over to the next day)
-    if (isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
+    if (isEmpty(state) || libCal.staleCache(state.updated) || libCal.pastChange(state.statusChange) || libCal.nextDay(state.updated)) {
       // Accommodate API variations from reservation systems
-      // --  R25 (Registrar reservation system) requires separate request per space
+      // -- R25 (Registrar reservation system) requires separate request per space
       // -- LibCal offers endpoint for all spaces within a single location (aka library)
       if (R25.isR25(payload.location, payload.category)) {
         var apiTarget = R25
         var apiSpaces = Object.values(state)
       } else {
-        apiTarget = Robin
+        apiTarget = libCal
         apiSpaces = [payload.location]
       }
 
       for (const space of apiSpaces) {
         let feed = await apiTarget.getReservations(this.$axios, space)
 
-        let schedule = apiTarget.buildSchedule(feed, state, await Robin.openingTime(this.$axios, payload.location, payload.category), await Robin.closingTime(this.$axios, payload.location, payload.category))
+        let schedule = apiTarget.buildSchedule(feed, state, await libCal.openingTime(this.$axios, payload.location, payload.category), await libCal.closingTime(this.$axios, payload.location, payload.category))
 
         commit('update', schedule)
       }

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Robin from '~/utils/libcal.js'
+import libCal from '~/utils/libcal.js'
 
 export default {
   props: {
@@ -67,7 +67,7 @@ export default {
       return this.$store.state.spaces[this.space].schedule
     },
     relativeStatusChange () {
-      return Robin.formatStatusChange(this.hours.statusChange)
+      return libCal.formatStatusChange(this.hours.statusChange)
     }
   }
 }
