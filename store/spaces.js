@@ -18,22 +18,21 @@ export const actions = {
     // -- c. the stored change in status has past
     // -- d. the clock has struck midnight (we've crossed over to the next day)
     if (isEmpty(state) || Robin.staleCache(state.updated) || Robin.pastChange(state.statusChange) || Robin.nextDay(state.updated)) {
-      // Special handling for spaces managed in R25 (Registrar)
+      // Accommodate API variations from reservation systems
+      // --  R25 (Registrar reservation system) requires separate request per space
+      // -- LibCal offers endpoint for all spaces within a single location (aka library)
       if (R25.isR25(payload.location, payload.category)) {
-        const requestedSpaces = Object.values(state)
-
-        for (const space of requestedSpaces) {
-          let feed = await R25.getReservations(this.$axios, space)
-
-          let schedule = R25.buildSchedule(feed, state, await Robin.openingTime(this.$axios, payload.location, payload.category), await Robin.closingTime(this.$axios, payload.location, payload.category))
-
-          commit('update', schedule)
-        }
+        var apiTarget = R25
+        var apiSpaces = Object.values(state)
       } else {
-        // Otherwise, proceed with default reservation handling via LibCal
-        let feed = await Robin.getReservations(this.$axios, payload.location)
+        apiTarget = Robin
+        apiSpaces = [payload.location]
+      }
 
-        let schedule = Robin.buildSchedule(feed, state, await Robin.openingTime(this.$axios, payload.location, payload.category), await Robin.closingTime(this.$axios, payload.location, payload.category))
+      for (const space of apiSpaces) {
+        let feed = await apiTarget.getReservations(this.$axios, space)
+
+        let schedule = apiTarget.buildSchedule(feed, state, await Robin.openingTime(this.$axios, payload.location, payload.category), await Robin.closingTime(this.$axios, payload.location, payload.category))
 
         commit('update', schedule)
       }
