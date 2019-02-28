@@ -117,10 +117,9 @@ const r25 = {
 
     return roomAvailability
   },
-  async getReservations (axios, spaces, date = false) {
+  async getReservations (axios, space, date = false) {
     const requestDate = date ? '&start_dt=' /* + libCal.formatDate(date) */ : ''
-
-    const url = r25.api.endpoints.spaces + spaces.id + requestDate
+    const url = r25.api.endpoints.spaces + space.id + requestDate
     const response = await axios.$get(url)
 
     // All we care about is the array of reservations
