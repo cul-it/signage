@@ -10,6 +10,8 @@
     />
 
     <ul class="space__slot-list">
+      <!-- TODO: Ideally this would move to SpaceAvailabilityItem component
+      along with applicable style -->
       <li
         v-if="hours.status === 'closed'"
         class="space__slot"
@@ -17,38 +19,25 @@
         <span class="space__status--closed">{{ hours.status }}</span>
         <span class="space__closing">until {{ relativeStatusChange }}</span>
       </li>
-      <li
+      <space-availability-item
         v-for="booking in spaceSchedule"
         v-else
         :key="booking.bookId"
-        :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
-      >
-        <time class="slot__start">
-          {{ booking.startTime.hour }}
-          <div class="start__stack">
-            <span class="start__minutes">{{ booking.startTime.minute }}</span>
-            <span class="start__meridiem">{{ booking.startTime.meridiem }}</span>
-          </div>
-        </time>
-        <span v-if="!booking.isAvailable">
-          {{ booking.firstName }} {{ booking.lastName[0] }}.
-        </span>
-        <span v-else>
-          Available
-        </span>
-        <span
-          v-if="booking.lastUp"
-          class="space__closing"
-        >until closing at {{ relativeStatusChange }}</span>
-      </li>
+        :booking="booking"
+        :status-change="relativeStatusChange"
+      />
     </ul>
   </div>
 </template>
 
 <script>
 import libCal from '~/utils/libcal.js'
+import SpaceAvailabilityItem from '~/components/SpaceAvailabilityItem'
 
 export default {
+  components: {
+    SpaceAvailabilityItem
+  },
   props: {
     hours: {
       type: Object,
@@ -122,27 +111,5 @@ $sf: 1.43vw;
   margin-left: -.63em;
   line-height: 1.2em;
   font-size: 1.9 * $sf;
-}
-.slot__start {
-  position: absolute;
-  top: 23%;
-  left: 5px;
-  color: #fff;
-  display: flex;
-  font-size: 2.2 * $sf;
-}
-.start__stack {
-  margin-top: .1em;
-  display: inline-flex;
-  flex-direction: column;
-}
-.start__meridiem,
-.start__minutes {
-  align-self: flex-end;
-  font-size: .5em;
-}
-.start__meridiem {
-  font-weight: 300;
-  line-height: .3em;
 }
 </style>

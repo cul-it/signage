@@ -17,7 +17,7 @@ const r25 = {
       // Trim API response to bare essentials
       .map(b => {
         return {
-          id: Number(b.event.event_id._text),
+          bookId: Number(b.event.event_id._text),
           fromDate: b.reservation_start_dt._text,
           firstName: b.event.event_name._text,
           // REVIEW: Is empty string needed once we customize template for classrooms?
