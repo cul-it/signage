@@ -25,7 +25,14 @@
         :key="booking.bookId"
         :booking="booking"
         :status-change="relativeStatusChange"
-      />
+      >
+        <template
+          v-if="$route.params.category === 'b30'"
+          slot="bookingInfo"
+        >
+          {{ booking.firstName }} <br> {{ booking.lastName }}
+        </template>
+      </space-availability-item>
     </ul>
   </div>
 </template>

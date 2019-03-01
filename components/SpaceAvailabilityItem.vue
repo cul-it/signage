@@ -10,7 +10,13 @@
       </div>
     </time>
     <span v-if="!booking.isAvailable">
-      {{ booking.firstName }} {{ booking.lastName[0] }}.
+      <slot
+        :booking="booking"
+        name="bookingInfo"
+      >
+        <!-- Default info displayed for LibCal bookings -->
+        {{ booking.firstName }} {{ booking.lastName[0] }}.
+      </slot>
     </span>
     <span v-else>
       Available
