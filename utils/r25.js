@@ -18,19 +18,22 @@ const r25 = {
       .map(b => {
         return {
           bookId: Number(b.event.event_id._text),
+          description: b.event.event_title._text || '',
           fromDate: b.reservation_start_dt._text,
-          firstName: b.event.event_name._text,
           // REVIEW: Is empty string needed once we customize template for classrooms?
-          lastName: b.event.event_title._text || '',
           spaceId: Number(b.spaces.space_id._text),
-          toDate: b.reservation_end_dt._text
+          title: b.event.event_name._text,
+          toDate: b.reservation_end_dt._text,
+          // Vestigial keys to appease default LibCal structure
+          firstName: '',
+          lastName: ''
         }
       })
       // Merge cross-listed courses
       .filter(function (booking, index, allBookings) {
         const prevStart = index > 0 ? allBookings[index - 1].fromDate : null
         if (booking.fromDate === prevStart) {
-          allBookings[index - 1].firstName += ', ' + booking.firstName
+          allBookings[index - 1].title += ', ' + booking.title
           return false
         }
         return true

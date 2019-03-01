@@ -26,11 +26,15 @@
         :booking="booking"
         :status-change="relativeStatusChange"
       >
+        <!-- Override default LibCal slot content if dealing with R25 spaces -->
         <template
           v-if="$route.params.category === 'b30'"
           slot="bookingInfo"
         >
-          {{ booking.firstName }} <br> {{ booking.lastName }}
+          <div class="space__slot--r25">
+            <h3 class="slot__title">{{ booking.title }}</h3>
+            <span class="slot__description">{{ booking.description }}</span>
+          </div>
         </template>
       </space-availability-item>
     </ul>
@@ -73,6 +77,13 @@ export default {
 // TODO: Revisit font scaling and pull variables into global include (DRY)
 $sf: 1.43vw;
 
+.slot__description {
+  font-weight: 300;
+}
+.slot__title {
+  margin: 0;
+  font-weight: normal;
+}
 .space {
   text-align: center;
 }
@@ -97,6 +108,10 @@ $sf: 1.43vw;
 
   &--available {
     background: #009edd;
+  }
+
+  &--r25 {
+    font-size: .55em;
   }
 }
 .space__slot-list {
