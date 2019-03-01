@@ -11,8 +11,13 @@ const r25 = {
   },
   buildSchedule: (bookings, spaces, opening, closing) => {
     let space = {}
-    // Account for single reservation (create array)
-    bookings = Array.isArray(bookings) ? bookings : [bookings]
+    if (bookings) {
+      // Account for single reservation (create array)
+      bookings = Array.isArray(bookings) ? bookings : [bookings]
+    } else {
+      // Account for R25 not returning an empty array if no reservations exist
+      bookings = []
+    }
     const svelte = bookings
       // Trim API response to bare essentials
       .map(b => {
@@ -51,13 +56,14 @@ const r25 = {
         }
       })
 
+    // TODO: Need to address available slots for days sans reservations!
     // // Insert 'available until closing' slot for any space with empty schedule
     // Object.keys(spaces).forEach(s => {
-    //   if (typeof schedule[s] === 'undefined' || !schedule[s].schedule.length) {
+    //   if (typeof space[s] === 'undefined' || !space[s].schedule.length) {
     //     const availableTilClose = libCal.availableSlot(opening, closing)
     //     availableTilClose.lastUp = true
     //
-    //     schedule[s] = {
+    //     space[s] = {
     //       id: spaces[s].id,
     //       capacity: spaces[s].capacity,
     //       schedule: [availableTilClose]
@@ -69,15 +75,6 @@ const r25 = {
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
-      // Filter bookings by room, status(confirmed), and while open
-      // .filter(function (booking, index, allBookings) {
-      //   const confirmed = booking.status === 'Confirmed'
-      //   const thisRoom = booking.eid === room
-      //   return thisRoom &&
-      //     confirmed
-      // })
-      // Sort by start time
-      // .sortBy('fromDate')
       // Fill gaps between & pad bookings with available slots
       .flatMap(function (booking, index, allBookings) {
         const paddedBooking = [booking]
