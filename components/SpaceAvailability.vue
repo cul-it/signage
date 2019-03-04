@@ -28,7 +28,7 @@
       >
         <!-- Override default LibCal slot content if dealing with R25 spaces -->
         <template
-          v-if="$route.params.category === 'b30'"
+          v-if="isR25"
           slot="bookingInfo"
         >
           <div class="space__slot--r25">
@@ -43,6 +43,7 @@
 
 <script>
 import libCal from '~/utils/libcal.js'
+import r25 from '~/utils/r25.js'
 import SpaceAvailabilityItem from '~/components/SpaceAvailabilityItem'
 
 export default {
@@ -63,11 +64,14 @@ export default {
     capacity () {
       return this.$store.state.spaces[this.space].capacity || null
     },
-    spaceSchedule () {
-      return this.$store.state.spaces[this.space].schedule
+    isR25 () {
+      return r25.isR25(this.$route.params.location, this.$route.params.category)
     },
     relativeStatusChange () {
       return libCal.formatStatusChange(this.hours.statusChange)
+    },
+    spaceSchedule () {
+      return this.$store.state.spaces[this.space].schedule
     }
   }
 }
