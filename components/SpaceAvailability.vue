@@ -10,6 +10,8 @@
     />
 
     <ul class="space__slot-list">
+      <!-- TODO: Ideally this would move to SpaceAvailabilityItem component
+      along with applicable style -->
       <li
         v-if="hours.status === 'closed'"
         class="space__slot"
@@ -17,38 +19,37 @@
         <span class="space__status--closed">{{ hours.status }}</span>
         <span class="space__closing">until {{ relativeStatusChange }}</span>
       </li>
-      <li
+      <space-availability-item
         v-for="booking in spaceSchedule"
         v-else
         :key="booking.bookId"
-        :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
+        :booking="booking"
+        :status-change="relativeStatusChange"
       >
-        <time class="slot__start">
-          {{ booking.startTime.hour }}
-          <div class="start__stack">
-            <span class="start__minutes">{{ booking.startTime.minute }}</span>
-            <span class="start__meridiem">{{ booking.startTime.meridiem }}</span>
+        <!-- Override default LibCal slot content if dealing with R25 spaces -->
+        <template
+          v-if="isR25"
+          slot="bookingInfo"
+        >
+          <div class="space__slot--r25">
+            <h3 class="slot__title">{{ booking.title }}</h3>
+            <span class="slot__description">{{ booking.description }}</span>
           </div>
-        </time>
-        <span v-if="!booking.isAvailable">
-          {{ booking.firstName }} {{ booking.lastName[0] }}.
-        </span>
-        <span v-else>
-          Available
-        </span>
-        <span
-          v-if="booking.lastUp"
-          class="space__closing"
-        >until closing at {{ relativeStatusChange }}</span>
-      </li>
+        </template>
+      </space-availability-item>
     </ul>
   </div>
 </template>
 
 <script>
-import Robin from '~/utils/libcal.js'
+import libCal from '~/utils/libcal.js'
+import r25 from '~/utils/r25.js'
+import SpaceAvailabilityItem from '~/components/SpaceAvailabilityItem'
 
 export default {
+  components: {
+    SpaceAvailabilityItem
+  },
   props: {
     hours: {
       type: Object,
@@ -63,11 +64,14 @@ export default {
     capacity () {
       return this.$store.state.spaces[this.space].capacity || null
     },
-    spaceSchedule () {
-      return this.$store.state.spaces[this.space].schedule
+    isR25 () {
+      return r25.isR25(this.$route.params.location, this.$route.params.category)
     },
     relativeStatusChange () {
-      return Robin.formatStatusChange(this.hours.statusChange)
+      return libCal.formatStatusChange(this.hours.statusChange)
+    },
+    spaceSchedule () {
+      return this.$store.state.spaces[this.space].schedule
     }
   }
 }
@@ -77,6 +81,13 @@ export default {
 // TODO: Revisit font scaling and pull variables into global include (DRY)
 $sf: 1.43vw;
 
+.slot__description {
+  font-weight: 300;
+}
+.slot__title {
+  margin: 0;
+  font-weight: normal;
+}
 .space {
   text-align: center;
 }
@@ -102,6 +113,10 @@ $sf: 1.43vw;
   &--available {
     background: #009edd;
   }
+
+  &--r25 {
+    font-size: .55em;
+  }
 }
 .space__slot-list {
   margin: 0;
@@ -122,27 +137,5 @@ $sf: 1.43vw;
   margin-left: -.63em;
   line-height: 1.2em;
   font-size: 1.9 * $sf;
-}
-.slot__start {
-  position: absolute;
-  top: 23%;
-  left: 5px;
-  color: #fff;
-  display: flex;
-  font-size: 2.2 * $sf;
-}
-.start__stack {
-  margin-top: .1em;
-  display: inline-flex;
-  flex-direction: column;
-}
-.start__meridiem,
-.start__minutes {
-  align-self: flex-end;
-  font-size: .5em;
-}
-.start__meridiem {
-  font-weight: 300;
-  line-height: .3em;
 }
 </style>

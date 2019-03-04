@@ -1,11 +1,4 @@
 export default {
-  endpoints: {
-    auth: 'libcal/1.1/oauth/token',
-    hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
-    spaces: {
-      bookings: 'libcal/1.1/space/bookings?limit=100&'
-    }
-  },
   desks: {
     career: {
       hoursId: 7733,
@@ -72,6 +65,22 @@ export default {
       hoursId: 1707,
       url: 'https://mannlib.cornell.edu/reserve',
       categories: {
+        b30: {
+          id: false,
+          hoursId: 2319,
+          url: 'https://mannlib.cornell.edu/reserve/classrooms',
+          r25: true,
+          spaces: [
+            {
+              id: 705,
+              room: 'B30A'
+            },
+            {
+              id: 704,
+              room: 'B30B'
+            }
+          ]
+        },
         bissett: {
           id: false,
           spaces: [

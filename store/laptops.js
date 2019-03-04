@@ -1,4 +1,4 @@
-import Batman from '~/utils/libservices'
+import libServices from '~/utils/libservices'
 
 export const state = () => ({
   locations: {}
@@ -17,7 +17,7 @@ export const mutations = {
 
 export const actions = {
   async fetchStatus ({ commit }, location) {
-    let feed = await this.$axios.$get(Batman.api.endpoints.laptops + Batman.api.locations[location])
+    let feed = await this.$axios.$get(libServices.api.endpoints.laptops + libServices.api.locations[location])
     feed['location'] = location
     commit('update', feed)
   }

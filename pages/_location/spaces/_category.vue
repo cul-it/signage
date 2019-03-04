@@ -26,7 +26,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
-import Robin from '~/utils/libcal'
+import libCal from '~/utils/libcal'
 import SpaceAvailability from '~/components/SpaceAvailability'
 
 export default {
@@ -57,14 +57,14 @@ export default {
       return Object.keys(this.$store.state.spaces)
     },
     url () {
-      return Robin.reserveUrl(this.$route.params.location, this.$route.params.category)
+      return libCal.reserveUrl(this.$route.params.location, this.$route.params.category)
     },
     urlClean () {
       return this.url ? this.url.replace(/(^\w+:|^)\/\//, '') : ''
     }
   },
   fetch: async ({ store, params }) => {
-    await store.dispatch('spaces/primeSpaces', Robin.requestedSpaces(params.location, params.category))
+    await store.dispatch('spaces/primeSpaces', libCal.requestedSpaces(params.location, params.category))
     await store.dispatch('hours/fetch', {
       location: params.location,
       category: params.category

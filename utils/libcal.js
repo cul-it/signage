@@ -1,4 +1,4 @@
-import api from '~/utils/libcal-schema'
+import schema from '~/utils/schema'
 import _ from 'lodash'
 import moment from 'moment'
 import uniqueString from 'unique-string'
@@ -20,6 +20,15 @@ moment.updateLocale('en', {
 })
 
 const libCal = {
+  api: {
+    endpoints: {
+      auth: 'libcal/1.1/oauth/token',
+      hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
+      spaces: {
+        bookings: 'libcal/1.1/space/bookings?limit=100&'
+      }
+    }
+  },
   timeFormat: 'h:mm a',
   alreadyClosed: function (hours) {
     if (hours === null) return false
@@ -39,7 +48,7 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
-  buildSchedule: (bookings, location, spaces, opening, closing) => {
+  buildSchedule: (bookings, spaces, opening, closing) => {
     let schedule = {}
     bookings
       // Only include reservations for requested spaces
@@ -73,11 +82,12 @@ const libCal = {
     return schedule
   },
   requestedSpaces: (location, category) => {
-    const spacesInCategory = api.locations[location].categories[category].spaces
+    const spacesInCategory = schema.locations[location].categories[category].spaces
     let spaces = []
     spacesInCategory
       .forEach(s => spaces.push({ 'id': s.id, 'name': s.room, 'capacity': s.capacity }))
-    if (category === 'studyrooms') spaces.reverse()
+    // REVIEW: How common will this be? Should it be configurable via the schema?
+    if (category === 'studyrooms' || category === 'b30') spaces.reverse()
     return spaces
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
@@ -149,20 +159,20 @@ const libCal = {
   getHours: function (axios, location, category, date, isDesk = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
     if (isDesk) {
-      var libcalId = api.desks[location].hoursId
+      var libcalId = schema.desks[location].hoursId
     } else {
-      libcalId = api.locations[location].categories[category].hoursId || api.locations[location].hoursId
+      libcalId = schema.locations[location].categories[category].hoursId || schema.locations[location].hoursId
     }
-    const url = api.endpoints.hours + libcalId + requestDate
+    const url = libCal.api.endpoints.hours + libcalId + requestDate
 
     return axios.$get(url)
   },
   async getReservations (axios, location, date = false) {
     const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
-    const scope = 'lid=' + api.locations[location].id
-    const url = api.endpoints.spaces.bookings + scope + requestDate
+    const scope = 'lid=' + schema.locations[location].id
+    const url = libCal.api.endpoints.spaces.bookings + scope + requestDate
 
-    let authorize = await axios.$post(api.endpoints.auth)
+    let authorize = await axios.$post(libCal.api.endpoints.auth)
     axios.setToken(authorize.access_token, 'Bearer')
 
     return axios.$get(url)
@@ -267,7 +277,7 @@ const libCal = {
     return moment().isSameOrAfter(moment(changeTime))
   },
   reserveUrl: function (location, category) {
-    return api.locations[location].categories[category].url || api.locations[location].url || null
+    return schema.locations[location].categories[category].url || schema.locations[location].url || null
   },
   staleCache: function (lastUpdated) {
     // Cache LibCal API response for at least 2 minutes

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Robin from '~/utils/libcal'
+import libCal from '~/utils/libcal'
 
 export default {
   head () {
@@ -49,7 +49,7 @@ export default {
       return this.$store.state.hours
     },
     relativeStatusChange () {
-      return Robin.formatStatusChange(this.hours.statusChange)
+      return libCal.formatStatusChange(this.hours.statusChange)
     },
     statusClass () {
       return 'status--' + this.hours.status.replace(/\s/g, '-')
