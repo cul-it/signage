@@ -20,10 +20,12 @@
         <span class="space__closing">until {{ relativeStatusChange }}</span>
       </li>
       <space-availability-item
-        v-for="booking in spaceSchedule"
+        v-for="(booking, index) in spaceSchedule"
         v-else
         :key="booking.bookId"
         :booking="booking"
+        :desktops="desktops"
+        :index="index"
         :status-change="relativeStatusChange"
       >
         <!-- Override default LibCal slot content if dealing with R25 spaces -->
@@ -51,6 +53,10 @@ export default {
     SpaceAvailabilityItem
   },
   props: {
+    desktops: {
+      type: Number,
+      default: null
+    },
     hours: {
       type: Object,
       required: true

@@ -70,6 +70,7 @@ export default {
           hoursId: 2319,
           url: 'https://mannlib.cornell.edu/reserve/classrooms',
           r25: true,
+          labstats: 'mann',
           spaces: [
             {
               id: 705,

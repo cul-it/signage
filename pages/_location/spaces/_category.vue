@@ -18,6 +18,7 @@
         :key="space"
         :space="space"
         :hours="hours"
+        :desktops="availableDesktops($route.params.location, space)"
       />
     </div>
   </div>
@@ -26,6 +27,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
+import labStats from '~/utils/labstats'
 import libCal from '~/utils/libcal'
 import SpaceAvailability from '~/components/SpaceAvailability'
 
@@ -73,6 +75,10 @@ export default {
       location: params.location,
       category: params.category
     })
+    // Fetch desktop availability from LabStats only when applicable
+    if (labStats.isLabstats(params.location, params.category)) {
+      await store.dispatch('desktops/fetchStatus', params.location)
+    }
   },
   mounted () {
     // Sync current time every 10 seconds
@@ -99,6 +105,12 @@ export default {
     }, 1000 * 60)
   },
   methods: {
+    availableDesktops (location, space) {
+      if (labStats.isLabstats(location, this.$route.params.category)) {
+        const desktops = this.$store.state.desktops
+        return typeof desktops[location][space] === 'undefined' ? null : desktops[location][space]
+      }
+    },
     capitalize (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     }
