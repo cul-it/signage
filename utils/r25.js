@@ -88,11 +88,11 @@ const r25 = {
           const availableNow = libCal.availableSlot(openingTime, booking.fromDate)
           paddedBooking.splice(0, 0, availableNow)
         }
-        // If at least 15 minute gap between this and previous booking, pad before (aka between)
+        // If more than 30 minute gap between this and previous booking, pad before (aka between)
         // -- Historically we have curated classroom availability to prevent/discourage patrons
         // -- coming in to use public machines between two back-to-back classes
         if (prevIndex > -1 &&
-          moment(booking.fromDate).isAfter(moment(allBookings[prevIndex].toDate).add(15, 'minutes'))
+          moment(booking.fromDate).isAfter(moment(allBookings[prevIndex].toDate).add(30, 'minutes'))
         ) {
           const availableSlot = libCal.availableSlot(allBookings[prevIndex].toDate, booking.fromDate)
           paddedBooking.splice(0, 0, availableSlot)
