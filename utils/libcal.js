@@ -86,6 +86,9 @@ const libCal = {
     let spaces = []
     spacesInCategory
       .forEach(s => spaces.push({ 'id': s.id, 'name': s.room, 'capacity': s.capacity }))
+    return spaces
+  },
+  sortSpaces: (spaces, category) => {
     // REVIEW: How common will this be? Should it be configurable via the schema?
     if (category === 'studyrooms' || category === 'b30') spaces.reverse()
     return spaces

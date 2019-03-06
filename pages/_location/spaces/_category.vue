@@ -54,7 +54,7 @@ export default {
       return this.$store.state.hours
     },
     spaces () {
-      return Object.keys(this.$store.state.spaces)
+      return libCal.sortSpaces(Object.keys(this.$store.state.spaces), this.$route.params.category)
     },
     url () {
       return libCal.reserveUrl(this.$route.params.location, this.$route.params.category)
