@@ -19,10 +19,11 @@
       </slot>
     </span>
     <span v-else>
-      <!-- If available & first slot, display desktop availability via LabStats -->
-      <span v-if="index === 0">
-        {{ desktops }}
-      </span>
+      <!-- If available now, allow parent component to inject desktop availability via LabStats -->
+      <slot
+        v-if="index === 0"
+        name="desktopAvailability"
+      />
       Available
     </span>
     <span
@@ -38,10 +39,6 @@ export default {
     booking: {
       type: Object,
       required: true
-    },
-    desktops: {
-      type: Number,
-      default: null
     },
     index: {
       type: Number,

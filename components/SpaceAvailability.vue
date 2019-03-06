@@ -24,10 +24,16 @@
         v-else
         :key="booking.bookId"
         :booking="booking"
-        :desktops="availableDesktops($route.params.location, space)"
         :index="index"
         :status-change="relativeStatusChange"
       >
+        <!-- Desktop availability when applicable -->
+        <template
+          slot="desktopAvailability"
+        >
+          {{ availableDesktops($route.params.location, space) }}
+        </template>
+
         <!-- Override default LibCal slot content if dealing with R25 spaces -->
         <template
           v-if="isR25"
