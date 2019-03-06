@@ -18,7 +18,6 @@
         :key="space"
         :space="space"
         :hours="hours"
-        :desktops="availableDesktops($route.params.location, space)"
       />
     </div>
   </div>
@@ -112,12 +111,6 @@ export default {
     }, 1000 * 60)
   },
   methods: {
-    availableDesktops (location, space) {
-      if (labStats.isLabstats(location, this.$route.params.category)) {
-        const desktops = this.$store.state.desktops
-        return typeof desktops[location][space] === 'undefined' ? null : desktops[location][space]
-      }
-    },
     capitalize (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     }

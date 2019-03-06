@@ -24,7 +24,7 @@
         v-else
         :key="booking.bookId"
         :booking="booking"
-        :desktops="desktops"
+        :desktops="availableDesktops($route.params.location, space)"
         :index="index"
         :status-change="relativeStatusChange"
       >
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import labStats from '~/utils/labstats'
 import libCal from '~/utils/libcal.js'
 import r25 from '~/utils/r25.js'
 import SpaceAvailabilityItem from '~/components/SpaceAvailabilityItem'
@@ -53,10 +54,6 @@ export default {
     SpaceAvailabilityItem
   },
   props: {
-    desktops: {
-      type: Number,
-      default: null
-    },
     hours: {
       type: Object,
       required: true
@@ -78,6 +75,14 @@ export default {
     },
     spaceSchedule () {
       return this.$store.state.spaces[this.space].schedule
+    }
+  },
+  methods: {
+    availableDesktops (location, space) {
+      if (labStats.isLabstats(location, this.$route.params.category)) {
+        const desktops = this.$store.state.desktops
+        return typeof desktops[location][space] === 'undefined' ? null : desktops[location][space]
+      }
     }
   }
 }
