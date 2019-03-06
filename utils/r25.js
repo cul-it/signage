@@ -92,7 +92,7 @@ const r25 = {
         // -- Historically we have curated classroom availability to prevent/discourage patrons
         // -- coming in to use public machines between two back-to-back classes
         if (prevIndex > -1 &&
-          !moment(booking.fromDate).isSame(moment(allBookings[prevIndex].toDate).add(15, 'minutes'))
+          moment(booking.fromDate).isAfter(moment(allBookings[prevIndex].toDate).add(15, 'minutes'))
         ) {
           const availableSlot = libCal.availableSlot(allBookings[prevIndex].toDate, booking.fromDate)
           paddedBooking.splice(0, 0, availableSlot)
