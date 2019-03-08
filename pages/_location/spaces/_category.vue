@@ -26,6 +26,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
+import labStats from '~/utils/labstats'
 import libCal from '~/utils/libcal'
 import SpaceAvailability from '~/components/SpaceAvailability'
 
@@ -73,6 +74,10 @@ export default {
       location: params.location,
       category: params.category
     })
+    // Fetch desktop availability from LabStats only when applicable
+    if (labStats.isLabstats(params.location, params.category)) {
+      await store.dispatch('desktops/fetchStatus', params.location)
+    }
   },
   mounted () {
     // Sync current time every 10 seconds
@@ -89,6 +94,13 @@ export default {
         category: this.$route.params.category
       })
     }, 1000 * 30)
+
+    // Check LabStats for desktop availability every 30 seconds (if applicable)
+    if (labStats.isLabstats(this.$route.params.location, this.$route.params.category)) {
+      setInterval(() => {
+        this.$store.dispatch('desktops/fetchStatus', this.$route.params.location)
+      }, 1000 * 30)
+    }
 
     // Check for reservation changes every minute
     setInterval(() => {

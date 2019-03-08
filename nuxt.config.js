@@ -6,6 +6,8 @@ require('dotenv').config()
 // Body parser middleware needed to inject required fields for LibCal API auth
 const bodyParser = require('body-parser')
 
+const labstatsApi = 'https://online.labstats.com'
+const labstatsApiPath = '/api/labstats/'
 const libcalApi = 'https://api2.libcal.com'
 const libcalApiPath = '/api/libcal/'
 const libcalHoursApi = 'https://api3.libcal.com'
@@ -47,6 +49,14 @@ module.exports = {
     proxy: true
   },
   proxy: {
+    [labstatsApiPath]: {
+      target: labstatsApi,
+      pathRewrite: { [`^${labstatsApiPath}`]: '' },
+      onProxyReq: (proxyReq, req, res) => {
+        // Auth header
+        proxyReq.setHeader('Authorization', process.env.LABSTATS_AUTH)
+      }
+    },
     [libcalApiPath]: {
       target: libcalApi,
       pathRewrite: { [`^${libcalApiPath}`]: '' },

@@ -19,6 +19,11 @@
       </slot>
     </span>
     <span v-else>
+      <!-- If available now, allow parent component to inject desktop availability via LabStats -->
+      <slot
+        v-if="index === 0"
+        name="desktopAvailability"
+      />
       Available
     </span>
     <span
@@ -33,6 +38,10 @@ export default {
   props: {
     booking: {
       type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
       required: true
     },
     statusChange: {

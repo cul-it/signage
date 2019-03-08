@@ -20,12 +20,20 @@
         <span class="space__closing">until {{ relativeStatusChange }}</span>
       </li>
       <space-availability-item
-        v-for="booking in spaceSchedule"
+        v-for="(booking, index) in spaceSchedule"
         v-else
         :key="booking.bookId"
         :booking="booking"
+        :index="index"
         :status-change="relativeStatusChange"
       >
+        <!-- Desktop availability when applicable -->
+        <template
+          slot="desktopAvailability"
+        >
+          {{ availableDesktops($route.params.location, space) }}
+        </template>
+
         <!-- Override default LibCal slot content if dealing with R25 spaces -->
         <template
           v-if="isR25"
@@ -42,6 +50,7 @@
 </template>
 
 <script>
+import labStats from '~/utils/labstats'
 import libCal from '~/utils/libcal.js'
 import r25 from '~/utils/r25.js'
 import SpaceAvailabilityItem from '~/components/SpaceAvailabilityItem'
@@ -72,6 +81,14 @@ export default {
     },
     spaceSchedule () {
       return this.$store.state.spaces[this.space].schedule
+    }
+  },
+  methods: {
+    availableDesktops (location, space) {
+      if (labStats.isLabstats(location, this.$route.params.category)) {
+        const desktops = this.$store.state.desktops
+        return typeof desktops[location][space] === 'undefined' ? null : desktops[location][space]
+      }
     }
   }
 }
