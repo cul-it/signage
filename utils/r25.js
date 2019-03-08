@@ -25,7 +25,6 @@ const r25 = {
           bookId: Number(b.event.event_id._text),
           description: b.event.event_title._text || '',
           fromDate: b.reservation_start_dt._text,
-          // REVIEW: Is empty string needed once we customize template for classrooms?
           spaceId: Number(b.spaces.space_id._text),
           title: b.event.event_name._text,
           toDate: b.reservation_end_dt._text,
