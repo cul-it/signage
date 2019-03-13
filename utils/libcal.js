@@ -48,34 +48,27 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
+  availableTilClose: function (opening, closing) {
+    const availableTilClose = libCal.availableSlot(opening, closing)
+    availableTilClose.lastUp = true
+    return availableTilClose
+  },
   buildSchedule: (bookings, spaces, opening, closing) => {
     let schedule = {}
-    bookings
-      // Only include reservations for requested spaces
-      .filter(b => _.includes(Object.values(spaces).map(s => s.id), b.eid))
-      // Add schedule object for each space
-      .forEach(b => {
-        // Use room name from schema
-        let name = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
 
-        schedule[name] = {
-          id: b.eid,
-          capacity: spaces[name].capacity,
-          schedule: libCal.bookingsParser(bookings, b.eid, opening, closing)
-        }
-      })
-
-    // Insert 'available until closing' slot for any space with empty schedule
+    // Build availability schedule for each spaces
     Object.keys(spaces).forEach(s => {
-      if (typeof schedule[s] === 'undefined' || !schedule[s].schedule.length) {
-        const availableTilClose = libCal.availableSlot(opening, closing)
-        availableTilClose.lastUp = true
+      schedule[s] = {}
+      schedule[s].name = spaces[s].name
 
-        schedule[s] = {
-          id: spaces[s].id,
-          capacity: spaces[s].capacity,
-          schedule: [availableTilClose]
-        }
+      // Only include reservations for requested spaces
+      const filteredBookings = bookings.filter(b => spaces[s].id === b.eid)
+      schedule[s].schedule = libCal.bookingsParser(filteredBookings, spaces[s].id, opening, closing)
+
+      // Insert 'available until closing' slot for any space with empty schedule
+      if (typeof schedule[s].schedule === 'undefined' || !schedule[s].schedule.length) {
+        const allClear = libCal.availableTilClose(opening, closing)
+        schedule[s].schedule = [allClear]
       }
     })
 

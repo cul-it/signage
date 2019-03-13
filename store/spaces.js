@@ -1,4 +1,4 @@
-import { assign, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import libCal from '~/utils/libcal'
 import R25 from '~/utils/r25'
 
@@ -7,7 +7,7 @@ export const state = () => ({
 
 export const mutations = {
   prime: (state, data) => data.forEach(d => (state[d.name] = {'id': d.id, 'capacity': d.capacity, 'name': d.name})),
-  update: (state, data) => assign(state, data)
+  update: (state, data) => Object.keys(data).forEach(d => (state[d].schedule = data[d].schedule))
 }
 
 export const actions = {
