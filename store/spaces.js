@@ -6,7 +6,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  prime: (state, data) => data.forEach(d => (state[d.name] = {'id': d.id, 'capacity': d.capacity})),
+  prime: (state, data) => data.forEach(d => (state[d.name] = {'id': d.id, 'capacity': d.capacity, 'name': d.name})),
   update: (state, data) => assign(state, data)
 }
 
