@@ -61,9 +61,10 @@ const libCal = {
       schedule[s] = {}
       schedule[s].name = spaces[s].name
 
-      // Only include reservations for requested spaces
+      // Only include reservations for requested space(s)
+      // -- and only build a schedule if there are any reservations to deal with
       const filteredBookings = bookings.filter(b => spaces[s].id === b.eid)
-      schedule[s].schedule = libCal.bookingsParser(filteredBookings, spaces[s].id, opening, closing)
+      if (filteredBookings.length > 0) schedule[s].schedule = libCal.bookingsParser(filteredBookings, spaces[s].id, opening, closing)
 
       // Insert 'available until closing' slot for any space with empty schedule
       if (typeof schedule[s].schedule === 'undefined' || !schedule[s].schedule.length) {
