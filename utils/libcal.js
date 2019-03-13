@@ -93,8 +93,11 @@ const libCal = {
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed'
         const thisRoom = booking.eid === room
+        // TODO: This will need to be tweaked once we address early morning closings
+        const startedToday = moment(booking.fromDate).isSameOrAfter(openingTime)
         return thisRoom &&
-          confirmed
+          confirmed &&
+          startedToday
       })
       // Sort by start time
       .sortBy('fromDate')
