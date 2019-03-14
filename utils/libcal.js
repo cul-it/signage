@@ -90,9 +90,10 @@ const libCal = {
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
-      // Filter bookings by room and status(confirmed)
+      // Filter bookings by room and status (confirmed or mediated approved)
       .filter(function (booking, index, allBookings) {
-        const confirmed = booking.status === 'Confirmed'
+        console.log('status:', booking.status)
+        const confirmed = booking.status === 'Confirmed' || booking.status === 'Mediated Approved'
         const thisRoom = booking.eid === room
         // TODO: This will need to be tweaked once we address early morning closings
         const startedToday = moment(booking.fromDate).isSameOrAfter(openingTime)
