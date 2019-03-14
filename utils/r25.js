@@ -10,7 +10,7 @@ const r25 = {
     }
   },
   buildSchedule: (bookings, spaces, opening, closing) => {
-    let space = {}
+    let availability = {}
     if (bookings) {
       // Account for single reservation (create array)
       bookings = Array.isArray(bookings) ? bookings : [bookings]
@@ -42,18 +42,23 @@ const r25 = {
         }
         return true
       })
-    svelte
-      // Add schedule object for each space
-      .forEach(b => {
-        // Use room name from schema
-        let name = Object.entries(spaces).find(s => s[1].id === b.spaceId)[0]
 
-        space[name] = {
-          id: b.spaceId,
-          capacity: spaces[name].capacity,
-          schedule: r25.bookingsParser(svelte, b.spaceId, opening, closing)
-        }
-      })
+    // Build availability schedule for each spaces
+    Object.keys(spaces).forEach(s => {
+      availability[s] = {}
+      availability[s].name = spaces[s].name
+
+      // Only build a schedule if there are any reservations to deal with
+      if (svelte.length > 0) availability[s].schedule = r25.bookingsParser(svelte, spaces[s].id, opening, closing)
+
+      // Insert 'available until closing' slot for any space with empty schedule
+      if (typeof availability[s].schedule === 'undefined' || !availability[s].schedule.length) {
+        const allClear = libCal.availableTilClose(opening, closing)
+        availability[s].schedule = [allClear]
+      }
+    })
+
+    return availability
 
     // TODO: Need to address available slots for days sans reservations!
     // // Insert 'available until closing' slot for any space with empty schedule
@@ -69,8 +74,6 @@ const r25 = {
     //     }
     //   }
     // })
-
-    return space
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
