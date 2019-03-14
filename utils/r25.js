@@ -59,21 +59,6 @@ const r25 = {
     })
 
     return availability
-
-    // TODO: Need to address available slots for days sans reservations!
-    // // Insert 'available until closing' slot for any space with empty schedule
-    // Object.keys(spaces).forEach(s => {
-    //   if (typeof space[s] === 'undefined' || !space[s].schedule.length) {
-    //     const availableTilClose = libCal.availableSlot(opening, closing)
-    //     availableTilClose.lastUp = true
-    //
-    //     space[s] = {
-    //       id: spaces[s].id,
-    //       capacity: spaces[s].capacity,
-    //       schedule: [availableTilClose]
-    //     }
-    //   }
-    // })
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
@@ -122,7 +107,7 @@ const r25 = {
     return roomAvailability
   },
   async getReservations (axios, space, date = false) {
-    const requestDate = date ? '&start_dt=' /* + libCal.formatDate(date) */ : ''
+    const requestDate = date ? '&start_dt=' + libCal.formatDate(date) : ''
     const url = r25.api.endpoints.spaces + space.id + requestDate
     const response = await axios.$get(url)
 
