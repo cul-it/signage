@@ -9,6 +9,7 @@ const r25 = {
       spaces: 'r25/rm_reservations.xml?otransform=json.xsl&space_id='
     }
   },
+  // TODO: Pull out shared functionality with LibCal into common core
   buildSchedule: (bookings, spaces, opening, closing) => {
     let availability = {}
     if (bookings) {

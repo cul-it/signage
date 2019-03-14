@@ -53,6 +53,7 @@ const libCal = {
     availableTilClose.lastUp = true
     return availableTilClose
   },
+  // TODO: Pull out shared functionality with R25 into common core
   buildSchedule: (bookings, spaces, opening, closing) => {
     let availability = {}
 
