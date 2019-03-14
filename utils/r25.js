@@ -9,8 +9,9 @@ const r25 = {
       spaces: 'r25/rm_reservations.xml?otransform=json.xsl&space_id='
     }
   },
+  // TODO: Pull out shared functionality with LibCal into common core
   buildSchedule: (bookings, spaces, opening, closing) => {
-    let space = {}
+    let availability = {}
     if (bookings) {
       // Account for single reservation (create array)
       bookings = Array.isArray(bookings) ? bookings : [bookings]
@@ -42,35 +43,23 @@ const r25 = {
         }
         return true
       })
-    svelte
-      // Add schedule object for each space
-      .forEach(b => {
-        // Use room name from schema
-        let name = Object.entries(spaces).find(s => s[1].id === b.spaceId)[0]
 
-        space[name] = {
-          id: b.spaceId,
-          capacity: spaces[name].capacity,
-          schedule: r25.bookingsParser(svelte, b.spaceId, opening, closing)
-        }
-      })
+    // Build availability schedule for each spaces
+    Object.keys(spaces).forEach(s => {
+      availability[s] = {}
+      availability[s].name = spaces[s].name
 
-    // TODO: Need to address available slots for days sans reservations!
-    // // Insert 'available until closing' slot for any space with empty schedule
-    // Object.keys(spaces).forEach(s => {
-    //   if (typeof space[s] === 'undefined' || !space[s].schedule.length) {
-    //     const availableTilClose = libCal.availableSlot(opening, closing)
-    //     availableTilClose.lastUp = true
-    //
-    //     space[s] = {
-    //       id: spaces[s].id,
-    //       capacity: spaces[s].capacity,
-    //       schedule: [availableTilClose]
-    //     }
-    //   }
-    // })
+      // Only build a schedule if there are any reservations to deal with
+      if (svelte.length > 0) availability[s].schedule = r25.bookingsParser(svelte, spaces[s].id, opening, closing)
 
-    return space
+      // Insert 'available until closing' slot for any space with empty schedule
+      if (typeof availability[s].schedule === 'undefined' || !availability[s].schedule.length) {
+        const allClear = libCal.availableTilClose(opening, closing)
+        availability[s].schedule = [allClear]
+      }
+    })
+
+    return availability
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
@@ -119,7 +108,7 @@ const r25 = {
     return roomAvailability
   },
   async getReservations (axios, space, date = false) {
-    const requestDate = date ? '&start_dt=' /* + libCal.formatDate(date) */ : ''
+    const requestDate = date ? '&start_dt=' + libCal.formatDate(date) : ''
     const url = r25.api.endpoints.spaces + space.id + requestDate
     const response = await axios.$get(url)
 

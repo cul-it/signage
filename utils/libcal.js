@@ -48,38 +48,33 @@ const libCal = {
       startTime: libCal.parseDate(start)
     }
   },
+  availableTilClose: function (opening, closing) {
+    const availableTilClose = libCal.availableSlot(opening, closing)
+    availableTilClose.lastUp = true
+    return availableTilClose
+  },
+  // TODO: Pull out shared functionality with R25 into common core
   buildSchedule: (bookings, spaces, opening, closing) => {
-    let schedule = {}
-    bookings
-      // Only include reservations for requested spaces
-      .filter(b => _.includes(Object.values(spaces).map(s => s.id), b.eid))
-      // Add schedule object for each space
-      .forEach(b => {
-        // Use room name from schema
-        let name = Object.entries(spaces).find(s => s[1].id === b.eid)[0]
+    let availability = {}
 
-        schedule[name] = {
-          id: b.eid,
-          capacity: spaces[name].capacity,
-          schedule: libCal.bookingsParser(bookings, b.eid, opening, closing)
-        }
-      })
-
-    // Insert 'available until closing' slot for any space with empty schedule
+    // Build availability schedule for each spaces
     Object.keys(spaces).forEach(s => {
-      if (typeof schedule[s] === 'undefined' || !schedule[s].schedule.length) {
-        const availableTilClose = libCal.availableSlot(opening, closing)
-        availableTilClose.lastUp = true
+      availability[s] = {}
+      availability[s].name = spaces[s].name
 
-        schedule[s] = {
-          id: spaces[s].id,
-          capacity: spaces[s].capacity,
-          schedule: [availableTilClose]
-        }
+      // Only include reservations for requested space(s)
+      // -- and only build a schedule if there are any reservations to deal with
+      const filteredBookings = bookings.filter(b => spaces[s].id === b.eid)
+      if (filteredBookings.length > 0) availability[s].schedule = libCal.bookingsParser(filteredBookings, spaces[s].id, opening, closing)
+
+      // Insert 'available until closing' slot for any space with empty schedule
+      if (typeof availability[s].schedule === 'undefined' || !availability[s].schedule.length) {
+        const allClear = libCal.availableTilClose(opening, closing)
+        availability[s].schedule = [allClear]
       }
     })
 
-    return schedule
+    return availability
   },
   requestedSpaces: (location, category) => {
     const spacesInCategory = schema.locations[location].categories[category].spaces
@@ -99,8 +94,11 @@ const libCal = {
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed'
         const thisRoom = booking.eid === room
+        // TODO: This will need to be tweaked once we address early morning closings
+        const startedToday = moment(booking.fromDate).isSameOrAfter(openingTime)
         return thisRoom &&
-          confirmed
+          confirmed &&
+          startedToday
       })
       // Sort by start time
       .sortBy('fromDate')
