@@ -174,6 +174,12 @@ $sf: 1.43vw;
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
     font-size: 1.8 * $sf;
+
+    // Fallback for older browsers without css-grid
+    // -- primarily early gen iPads in Olin running < iOS 10.3
+    @supports not (display: grid) {
+      display: flex;
+    }
   }
   &__date {
     text-transform: uppercase;
@@ -182,7 +188,13 @@ $sf: 1.43vw;
     text-align: center;
     color: #fff;
     text-decoration: none;
-    font-size: .9em
+    font-size: .9em;
+
+    // Fallback for older browsers without css-grid
+    // -- primarily early gen iPads in Olin running < iOS 10.3
+    @supports not (display: grid) {
+      flex-grow: 4;
+    }
   }
   &__time {
     text-align: right;
