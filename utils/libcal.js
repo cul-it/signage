@@ -62,6 +62,11 @@ const libCal = {
       availability[s] = {}
       availability[s].name = spaces[s].name
 
+      // Account for early morning closings (aka still open from yesterday)
+      // -- if prior to opening for today set opening time to midnight (today not tomorrow)
+      // -- this ensures that if we are still open the first available slot will have correct start time
+      opening = moment().isBefore(opening) ? moment('12am', libCal.timeFormat) : opening
+
       // Only include reservations for requested space(s)
       // -- and only build a schedule if there are any reservations to deal with
       const filteredBookings = bookings.filter(b => spaces[s].id === b.eid)
@@ -92,7 +97,6 @@ const libCal = {
     const roomAvailability = _(bookings)
       // Filter bookings by room and status (confirmed or mediated approved)
       .filter(function (booking, index, allBookings) {
-        console.log('status:', booking.status)
         const confirmed = booking.status === 'Confirmed' || booking.status === 'Mediated Approved'
         const thisRoom = booking.eid === room
         // TODO: This will need to be tweaked once we address early morning closings
@@ -145,8 +149,17 @@ const libCal = {
 
     return roomAvailability
   },
-  earlyMorningClose: function (closing) {
-    return moment(closing, libCal.timeFormat).isBefore(moment('6am', libCal.timeFormat)) ? closing.add(1, 'day') : closing
+  earlyMorningClose: function (closing, yesterdayCheck = false) {
+    // REVIEW: Revisit logic/boundary for what qualifies as early morning close
+    const isEarlyMorning = moment(closing, libCal.timeFormat).isBefore(moment('6am', libCal.timeFormat))
+
+    // When checking if still open from yesterday, subtract a day
+    if (yesterdayCheck) {
+      return isEarlyMorning ? closing : closing.subtract(1, 'day')
+    }
+
+    // Otherwise add a day for proper comparison with today's closing time
+    return isEarlyMorning ? closing.add(1, 'day') : closing
   },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
@@ -236,11 +249,23 @@ const libCal = {
     return closingTime
   },
   async openNow (axios, location, category, libcalStatus, hours, isDesk = false) {
+    // Assume closed
     let status = {
       current: 'closed',
       timestamp: moment() // Use for caching results from LibCal API
     }
 
+    // Before even considering today's hours, check if still open from yesterday
+    const yesterday = moment().subtract(1, 'days')
+    const stillOpenFromYesterday = await libCal.stillOpenFromYesterday(axios, location, category, yesterday, isDesk)
+
+    if (stillOpenFromYesterday) {
+      status.current = 'open'
+      status.change = stillOpenFromYesterday
+      return status
+    }
+
+    // If not still open from yesterday, proceed with checking today's hours
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
@@ -257,6 +282,7 @@ const libCal = {
       }
     }
 
+    // If we made it this far, the original assumption of closed was correct...congrats
     let statusChange = await libCal.nextOpening(axios, location, category, isDesk)
 
     status.change = statusChange
@@ -266,6 +292,19 @@ const libCal = {
     }
 
     return status
+  },
+  async stillOpenFromYesterday (axios, location, category, yesterday, isDesk = false) {
+    const yesterdayHours = await libCal.hoursForDate(axios, location, category, yesterday, isDesk)
+
+    // If multiple openings/closings, compare against last one for the day
+    let yesterdayClosing = moment(yesterdayHours.pop().to, libCal.timeFormat)
+
+    // Check for early morning close
+    // -- indicate a check for yesterday's hours via 'true' for second param
+    yesterdayClosing = libCal.earlyMorningClose(yesterdayClosing, true)
+
+    // Return yesterday's closing time for truthy
+    return (moment().isBefore(yesterdayClosing)) ? yesterdayClosing : false
   },
   parseDate: function (date) {
     let startDate = moment(date)
