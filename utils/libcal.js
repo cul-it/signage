@@ -99,7 +99,9 @@ const libCal = {
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed' || booking.status === 'Mediated Approved'
         const thisRoom = booking.eid === room
-        // TODO: This will need to be tweaked once we address early morning closings
+        // REVIEW: Perhaps this approach to startedToday filter will suffice for early morning closings
+        // -- based on adjustment to `openingTime` in buildSchedule
+        // -- needs additional testing
         const startedToday = moment(booking.fromDate).isSameOrAfter(openingTime)
         return thisRoom &&
           confirmed &&
