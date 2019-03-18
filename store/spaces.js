@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash'
 import libCal from '~/utils/libcal'
-import R25 from '~/utils/r25'
+import r25 from '~/utils/r25'
 
 export const state = () => ({
 })
@@ -18,12 +18,12 @@ export const actions = {
     // -- c. the stored change in status has past
     // -- d. the clock has struck midnight (we've crossed over to the next day)
     if (isEmpty(state) || libCal.staleCache(state.updated) || libCal.pastChange(state.statusChange) || libCal.nextDay(state.updated)) {
-      const isR25 = R25.isR25(payload.location, payload.category)
+      const isR25 = r25.isR25(payload.location, payload.category)
       // Accommodate API variations from reservation systems
       // -- R25 (Registrar reservation system) requires separate request per space
       // -- LibCal offers endpoint for all spaces within a single location (aka library)
       if (isR25) {
-        var apiTarget = R25
+        var apiTarget = r25
         var apiSpaces = Object.values(state)
       } else {
         apiTarget = libCal
