@@ -219,6 +219,13 @@ const libCal = {
   },
   async hoursForDate (axios, location, category, date, isDesk = false) {
     let feed = await libCal.getHours(axios, location, category, date, isDesk)
+
+    // Account for LibCal returning an empty array under certain key conditions
+    // -- such as when requesting hours for a date in the past beyond the current week
+    // -- (LibCal weeks start on Sunday)
+    // TODO: Reach out to Springshare support and request they increase this limit to past 2 weeks
+    if (feed.length === 0) return null
+
     const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
 
     return hours
@@ -297,6 +304,10 @@ const libCal = {
   },
   async stillOpenFromYesterday (axios, location, category, yesterday, isDesk = false) {
     const yesterdayHours = await libCal.hoursForDate(axios, location, category, yesterday, isDesk)
+
+    // Catch empty response from LibCal when requesting past dates beyond current week
+    // -- more details in hoursForDate()
+    if (!yesterdayHours) return false
 
     // If multiple openings/closings, compare against last one for the day
     let yesterdayClosing = moment(yesterdayHours.pop().to, libCal.timeFormat)
