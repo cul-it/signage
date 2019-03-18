@@ -1,6 +1,7 @@
 import { isEmpty } from 'lodash'
 import libCal from '~/utils/libcal'
 import r25 from '~/utils/r25'
+import moment from 'moment'
 
 export const state = () => ({
 })
@@ -36,6 +37,14 @@ export const actions = {
         if (isR25) spacesToProcess = { [space.name]: space }
 
         let feed = await apiTarget.getReservations(this.$axios, space)
+
+        // If a LibCal space then check tomorrow's bookings as well
+        // -- to capture those early morning bookings that actually take place tomorrow but prior to today's closing
+        // -- confused yet? ;)
+        if (!isR25) {
+          let tomorrowFeed = await apiTarget.getReservations(this.$axios, space, moment().add(1, 'days'))
+          feed = feed.concat(tomorrowFeed)
+        }
 
         let schedule = apiTarget.buildSchedule(feed, spacesToProcess, await libCal.openingTime(this.$axios, payload.location, payload.category), await libCal.closingTime(this.$axios, payload.location, payload.category))
 
