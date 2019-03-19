@@ -99,13 +99,12 @@ const libCal = {
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed' || booking.status === 'Mediated Approved'
         const thisRoom = booking.eid === room
-        // REVIEW: Perhaps this approach to startedToday filter will suffice for early morning closings
-        // -- based on adjustment to `openingTime` in buildSchedule
-        // -- needs additional testing
-        const startedToday = moment(booking.fromDate).isSameOrAfter(openingTime)
+        // REVIEW: How can multi-day reservations (not currently allowed) or B30 policy of booking when closed coexist with whileOpen filter?
+        // -- whileOpen filter returns & is neccessary now that we're fetching reservations for following day due to early morning closings
+        const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
         return thisRoom &&
           confirmed &&
-          startedToday
+          whileOpen
       })
       // Sort by start time
       .sortBy('fromDate')
