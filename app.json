@@ -11,6 +11,9 @@
     "HOST": {
       "required": true
     },
+    "LABSTATS_AUTH": {
+      "required": true
+    },
     "LIBCAL_CLIENT_ID": {
       "required": true
     },
@@ -21,6 +24,9 @@
       "required": true
     },
     "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    },
+    "R25_AUTH": {
       "required": true
     },
     "TZ": {
