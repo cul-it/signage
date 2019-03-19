@@ -35,7 +35,7 @@ const libCal = {
     // If multiple openings/closings, compare against last one for the day
     let lastClosing = moment(hours.pop().to, libCal.timeFormat)
 
-    lastClosing = libCal.earlyMorningClose(lastClosing)
+    lastClosing = libCal.realClosingTime(lastClosing)
 
     return moment().isSameOrAfter(lastClosing)
   },
@@ -151,8 +151,14 @@ const libCal = {
 
     return roomAvailability
   },
-  earlyMorningClose: function (closing, yesterdayCheck = false) {
-    // REVIEW: Revisit logic/boundary for what qualifies as early morning close
+  isEarlyMorningClosing: function (closing) {
+    // REVIEW: Revisit logic/boundary for what qualifies as early morning closing
+    // -- for now, running with after Midnight but before 6am
+    let closingInMinutes = closing.minutes() + closing.hours() * 60
+    return closingInMinutes > 0 && closingInMinutes < 360
+  },
+  realClosingTime: function (closing, yesterdayCheck = false) {
+    // TODO: Utilize isEarlyMorningClosing() here -- needs to be tweaked
     const isEarlyMorning = moment(closing, libCal.timeFormat).isBefore(moment('6am', libCal.timeFormat))
 
     // When checking if still open from yesterday, subtract a day
@@ -252,7 +258,7 @@ const libCal = {
     if (closingTime) {
       // Account for early morning closings the following day
       // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
-      closingTime = libCal.earlyMorningClose(closingTime)
+      closingTime = libCal.realClosingTime(closingTime)
     }
 
     return closingTime
@@ -280,7 +286,7 @@ const libCal = {
       const isOpen = hours.find((hoursBlock) => {
         // Account for early morning closings the following day
         // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
-        const closingTime = libCal.earlyMorningClose(moment(hoursBlock.to, libCal.timeFormat))
+        const closingTime = libCal.realClosingTime(moment(hoursBlock.to, libCal.timeFormat))
         return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), closingTime, null, []))
       })
 
@@ -314,7 +320,7 @@ const libCal = {
 
     // Check for early morning close
     // -- indicate a check for yesterday's hours via 'true' for second param
-    yesterdayClosing = libCal.earlyMorningClose(yesterdayClosing, true)
+    yesterdayClosing = libCal.realClosingTime(yesterdayClosing, true)
 
     // Return yesterday's closing time for truthy
     return (moment().isBefore(yesterdayClosing)) ? yesterdayClosing : false
