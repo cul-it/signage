@@ -254,6 +254,15 @@ const libCal = {
     return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
   async closingTime (axios, location, category, date, isDesk = false) {
+    // Check if still open from yesterday first
+    const requestedDate = typeof date === 'undefined' ? moment() : date
+    const yesterday = requestedDate.subtract(1, 'days')
+    const stillOpenFromYesterday = await libCal.stillOpenFromYesterday(axios, location, category, yesterday, isDesk)
+
+    // If so, return yesterday's closing time since it hasn't happened yet ;)
+    if (stillOpenFromYesterday) return stillOpenFromYesterday
+
+    // Otherwise, proceed with determining today's closing
     const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
