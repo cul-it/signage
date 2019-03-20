@@ -101,7 +101,9 @@ const libCal = {
         const thisRoom = booking.eid === room
         // REVIEW: How can multi-day reservations (not currently allowed) or B30 policy of booking when closed coexist with whileOpen filter?
         // -- whileOpen filter returns & is neccessary now that we're fetching reservations for following day due to early morning closings
-        const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
+        // -- 2019/03/20: more lenient definition for what qualifies for this filter to accommodate bookings that span across midnight
+        // REVIEW: Alternative to this approach -- Should we adjust the opening time (shift it back to previous day opening) as we do for the closing?
+        const whileOpen = moment(booking.fromDate).isBetween(openingTime, closingTime, null, []) || moment(booking.toDate).isBetween(openingTime, closingTime, null, [])
         // Deduping is needed due to bookings that cross over midnight
         // -- these are returned twice...Once for today's bookings and again when querying for tomorrow's bookings
         const dedupe = allBookings.findIndex(b => b.bookId === booking.bookId) === index
