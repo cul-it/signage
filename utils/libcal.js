@@ -95,16 +95,20 @@ const libCal = {
   },
   bookingsParser: function (bookings, room, openingTime, closingTime) {
     const roomAvailability = _(bookings)
-      // Filter bookings by room and status (confirmed or mediated approved)
+      // Filter bookings by room, status (confirmed or mediated approved), while open and remove duplicates
       .filter(function (booking, index, allBookings) {
         const confirmed = booking.status === 'Confirmed' || booking.status === 'Mediated Approved'
         const thisRoom = booking.eid === room
         // REVIEW: How can multi-day reservations (not currently allowed) or B30 policy of booking when closed coexist with whileOpen filter?
         // -- whileOpen filter returns & is neccessary now that we're fetching reservations for following day due to early morning closings
         const whileOpen = moment(booking.fromDate).isSameOrAfter(openingTime) && moment(booking.toDate).isSameOrBefore(closingTime)
+        // Deduping is needed due to bookings that cross over midnight
+        // -- these are returned twice...Once for today's bookings and again when querying for tomorrow's bookings
+        const dedupe = allBookings.findIndex(b => b.bookId === booking.bookId) === index
         return thisRoom &&
           confirmed &&
-          whileOpen
+          whileOpen &&
+          dedupe
       })
       // Sort by start time
       .sortBy('fromDate')
