@@ -117,9 +117,13 @@ const libCal = {
       // Merge consecutive bookings by same patron
       // -- because LibCal's UI is still perplexing to a significant percentage of users
       .filter(function (booking, index, allBookings) {
-        const prevEmail = index > 0 ? allBookings[index - 1].email : null
-        if (booking.email === prevEmail) {
-          allBookings[index - 1].toDate = booking.toDate
+        if (index > 0) {
+          var prevBooking = allBookings[index - 1]
+          var prevEmail = prevBooking.email
+          var prevEnd = prevBooking.toDate
+        }
+        if (booking.email === prevEmail && booking.fromDate === prevEnd) {
+          prevBooking.toDate = booking.toDate
           return false
         }
         return true
