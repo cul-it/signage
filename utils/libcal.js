@@ -114,6 +114,16 @@ const libCal = {
       })
       // Sort by start time
       .sortBy('fromDate')
+      // Merge consecutive bookings by same patron
+      // -- because LibCal's UI is still perplexing to a significant percentage of users
+      .filter(function (booking, index, allBookings) {
+        const prevEmail = index > 0 ? allBookings[index - 1].email : null
+        if (booking.email === prevEmail) {
+          allBookings[index - 1].toDate = booking.toDate
+          return false
+        }
+        return true
+      })
       // Fill gaps between & pad bookings with available slots
       .flatMap(function (booking, index, allBookings) {
         const paddedBooking = [booking]
