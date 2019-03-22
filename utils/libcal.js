@@ -129,12 +129,13 @@ const libCal = {
         }
         return true
       })
-      // Consistent formatting for patron names
+      // Consistent formatting for patron names & drop email
       // -- even though it might result in false formatting for edge cases, preferable
       // -- over haphazard look when patrons enter all upper or lower
       .map(b => {
         b.firstName = libCal.formatPatronName(b.firstName)
         b.lastName = libCal.formatPatronName(b.lastName)[0] + '.' // Initial only (for privacy)
+        delete b.email
         return b
       })
       // Fill gaps between & pad bookings with available slots
