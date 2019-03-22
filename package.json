@@ -15,8 +15,8 @@
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "lodash": "^4.17.4",
-    "nuxt": "^1.4.0",
-    "unique-string": "^1.0.0"
+    "nanoid": "^2.0.1",
+    "nuxt": "^1.4.0"
   },
   "scripts": {
     "dev": "nuxt",
