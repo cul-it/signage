@@ -1,7 +1,7 @@
 import schema from '~/utils/schema'
 import _ from 'lodash'
 import moment from 'moment'
-import uniqueString from 'unique-string'
+import nanoid from 'nanoid'
 
 // Set formatting strings for Moment's calendar method
 // http://momentjs.com/docs/#/customization/calendar
@@ -41,7 +41,7 @@ const libCal = {
   },
   availableSlot: function (start, end) {
     return {
-      bookId: 'avail_' + uniqueString(),
+      bookId: 'avail_' + nanoid(),
       fromDate: start,
       toDate: end,
       isAvailable: true,
