@@ -26,6 +26,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
+import signage from '~/utils/core'
 import labStats from '~/utils/labstats'
 import libCal from '~/utils/libcal'
 import SpaceAvailability from '~/components/SpaceAvailability'
@@ -33,8 +34,8 @@ import SpaceAvailability from '~/components/SpaceAvailability'
 export default {
   head () {
     return {
-      title: this.capitalize(this.$route.params.category),
-      titleTemplate: this.capitalize(this.$route.params.location) + ' - %s',
+      title: signage.capitalize(this.$route.params.category),
+      titleTemplate: signage.capitalize(this.$route.params.location) + ' - %s',
       link: [
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700' },
         // TODO: Use packages for officiaal Vue.js component
@@ -109,11 +110,6 @@ export default {
         category: this.$route.params.category
       })
     }, 1000 * 60)
-  },
-  methods: {
-    capitalize (string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    }
   }
 }
 </script>
