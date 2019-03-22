@@ -1,4 +1,5 @@
 import schema from '~/utils/schema'
+import signage from '~/utils/core'
 import _ from 'lodash'
 import moment from 'moment'
 import nanoid from 'nanoid'
@@ -128,6 +129,14 @@ const libCal = {
         }
         return true
       })
+      // Consistent formatting for patron names
+      // -- even though it might result in false formatting for edge cases, preferable
+      // -- over haphazard look when patrons enter all upper or lower
+      .map(b => {
+        b.firstName = libCal.formatPatronName(b.firstName)
+        b.lastName = libCal.formatPatronName(b.lastName)
+        return b
+      })
       // Fill gaps between & pad bookings with available slots
       .flatMap(function (booking, index, allBookings) {
         const paddedBooking = [booking]
@@ -190,6 +199,9 @@ const libCal = {
   },
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
+  },
+  formatPatronName: function (name) {
+    return signage.capitalize(name.toLowerCase())
   },
   formatStatusChange: function (datetime) {
     const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
