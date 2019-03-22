@@ -134,7 +134,7 @@ const libCal = {
       // -- over haphazard look when patrons enter all upper or lower
       .map(b => {
         b.firstName = libCal.formatPatronName(b.firstName)
-        b.lastName = libCal.formatPatronName(b.lastName)
+        b.lastName = libCal.formatPatronName(b.lastName)[0] + '.' // Initial only (for privacy)
         return b
       })
       // Fill gaps between & pad bookings with available slots

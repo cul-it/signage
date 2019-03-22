@@ -15,7 +15,7 @@
         name="bookingInfo"
       >
         <!-- Default info displayed for LibCal bookings -->
-        {{ booking.firstName }} {{ booking.lastName[0] }}.
+        {{ booking.firstName }} {{ booking.lastName }}
       </slot>
     </span>
     <span v-else>
