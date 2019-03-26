@@ -1,19 +1,15 @@
 <template>
-
   <main>
-
     <aside class="support-warning">
       This page requires CSS Grid and display:contents to display properly in your browser.
     </aside>
 
     <section class="grid">
-      <time v-html="currentTime"/>
-      <Circulation location="olin"/>
-      <Circulation location="uris"/>
+      <time v-html="currentTime" /> <!-- eslint-disable-line vue/no-v-html -->
+      <Circulation location="olin" />
+      <Circulation location="uris" />
     </section>
-
   </main>
-
 </template>
 
 <script>

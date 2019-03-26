@@ -15,7 +15,7 @@ export default {
   },
   availableEquipmentType: (list, type) => {
     return size(
-      filter(list, {equipmentType: type, dueDate: null})
+      filter(list, { equipmentType: type, dueDate: null })
     )
   }
 }

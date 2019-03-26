@@ -6,10 +6,12 @@
         :href="url"
         class="spaces__reserve-link"
       >{{ urlClean }}</a>
+      <!-- eslint-disable vue/no-v-html -->
       <time
         class="spaces__time"
         v-html="currentTime"
       />
+      <!-- eslint-enable vue/no-v-html -->
     </header>
 
     <div :class="'spaces__availability col-' + spaces.length">

@@ -1,6 +1,8 @@
 <template>
   <div class="space">
-    <h1 class="space__number">{{ space }}</h1>
+    <h1 class="space__number">
+      {{ space }}
+    </h1>
 
     <i
       v-if="capacity"
@@ -40,7 +42,9 @@
           slot="bookingInfo"
         >
           <div class="space__slot--r25">
-            <h3 class="slot__title">{{ booking.title }}</h3>
+            <h3 class="slot__title">
+              {{ booking.title }}
+            </h3>
             <span class="slot__description">{{ booking.description }}</span>
           </div>
         </template>

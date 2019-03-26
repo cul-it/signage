@@ -6,8 +6,8 @@ export const state = () => ({
 export const mutations = {
   update (state, feed) {
     state[feed.location] = feed.Groups.reduce((accumulator, g) => {
-      const currentGroup = {[g.Label]: g.Available}
-      return {...accumulator, ...currentGroup}
+      const currentGroup = { [g.Label]: g.Available }
+      return { ...accumulator, ...currentGroup }
     }, 0)
   }
 }

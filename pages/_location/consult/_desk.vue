@@ -3,12 +3,16 @@
     <h1
       :class="[desk, statusClass]"
       class="desk"
-    >{{ desk.replace('-', ' ') }}</h1>
+    >
+      {{ desk.replace('-', ' ') }}
+    </h1>
 
     <p
       v-if="hours.description"
       class="description"
-    >{{ hours.description }}</p>
+    >
+      {{ hours.description }}
+    </p>
 
     <div class="status">
       <span
@@ -17,8 +21,9 @@
       >{{ hours.status }}</span> <span class="until knockout">until</span>
       <time
         class="status__change"
-        v-html="relativeStatusChange"
-      />
+      >
+        {{ relativeStatusChange }}
+      </time>
     </div>
   </div>
 </template>
