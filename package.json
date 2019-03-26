@@ -16,7 +16,7 @@
     "nuxt": "^2.5.1"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt -o",
     "build": "nuxt build",
     "start": "nuxt start",
     "heroku-postbuild": "npm run build",
