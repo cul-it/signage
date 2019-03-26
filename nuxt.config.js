@@ -1,10 +1,10 @@
 // Use .env in nuxt config only (keep secrets on the dl)
 // -- https://github.com/nuxt/nuxt.js/issues/2033#issuecomment-398820574
 // -- https://github.com/nuxt-community/dotenv-module#using-env-file-in-nuxtconfigjs
-require('dotenv').config()
+import 'dotenv/config'
 
 // Body parser middleware needed to inject required fields for LibCal API auth
-const bodyParser = require('body-parser')
+import bodyParser from 'body-parser'
 
 const labstatsApi = 'https://online.labstats.com'
 const labstatsApiPath = '/api/labstats/'
