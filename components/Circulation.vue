@@ -21,7 +21,8 @@
       />
       <Device
         :count="laptops[location].windowsAvailable"
-        type="windows"/>
+        type="windows"
+      />
     </div>
 
     <h2 :class="location + '-phone-chargers'">

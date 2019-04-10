@@ -4,7 +4,7 @@
       :class="{ unavailable: !count }"
       class="device-count"
     >{{ count }}</span>
-    <span v-html="deviceStatus"/>
+    <span v-html="deviceStatus" /> <!-- eslint-disable-line vue/no-v-html -->
     <span
       :class="{ unavailable: !count }"
       class="available"
@@ -30,6 +30,7 @@ export default {
     }
   },
   computed: {
+    // TODO: Refactor needed. Component? Util method? A little of both?
     deviceStatus () {
       if (this.type === 'apple') {
         return '<span class="fa fa-' + this.type + ' device-icon" aria-hidden="true"></span>'
@@ -38,6 +39,7 @@ export default {
       } else if (this.type === 'phoneCharger') {
         return '<span class="device-type__info--availability">' + this.model + '</span>'
       }
+      return false
     }
   }
 }
