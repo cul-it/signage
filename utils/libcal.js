@@ -181,6 +181,9 @@ const libCal = {
     return roomAvailability
   },
   isEarlyMorningClosing: function (closing) {
+    // Catch if LibCal hours for location are undefined
+    if (!closing) return false
+
     // REVIEW: Revisit logic/boundary for what qualifies as early morning closing
     // -- for now, running with after Midnight but before 6am
     let closingInMinutes = closing.minutes() + closing.hours() * 60
