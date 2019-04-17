@@ -4,7 +4,7 @@
       :class="{ unavailable: !count }"
       class="device-count"
     >{{ count }}</span>
-    <span v-html="deviceStatus" /> <!-- eslint-disable-line vue/no-v-html -->
+    <span v-html="deviceStatus" /><!-- eslint-disable-line vue/no-v-html -->
     <span
       :class="{ unavailable: !count }"
       class="available"
