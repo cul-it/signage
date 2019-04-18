@@ -23,6 +23,11 @@
         :count="laptops[location].windowsAvailable"
         type="windows"
       />
+      <Device
+        v-if="location === 'olin'"
+        :count="laptops[location].chromebookAvailable"
+        type="chrome"
+      />
     </div>
 
     <h2 :class="location + '-phone-chargers'">
