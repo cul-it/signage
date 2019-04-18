@@ -98,6 +98,13 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    loaders: {
+      vue: {
+        compilerOptions: {
+          whitespace: 'condense'
+        }
+      }
+    },
     /*
     ** Run ESLINT on save
     */

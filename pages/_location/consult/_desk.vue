@@ -18,7 +18,8 @@
       <span
         :class="hours.status"
         class="status__current"
-      >{{ hours.status }}</span> <span class="until knockout">until</span>
+      >{{ hours.status }}</span>
+      <span class="until knockout">until</span>
       <time
         class="status__change"
       >
