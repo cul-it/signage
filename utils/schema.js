@@ -33,14 +33,6 @@ export default {
       hoursId: 2204,
       description: []
     },
-    gws: {
-      hoursId: 3303,
-      description: [
-        'writing',
-        'grad',
-        'appt only'
-      ]
-    },
     knight: {
       hoursId: 3018,
       description: [
