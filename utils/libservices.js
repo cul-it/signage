@@ -1,6 +1,6 @@
 import { filter, size } from 'lodash'
 
-const baseUrl = 'http://jaf30-dev.library.cornell.edu:8080/LibServices/'
+const baseUrl = 'http://jaf30-dev.library.cornell.edu/LibServices/'
 
 export default {
   api: {
