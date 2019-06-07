@@ -166,9 +166,8 @@ export default {
       categories: {
         cocktail: {
           id: false,
-          // Fallback to library hours for now since dept hours are currently undefined
-          // hoursId: 8902,
-          url: 'https://spaces.library.cornell.edu/reserve/uris/cocktail',
+          hoursId: 3657,
+          url: 'https://spaces.library.cornell.edu/reserve/uris-cocktail',
           spaces: [
             {
               id: 5647,
