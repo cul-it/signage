@@ -158,6 +158,32 @@ export default {
           ]
         }
       }
+    },
+    uris: {
+      id: 94,
+      hoursId: 2830,
+      url: 'https://spaces.library.cornell.edu/reserve/uris',
+      categories: {
+        cocktail: {
+          id: false,
+          hoursId: 3657,
+          url: 'https://spaces.library.cornell.edu/reserve/uris-cocktail',
+          spaces: [
+            {
+              id: 5647,
+              room: '4B02'
+            },
+            {
+              id: 5648,
+              room: '4B03'
+            },
+            {
+              id: 5649,
+              room: '4B04'
+            }
+          ]
+        }
+      }
     }
   }
 }

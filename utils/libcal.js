@@ -208,6 +208,7 @@ const libCal = {
     return signage.capitalize(name.toLowerCase())
   },
   formatStatusChange: function (datetime) {
+    if (!datetime) return 'null' // Catch when status change is undefined (i.e. no closing time set in LibCal hours)
     const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
     return statusChange === '12:00 am' ? 'Midnight' : statusChange
   },
@@ -328,15 +329,20 @@ const libCal = {
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
       const isOpen = hours.find((hoursBlock) => {
-        // Account for early morning closings the following day
-        // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
-        const closingTime = libCal.realClosingTime(moment(hoursBlock.to, libCal.timeFormat))
-        return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), closingTime, null, []))
+        // If `to` time is undefined/empty for block, assume space is open for the rest of the day
+        if (hoursBlock.to === '') {
+          return true
+        } else {
+          // Account for early morning closings the following day
+          // -- LibCal only returns time, no date, so add a day to early morning closings for true comparisons
+          const closingTime = libCal.realClosingTime(moment(hoursBlock.to, libCal.timeFormat))
+          return (moment().isBetween(moment(hoursBlock.from, libCal.timeFormat), closingTime, null, []))
+        }
       })
 
       if (isOpen !== undefined) {
         status.current = 'open'
-        status.change = moment(isOpen.to, libCal.timeFormat)
+        status.change = isOpen.to === '' ? null : moment(isOpen.to, libCal.timeFormat) // Set to null when `to` time is undefined/empty
         return status
       }
     }
