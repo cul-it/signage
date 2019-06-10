@@ -26,8 +26,9 @@
       />
       Available
     </span>
+    <!-- Closing info if last booking and closing is defined/known -->
     <span
-      v-if="booking.lastUp"
+      v-if="booking.lastUp && statusChange !== 'null'"
       class="space__closing"
     >until closing at {{ statusChange }}</span>
   </li>
