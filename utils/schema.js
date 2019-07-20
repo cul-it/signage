@@ -182,6 +182,16 @@ export default {
               room: '4B04'
             }
           ]
+        },
+        interview: {
+          id: false,
+          url: 'https://spaces.library.cornell.edu/reserve/uris-interview',
+          spaces: [
+            {
+              id: 30587,
+              room: 'Uris 108'
+            }
+          ]
         }
       }
     }
