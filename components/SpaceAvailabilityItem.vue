@@ -2,7 +2,11 @@
   <li
     :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
   >
-    <time class="slot__start">
+    <!-- No start time for locations open 24 hours -->
+    <time
+      v-if="booking.startTime"
+      class="slot__start"
+    >
       {{ booking.startTime.hour }}
       <div class="start__stack">
         <span class="start__minutes">{{ booking.startTime.minute }}</span>
@@ -30,7 +34,14 @@
     <span
       v-if="booking.lastUp && statusChange !== 'null'"
       class="space__closing"
-    >until closing at {{ statusChange }}</span>
+    >
+      <!-- Handling for locations open 24 hours -->
+      <span
+        v-if="statusChange !== 'Open 24 hours'"
+      > until closing at</span>
+      {{ statusChange }}
+    </span>
+    <!-- until closing at {{ statusChange }}</span> -->
   </li>
 </template>
 
