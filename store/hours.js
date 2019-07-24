@@ -24,7 +24,12 @@ export const actions = {
       const feed = await libCal.getHours(this.$axios, payload.location, category, undefined, isDesk)
 
       const libCalStatus = feed.locations[0].times.status
-      const allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+      // Account for locations open 24 hours
+      if (libCalStatus === '24hours') {
+        var allHours = libCalStatus
+      } else {
+        allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+      }
       const status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk)
 
       // Relabel status under certain circumstances

@@ -32,7 +32,7 @@ const libCal = {
   },
   timeFormat: 'h:mm a',
   alreadyClosed: function (hours) {
-    if (hours === null) return false
+    if (hours === null || hours === '24hours') return false
     // If multiple openings/closings, compare against last one for the day
     let lastClosing = moment(hours.pop().to, libCal.timeFormat)
 
@@ -209,6 +209,7 @@ const libCal = {
   },
   formatStatusChange: function (datetime) {
     if (!datetime) return 'null' // Catch when status change is undefined (i.e. no closing time set in LibCal hours)
+    if (datetime === 'Open 24 hours') return datetime
     const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
     return statusChange === '12:00 am' ? 'Midnight' : statusChange
   },
@@ -268,7 +269,12 @@ const libCal = {
     // TODO: Reach out to Springshare support and request they increase this limit to past 2 weeks
     if (feed.length === 0) return null
 
-    const hours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+    const times = feed.locations[0].times
+
+    // Account for locations open 24 hours
+    if (times.status === '24hours') return times.status
+
+    const hours = typeof times.hours === 'undefined' ? null : times.hours
 
     return hours
   },
@@ -325,6 +331,13 @@ const libCal = {
       return status
     }
 
+    // Account for locations open 24 hours
+    if (libcalStatus === '24hours') {
+      status.current = 'open'
+      status.change = 'Open 24 hours'
+      return status
+    }
+
     // If not still open from yesterday, proceed with checking today's hours
     if (hours) {
       // Account for potential of multiple openings/closings in a given day
@@ -363,7 +376,8 @@ const libCal = {
 
     // Catch empty response from LibCal when requesting past dates beyond current week
     // -- more details in hoursForDate()
-    if (!yesterdayHours) return false
+    // -- same deal if location is open 24hrs
+    if (!yesterdayHours || yesterdayHours === '24hours') return false
 
     // If multiple openings/closings, compare against last one for the day
     let yesterdayClosing = moment(yesterdayHours.pop().to, libCal.timeFormat)
@@ -376,6 +390,8 @@ const libCal = {
     return (moment().isBefore(yesterdayClosing)) ? yesterdayClosing : false
   },
   parseDate: function (date) {
+    // Catch invalid dates -- expected when dealing with locations open 24 hours
+    if (!moment(date).isValid()) return null
     let startDate = moment(date)
     let startTime = {}
     startTime.hour = startDate.format('h')
