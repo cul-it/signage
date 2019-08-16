@@ -143,16 +143,6 @@ export default {
       letter-spacing: 15.1vw;
     }
 
-    &.career {
-      letter-spacing: 2.9vw;
-    }
-
-    &.cu-career {
-      padding: .05em 0 0 .04em;
-      font-size: 26vh;
-      letter-spacing: -1vw;
-    }
-
     &.ciser {
       letter-spacing: 9.6vw;
     }
@@ -160,11 +150,6 @@ export default {
     &.knight {
       padding-left: 0;
       letter-spacing: 3vw;
-    }
-
-    &.rdmsg {
-      padding-left: 0;
-      letter-spacing: 5.3vw;
     }
 
     &.reference {
