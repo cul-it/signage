@@ -281,6 +281,10 @@ const libCal = {
   async openingTime (axios, location, category, date, isDesk = false) {
     const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
 
+    // Set opening time to 12am for locations open 24 hours
+    // -- needed to satisfy whileOpen filter in bookingsParser()
+    if (hours === '24hours') return moment('12am', libCal.timeFormat)
+
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
     const hoursClone = hours !== null ? hours.slice(0) : null
@@ -303,6 +307,10 @@ const libCal = {
 
     // Otherwise, proceed with determining today's closing
     const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
+
+    // Set closing time to 11:59pm for locations open 24 hours
+    // -- needed to satisfy whileOpen filter in bookingsParser()
+    if (hours === '24hours') return moment('11:59pm', libCal.timeFormat)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 
