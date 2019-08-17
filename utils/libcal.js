@@ -208,7 +208,6 @@ const libCal = {
     return signage.capitalize(name.toLowerCase())
   },
   formatStatusChange: function (datetime) {
-    if (!datetime) return 'null' // Catch when status change is undefined (i.e. no closing time set in LibCal hours)
     if (datetime === 'Open 24 hours') return datetime
     const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
     return statusChange === '12:00 am' ? 'Midnight' : statusChange
