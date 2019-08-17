@@ -2,11 +2,7 @@
   <li
     :class="['space__slot', {'space__slot--available': booking.isAvailable}]"
   >
-    <!-- No start time for locations open 24 hours -->
-    <time
-      v-if="booking.startTime"
-      class="slot__start"
-    >
+    <time class="slot__start">
       {{ booking.startTime.hour }}
       <div class="start__stack">
         <span class="start__minutes">{{ booking.startTime.minute }}</span>
