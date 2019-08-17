@@ -208,7 +208,6 @@ const libCal = {
     return signage.capitalize(name.toLowerCase())
   },
   formatStatusChange: function (datetime) {
-    if (!datetime) return 'null' // Catch when status change is undefined (i.e. no closing time set in LibCal hours)
     if (datetime === 'Open 24 hours') return datetime
     const statusChange = datetime === null ? 'no upcoming openings' : moment(datetime).calendar()
     return statusChange === '12:00 am' ? 'Midnight' : statusChange
@@ -281,6 +280,10 @@ const libCal = {
   async openingTime (axios, location, category, date, isDesk = false) {
     const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
 
+    // Set opening time to 12am for locations open 24 hours
+    // -- needed to satisfy whileOpen filter in bookingsParser()
+    if (hours === '24hours') return moment('12am', libCal.timeFormat)
+
     // Copy hours since it gets emptied after using as function param
     // -- TODO: Consider immutable.js or seamless-immutable
     const hoursClone = hours !== null ? hours.slice(0) : null
@@ -303,6 +306,10 @@ const libCal = {
 
     // Otherwise, proceed with determining today's closing
     const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
+
+    // Set closing time to 11:59pm for locations open 24 hours
+    // -- needed to satisfy whileOpen filter in bookingsParser()
+    if (hours === '24hours') return moment('11:59pm', libCal.timeFormat)
 
     let closingTime = hours !== null ? moment(hours[0].to, libCal.timeFormat) : null
 

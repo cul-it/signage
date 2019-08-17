@@ -1,11 +1,5 @@
 export default {
   desks: {
-    career: {
-      hoursId: 7733,
-      description: [
-        'CALS student services'
-      ]
-    },
     ciser: {
       hoursId: 3016,
       description: []
@@ -14,13 +8,6 @@ export default {
       hoursId: 3017,
       description: [
         'statistical consulting'
-      ]
-    },
-    'cu-career': {
-      hoursId: 7734,
-      description: [
-        'Graduate',
-        'Cornell Career Services'
       ]
     },
     elso: {
@@ -38,12 +25,6 @@ export default {
       description: [
         'writing',
         'walk-in'
-      ]
-    },
-    rdmsg: {
-      hoursId: 3302,
-      description: [
-        'research data management'
       ]
     },
     reference: {
