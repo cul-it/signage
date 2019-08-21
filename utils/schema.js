@@ -137,6 +137,15 @@ export default {
               room: 'Olin CoLab'
             }
           ]
+        },
+        room104: {
+          id: false,
+          spaces: [
+            {
+              id: 51625,
+              room: 'Olin 104'
+            }
+          ]
         }
       }
     },
