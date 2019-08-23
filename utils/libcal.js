@@ -204,6 +204,15 @@ const libCal = {
   formatDate: function (date) {
     return moment(date).format('Y-MM-DD')
   },
+  formatDeskName: function (desk) {
+    desk = desk.replace('-', ' ')
+    switch (desk) {
+      case 'cit':
+        desk = 'IT@Cornell'
+        break
+    }
+    return desk
+  },
   formatPatronName: function (name) {
     return signage.capitalize(name.toLowerCase())
   },

@@ -4,7 +4,7 @@
       :class="[desk, statusClass]"
       class="desk"
     >
-      {{ desk.replace('-', ' ') }}
+      {{ formattedDesk }}
     </h1>
 
     <p
@@ -51,6 +51,9 @@ export default {
     }
   },
   computed: {
+    formattedDesk () {
+      return libCal.formatDeskName(this.desk)
+    },
     hours () {
       return this.$store.state.hours
     },
