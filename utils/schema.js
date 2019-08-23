@@ -4,6 +4,12 @@ export default {
       hoursId: 3016,
       description: []
     },
+    cit: {
+      hoursId: 11307,
+      description: [
+        'IT service desk consulting'
+      ]
+    },
     cscu: {
       hoursId: 3017,
       description: [
