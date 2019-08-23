@@ -142,12 +142,18 @@ export default {
       border-color: #37867b;
     }
 
-    &.elso {
-      letter-spacing: 15.1vw;
-    }
-
     &.ciser {
       letter-spacing: 9.6vw;
+    }
+
+    &.cit {
+      padding: .1em 0 0;
+      font-size: 23.2vh;
+      letter-spacing: -1vw;
+    }
+
+    &.elso {
+      letter-spacing: 15.1vw;
     }
 
     &.knight {
