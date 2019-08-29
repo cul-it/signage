@@ -146,6 +146,7 @@ export default {
         },
         room104: {
           id: false,
+          hoursId: 11395,
           spaces: [
             {
               id: 51625,
