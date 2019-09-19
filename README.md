@@ -56,6 +56,9 @@ $ git clone git@github.com:cul-it/signage.git
 $ cd signage
 $ yarn
 
+# manage secrets via dotenv
+$ cp .env.example .env   # -- swap placeholders with valid values
+
 # serve with hot reload at localhost:3000
 $ yarn dev
 ```
