@@ -2,6 +2,10 @@
 
 Nuxt.js app powering digital signage throught Cornell University Library.
 
+* [Current Lineup](#current-lineup)
+* [Dev QuickStart](#dev-quickstart)
+* [Deployment via Heroku](#deployment-via-heroku)
+
 ## Current Lineup
 
 ### Consultation Desks (@ Mann)
