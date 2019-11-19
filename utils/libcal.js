@@ -82,6 +82,17 @@ const libCal = {
 
     return availability
   },
+  requestedCircSpaces: (location) => {
+    const circSpaces = schema.locations[location].circ.spaces
+    let spaces = []
+    Object.entries(circSpaces)
+      .forEach(([key, value]) => {
+        value
+          .forEach(s => spaces.push({ 'id': s.id, 'name': s.room, 'capacity': s.capacity, 'group': key }))
+      })
+
+    return spaces
+  },
   requestedSpaces: (location, category) => {
     const spacesInCategory = schema.locations[location].categories[category].spaces
     let spaces = []
@@ -224,10 +235,12 @@ const libCal = {
   formatTime: function (date) {
     return moment(date).format(libCal.timeFormat)
   },
-  getHours: function (axios, location, category, date, isDesk = false) {
+  getHours: function (axios, location, category, date, isDesk = false, isCirc = false) {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
     if (isDesk) {
       var libcalId = schema.desks[location].hoursId
+    } else if (isCirc) {
+      libcalId = schema.locations[location].hoursId
     } else {
       libcalId = schema.locations[location].categories[category].hoursId || schema.locations[location].hoursId
     }
@@ -248,13 +261,13 @@ const libCal = {
   nextDay: function (lastUpdated) {
     return moment().isAfter(moment(lastUpdated), 'd')
   },
-  async nextOpening (axios, location, category, isDesk = false) {
+  async nextOpening (axios, location, category, isDesk = false, isCirc = false) {
     var bigWinner = null
 
     // Check today plus next 14 days
     for (var i = 0; i < 15; i++) {
       var dateToCheck = moment().add(i, 'days')
-      var openingTime = await libCal.openingTime(axios, location, category, libCal.formatDate(dateToCheck), isDesk)
+      var openingTime = await libCal.openingTime(axios, location, category, libCal.formatDate(dateToCheck), isDesk, isCirc)
 
       if (openingTime !== null) {
         // Use openingTime to update existing moment and set hours & mins
@@ -268,8 +281,8 @@ const libCal = {
 
     return bigWinner
   },
-  async hoursForDate (axios, location, category, date, isDesk = false) {
-    let feed = await libCal.getHours(axios, location, category, date, isDesk)
+  async hoursForDate (axios, location, category, date, isDesk = false, isCirc = false) {
+    let feed = await libCal.getHours(axios, location, category, date, isDesk, isCirc)
 
     // Account for LibCal returning an empty array under certain key conditions
     // -- such as when requesting hours for a date in the past beyond the current week
@@ -286,8 +299,8 @@ const libCal = {
 
     return hours
   },
-  async openingTime (axios, location, category, date, isDesk = false) {
-    const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
+  async openingTime (axios, location, category, date, isDesk = false, isCirc = false) {
+    const hours = await libCal.hoursForDate(axios, location, category, date, isDesk, isCirc)
 
     // Set opening time to 12am for locations open 24 hours
     // -- needed to satisfy whileOpen filter in bookingsParser()
@@ -304,17 +317,17 @@ const libCal = {
 
     return hours !== null ? moment(hours[0].from, libCal.timeFormat) : null
   },
-  async closingTime (axios, location, category, date, isDesk = false) {
+  async closingTime (axios, location, category, date, isDesk = false, isCirc = false) {
     // Check if still open from yesterday first
     const requestedDate = typeof date === 'undefined' ? moment() : date
     const yesterday = requestedDate.subtract(1, 'days')
-    const stillOpenFromYesterday = await libCal.stillOpenFromYesterday(axios, location, category, yesterday, isDesk)
+    const stillOpenFromYesterday = await libCal.stillOpenFromYesterday(axios, location, category, yesterday, isDesk, isCirc)
 
     // If so, return yesterday's closing time since it hasn't happened yet ;)
     if (stillOpenFromYesterday) return stillOpenFromYesterday
 
     // Otherwise, proceed with determining today's closing
-    const hours = await libCal.hoursForDate(axios, location, category, date, isDesk)
+    const hours = await libCal.hoursForDate(axios, location, category, date, isDesk, isCirc)
 
     // Set closing time to 11:59pm for locations open 24 hours
     // -- needed to satisfy whileOpen filter in bookingsParser()
@@ -330,7 +343,7 @@ const libCal = {
 
     return closingTime
   },
-  async openNow (axios, location, category, libcalStatus, hours, isDesk = false) {
+  async openNow (axios, location, category, libcalStatus, hours, isDesk = false, isCirc = false) {
     // Assume closed
     let status = {
       current: 'closed',
@@ -339,7 +352,7 @@ const libCal = {
 
     // Before even considering today's hours, check if still open from yesterday
     const yesterday = moment().subtract(1, 'days')
-    const stillOpenFromYesterday = await libCal.stillOpenFromYesterday(axios, location, category, yesterday, isDesk)
+    const stillOpenFromYesterday = await libCal.stillOpenFromYesterday(axios, location, category, yesterday, isDesk, isCirc)
 
     if (stillOpenFromYesterday) {
       status.current = 'open'
@@ -377,7 +390,7 @@ const libCal = {
     }
 
     // If we made it this far, the original assumption of closed was correct...congrats
-    let statusChange = await libCal.nextOpening(axios, location, category, isDesk)
+    let statusChange = await libCal.nextOpening(axios, location, category, isDesk, isCirc)
 
     status.change = statusChange
 
@@ -387,8 +400,8 @@ const libCal = {
 
     return status
   },
-  async stillOpenFromYesterday (axios, location, category, yesterday, isDesk = false) {
-    const yesterdayHours = await libCal.hoursForDate(axios, location, category, yesterday, isDesk)
+  async stillOpenFromYesterday (axios, location, category, yesterday, isDesk = false, isCirc = false) {
+    const yesterdayHours = await libCal.hoursForDate(axios, location, category, yesterday, isDesk, isCirc)
 
     // Catch empty response from LibCal when requesting past dates beyond current week
     // -- more details in hoursForDate()

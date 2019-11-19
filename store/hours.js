@@ -21,7 +21,8 @@ export const actions = {
     if (isEmpty(state) || libCal.staleCache(state.updated) || libCal.pastChange(state.statusChange) || libCal.nextDay(state.updated)) {
       const category = payload.category || null
       const isDesk = typeof payload.desk === 'undefined' ? false : payload.desk
-      const feed = await libCal.getHours(this.$axios, payload.location, category, undefined, isDesk)
+      const isCirc = typeof payload.circ === 'undefined' ? false : payload.circ
+      const feed = await libCal.getHours(this.$axios, payload.location, category, undefined, isDesk, isCirc)
 
       const libCalStatus = feed.locations[0].times.status
       // Account for locations open 24 hours
@@ -30,7 +31,7 @@ export const actions = {
       } else {
         allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
       }
-      const status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk)
+      const status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk, isCirc)
 
       // Relabel status under certain circumstances
       let statusLabel = libCal.statusLabel(payload.location, status.current)

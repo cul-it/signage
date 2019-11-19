@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash'
+import { kebabCase, isEmpty } from 'lodash'
 import libCal from '~/utils/libcal'
 import r25 from '~/utils/r25'
 import moment from 'moment'
@@ -7,7 +7,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  prime: (state, data) => data.forEach(d => (state[d.name] = { 'id': d.id, 'capacity': d.capacity, 'name': d.name })),
+  prime: (state, data) => data.forEach(d => (state[d.name] = { 'capacity': d.capacity, 'group': kebabCase(d.group), 'id': d.id, 'name': d.name })),
   update: (state, data) => Object.keys(data).forEach(d => (Object.assign(state[d], data[d])))
 }
 
@@ -19,9 +19,10 @@ export const actions = {
     // -- c. the stored change in status has past
     // -- d. the clock has struck midnight (we've crossed over to the next day)
     if (isEmpty(state) || libCal.staleCache(state.updated) || libCal.pastChange(state.statusChange) || libCal.nextDay(state.updated)) {
-      const isR25 = r25.isR25(payload.location, payload.category)
-      const opening = await libCal.openingTime(this.$axios, payload.location, payload.category)
-      const closing = await libCal.closingTime(this.$axios, payload.location, payload.category)
+      // const isR25 = r25.isR25(payload.location, payload.category)
+      const isR25 = false
+      const opening = await libCal.openingTime(this.$axios, payload.location, payload.category, moment(), false, true)
+      const closing = await libCal.closingTime(this.$axios, payload.location, payload.category, moment(), false, true)
       const isEarlyMorningClosing = libCal.isEarlyMorningClosing(closing)
 
       // Accommodate API variations from reservation systems
