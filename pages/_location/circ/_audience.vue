@@ -52,10 +52,41 @@ export default {
       location: params.location,
       category: params.audience
     })
-    // Fetch desktop availability from LabStats only when applicable
+    // // Fetch desktop availability from LabStats only when applicable
     // if (labStats.isLabstats(params.location, params.category)) {
     //   await store.dispatch('desktops/fetchStatus', params.location)
     // }
+  },
+  mounted () {
+    // Sync current time every 10 seconds
+    // -- ideally, this would happen within the store itself (as part of the action),
+    // -- but encountered a bug when attempting this via Nuxt. No issue in vanilla Vue.
+    setInterval(() => {
+      this.$store.dispatch('time/sync')
+    }, 1000 * 10)
+
+    // Update hours every 30 seconds
+    setInterval(() => {
+      this.$store.dispatch('hours/fetch', {
+        location: this.$route.params.location,
+        circ: true
+      })
+    }, 1000 * 30)
+
+    // // Check LabStats for desktop availability every 30 seconds (if applicable)
+    // if (labStats.isLabstats(this.$route.params.location, this.$route.params.category)) {
+    //   setInterval(() => {
+    //     this.$store.dispatch('desktops/fetchStatus', this.$route.params.location)
+    //   }, 1000 * 30)
+    // }
+
+    // Check for reservation changes every minute
+    setInterval(() => {
+      this.$store.dispatch('spaces/fetchSchedule', {
+        location: this.$route.params.location,
+        category: this.$route.params.audience
+      })
+    }, 1000 * 60)
   }
 }
 </script>
