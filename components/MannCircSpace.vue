@@ -14,7 +14,7 @@
         <span class="space__status--closed">{{ hours.status }}</span>
         <span class="space__closing">until {{ relativeStatusChange }}</span>
       </li>
-      <space-availability-item
+      <mann-circ-space-item
         v-for="(booking, index) in spaceSchedule.slice(0, 2)"
         v-else
         :key="booking.bookId"
@@ -41,7 +41,7 @@
             <span class="slot__description">{{ booking.description }}</span>
           </div>
         </template> -->
-      </space-availability-item>
+      </mann-circ-space-item>
     </ul>
   </div>
 </template>
@@ -50,11 +50,11 @@
 import labStats from '~/utils/labstats'
 import libCal from '~/utils/libcal.js'
 import r25 from '~/utils/r25.js'
-import SpaceAvailabilityItem from '~/components/SpaceAvailabilityItem'
+import MannCircSpaceItem from '~/components/MannCircSpaceItem'
 
 export default {
   components: {
-    SpaceAvailabilityItem
+    MannCircSpaceItem
   },
   props: {
     hours: {
