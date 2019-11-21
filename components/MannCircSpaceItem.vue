@@ -66,11 +66,11 @@ $sf: 1.43vw;
 
 .slot__start {
   position: absolute;
-  top: 23%;
+  top: 1%;
   left: 5px;
   color: #fff;
   display: flex;
-  font-size: 2.2 * $sf;
+  font-size: 1.8 * $sf;
 }
 .start__stack {
   margin-top: .1em;

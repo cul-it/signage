@@ -119,11 +119,10 @@ $sf: 1.43vw;
   font-size: 1.8 * $sf;
 }
 .space__slot {
-  display: inline-block;
+  display: grid;
+  place-content: center center;
   position: relative;
   flex-grow: 1;
-  // margin: .4em 0;
-  // padding: .5em;
   font-size: 2 * $sf;
   color: #fff;
   // border-radius: .3em;

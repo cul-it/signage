@@ -66,7 +66,6 @@ export default {
   }
 
   display: grid;
-  /* grid-template-columns: .75fr 3fr; */
   grid-template-columns: .5fr 3fr;
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 1.5rem;
