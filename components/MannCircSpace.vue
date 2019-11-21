@@ -121,8 +121,7 @@ $sf: 1.43vw;
 .space__slot {
   display: inline-block;
   position: relative;
-  width: 50%;
-  height: 100%;
+  flex-grow: 1;
   // margin: .4em 0;
   // padding: .5em;
   font-size: 2 * $sf;
@@ -139,7 +138,7 @@ $sf: 1.43vw;
   }
 }
 .space__slot-list {
-  align-self: stretch;
+  display: flex;
   margin: 0;
   padding-left: 0;
   list-style-type: none;

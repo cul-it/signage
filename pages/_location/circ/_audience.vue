@@ -71,7 +71,7 @@ body {
   grid-template-rows: 1fr 7vh 16vh;
   align-content: stretch;
   height: 100vh;
-  padding-left: .5em;
+  padding: 0 .5em;
   font-family: 'Lato', sans-serif;
   overflow: hidden;
 }
