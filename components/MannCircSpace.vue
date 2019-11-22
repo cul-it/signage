@@ -102,7 +102,7 @@ $sf: 1.43vw;
 .space {
   .lobby & {
     display: block;
-    flex-grow: 1;
+    flex: 1 1 0;
   }
 
   display: contents;
@@ -122,7 +122,7 @@ $sf: 1.43vw;
   display: grid;
   place-content: center center;
   position: relative;
-  flex-grow: 1;
+  flex: 1 1 0;
   font-size: 2 * $sf;
   color: #fff;
   // border-radius: .3em;
