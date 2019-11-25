@@ -110,8 +110,12 @@ $sf: 1.43vw;
 }
 .space__closing {
   display: block;
-  color: #192639;
+  color: #f7fafc;
   font-size: 1 * $sf;
+
+  .space__slot--available & {
+    color: #192639;
+  }
 }
 .space__number {
   align-self: center;
@@ -126,7 +130,7 @@ $sf: 1.43vw;
   font-size: 2 * $sf;
   color: #fff;
   // border-radius: .3em;
-  background: #d93663;
+  background: #2e4a61;
 
   &--available {
     background: #009edd;
