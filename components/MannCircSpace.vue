@@ -103,6 +103,11 @@ $sf: 1.43vw;
   .lobby & {
     display: block;
     flex: 1 1 0;
+    margin-right: .75rem;
+
+    &:last-of-type {
+      margin: 0 0 0 .75rem;
+    }
   }
 
   display: contents;

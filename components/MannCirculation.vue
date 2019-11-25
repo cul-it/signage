@@ -63,6 +63,7 @@ export default {
 .mann-circ__spaces {
   .lobby & {
     display: flex;
+    grid-column-gap: 0;
   }
 
   display: grid;
