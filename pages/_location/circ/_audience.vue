@@ -50,7 +50,8 @@ export default {
     })
     await store.dispatch('spaces/fetchSchedule', {
       location: params.location,
-      category: params.audience
+      category: params.audience,
+      circ: true
     })
     // // Fetch desktop availability from LabStats only when applicable
     // if (labStats.isLabstats(params.location, params.category)) {
@@ -84,7 +85,8 @@ export default {
     setInterval(() => {
       this.$store.dispatch('spaces/fetchSchedule', {
         location: this.$route.params.location,
-        category: this.$route.params.audience
+        category: this.$route.params.audience,
+        circ: true
       })
     }, 1000 * 60)
   }

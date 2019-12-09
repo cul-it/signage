@@ -9,15 +9,21 @@
         <span class="start__meridiem">{{ booking.startTime.meridiem }}</span>
       </div>
     </time>
-    <span v-if="!booking.isAvailable">
+    <div v-if="!booking.isAvailable">
       <slot
         :booking="booking"
         name="bookingInfo"
       >
         <!-- Default info displayed for LibCal bookings -->
-        {{ booking.firstName }} {{ booking.lastName }}
+        <div class="slot__patron">
+          <span class="slot__patron--name">{{ booking.firstName }} {{ booking.lastName }}</span>
+          <span class="slot__patron--netid">({{ booking.netId }})</span>
+        </div>
+        <div class="slot__event-title">
+          {{ booking.title }}
+        </div>
       </slot>
-    </span>
+    </div>
     <span v-else>
       <!-- If available now, allow parent component to inject desktop availability via LabStats -->
       <slot
@@ -71,6 +77,20 @@ $sf: 1.43vw;
   color: #fff;
   display: flex;
   font-size: 1.8 * $sf;
+}
+.slot__event-title {
+  font-size: .5em;
+  font-weight: 300;
+}
+.slot__patron {
+  display: flex;
+  align-items: center;
+  line-height: .9em;
+
+  &--netid {
+    font-size: .7em;
+    color: #6dafe6;
+  }
 }
 .start__stack {
   margin-top: .1em;

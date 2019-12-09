@@ -26,7 +26,10 @@ const libCal = {
       auth: 'libcal/1.1/oauth/token',
       hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
       spaces: {
-        bookings: 'libcal/1.1/space/bookings?limit=100&'
+        bookings: 'libcal/1.1/space/bookings?limit=100&',
+        get bookingsWithDetails () {
+          return this.bookings + 'formAnswers=1&'
+        }
       }
     }
   },
@@ -55,7 +58,7 @@ const libCal = {
     return availableTilClose
   },
   // TODO: Pull out shared functionality with R25 into common core
-  buildSchedule: (bookings, spaces, opening, closing) => {
+  buildSchedule: (bookings, spaces, opening, closing, isCirc) => {
     let availability = {}
 
     // Build availability schedule for each spaces
@@ -71,7 +74,7 @@ const libCal = {
       // Only include reservations for requested space(s)
       // -- and only build a schedule if there are any reservations to deal with
       const filteredBookings = bookings.filter(b => spaces[s].id === b.eid)
-      if (filteredBookings.length > 0) availability[s].schedule = libCal.bookingsParser(filteredBookings, spaces[s].id, opening, closing)
+      if (filteredBookings.length > 0) availability[s].schedule = libCal.bookingsParser(filteredBookings, spaces[s].id, opening, closing, isCirc)
 
       // Insert 'available until closing' slot for any space with empty schedule
       if (typeof availability[s].schedule === 'undefined' || !availability[s].schedule.length) {
@@ -105,7 +108,7 @@ const libCal = {
     if (category === 'studyrooms' || category === 'b30') spaces.reverse()
     return spaces
   },
-  bookingsParser: function (bookings, room, openingTime, closingTime) {
+  bookingsParser: function (bookings, room, openingTime, closingTime, isCirc) {
     const roomAvailability = _(bookings)
       // Filter bookings by room, status (confirmed or mediated approved), while open and remove duplicates
       .filter(function (booking, index, allBookings) {
@@ -145,7 +148,13 @@ const libCal = {
       // -- over haphazard look when patrons enter all upper or lower
       .map(b => {
         b.firstName = libCal.formatPatronName(b.firstName)
-        b.lastName = libCal.formatPatronName(b.lastName)[0] + '.' // Initial only (for privacy)
+        if (isCirc) {
+          b.lastName = libCal.formatPatronName(b.lastName)
+          b.title = b.q2718
+          b.netId = libCal.parseNetId(b.email)
+        } else {
+          b.lastName = libCal.formatPatronName(b.lastName)[0] + '.' // Initial only (for privacy)
+        }
         delete b.email
         return b
       })
@@ -248,10 +257,16 @@ const libCal = {
 
     return axios.$get(url)
   },
-  async getReservations (axios, location, date = false) {
+  async getReservations (axios, location, isCirc = false, date = false) {
     const requestDate = date ? '&date=' + libCal.formatDate(date) : ''
     const scope = 'lid=' + schema.locations[location].id
-    const url = libCal.api.endpoints.spaces.bookings + scope + requestDate
+
+    if (isCirc) {
+      var baseUrl = libCal.api.endpoints.spaces.bookingsWithDetails
+    } else {
+      baseUrl = libCal.api.endpoints.spaces.bookings
+    }
+    const url = baseUrl + scope + requestDate
 
     let authorize = await axios.$post(libCal.api.endpoints.auth)
     axios.setToken(authorize.access_token, 'Bearer')
@@ -427,6 +442,10 @@ const libCal = {
     startTime.minute = startDate.format('mm')
     startTime.meridiem = startDate.format('a')
     return startTime
+  },
+  parseNetId: function (email) {
+    const end = email.indexOf('@')
+    return email.substring(0, end)
   },
   pastChange: function (changeTime) {
     return moment().isSameOrAfter(moment(changeTime))

@@ -132,6 +132,7 @@ $sf: 1.43vw;
   place-content: center center;
   position: relative;
   flex: 1 1 0;
+  padding: 0 0.2em;
   font-size: 2 * $sf;
   color: #fff;
   // border-radius: .3em;

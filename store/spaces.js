@@ -41,17 +41,17 @@ export const actions = {
         // For R25, dealing with one space at a time vs potential set/group of spaces provided via LibCal
         if (isR25) spacesToProcess = { [space.name]: space }
 
-        let feed = await apiTarget.getReservations(this.$axios, space)
+        let feed = await apiTarget.getReservations(this.$axios, space, payload.circ)
 
         // If a LibCal space with early morning closing then check tomorrow's bookings as well
         // -- to capture those early morning bookings that actually take place tomorrow but prior to today's closing
         // -- confused yet? ;)
         if (!isR25 && isEarlyMorningClosing) {
-          let tomorrowFeed = await apiTarget.getReservations(this.$axios, space, moment().add(1, 'days'))
+          let tomorrowFeed = await apiTarget.getReservations(this.$axios, space, payload.circ, moment().add(1, 'days'))
           feed = feed.concat(tomorrowFeed)
         }
 
-        let schedule = apiTarget.buildSchedule(feed, spacesToProcess, opening, closing)
+        let schedule = apiTarget.buildSchedule(feed, spacesToProcess, opening, closing, payload.circ)
 
         commit('update', schedule)
       }
