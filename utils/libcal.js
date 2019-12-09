@@ -49,7 +49,8 @@ const libCal = {
       fromDate: start,
       toDate: end,
       isAvailable: true,
-      startTime: libCal.parseDate(start)
+      startTime: libCal.parseDate(start),
+      endTime: libCal.parseDate(end)
     }
   },
   availableTilClose: function (opening, closing) {
@@ -163,6 +164,7 @@ const libCal = {
         const paddedBooking = [booking]
         const prevIndex = index - 1
         booking.startTime = libCal.parseDate(booking.fromDate)
+        booking.endTime = libCal.parseDate(booking.toDate)
 
         // If first booking & starts after opening, pad before
         if (index === 0 &&
@@ -436,12 +438,12 @@ const libCal = {
   parseDate: function (date) {
     // Catch invalid dates -- expected when dealing with locations open 24 hours
     if (!moment(date).isValid()) return null
-    let startDate = moment(date)
-    let startTime = {}
-    startTime.hour = startDate.format('h')
-    startTime.minute = startDate.format('mm')
-    startTime.meridiem = startDate.format('a')
-    return startTime
+    let preppedDate = moment(date)
+    let preppedTime = {}
+    preppedTime.hour = preppedDate.format('h')
+    preppedTime.minute = preppedDate.format('mm')
+    preppedTime.meridiem = preppedDate.format('a')
+    return preppedTime
   },
   parseNetId: function (email) {
     const end = email.indexOf('@')

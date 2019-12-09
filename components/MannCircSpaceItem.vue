@@ -44,6 +44,16 @@
       {{ statusChange }}
     </span>
     <!-- until closing at {{ statusChange }}</span> -->
+    <time
+      v-if="index === 1 && !booking.isAvailable"
+      class="slot__start slot__start--end"
+    >
+      {{ booking.endTime.hour }}
+      <div class="start__stack">
+        <span class="start__minutes">{{ booking.endTime.minute }}</span>
+        <span class="start__meridiem">{{ booking.endTime.meridiem }}</span>
+      </div>
+    </time>
   </li>
 </template>
 
@@ -77,6 +87,11 @@ $sf: 1.43vw;
   color: #fff;
   display: flex;
   font-size: 1.8 * $sf;
+
+  &--end {
+    left: unset;
+    right: 5px;
+  }
 }
 .slot__event-title {
   font-size: .5em;
