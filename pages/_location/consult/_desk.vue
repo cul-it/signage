@@ -166,6 +166,12 @@ export default {
       font-size: 25.6vh;
       letter-spacing: -1vw;
     }
+
+    &.copyright {
+      padding: .05em 0 0;
+      font-size: 25.6vh;
+      letter-spacing: -1vw;
+    }
   }
 
   .knockout {
