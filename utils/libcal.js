@@ -24,7 +24,7 @@ const libCal = {
   api: {
     endpoints: {
       auth: 'libcal/1.1/oauth/token',
-      hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
+      hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&date=today&lid=',
       spaces: {
         bookings: 'libcal/1.1/space/bookings?limit=100&'
       }
