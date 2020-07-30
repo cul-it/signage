@@ -113,7 +113,12 @@ const r25 = {
     const response = await axios.$get(url)
 
     // All we care about is the array of reservations
-    return response.space_reservations.space_reservation
+    // REVIEW: quick fix to fail gracefully now that R25 has been decommissioned
+    if (typeof response === 'object') {
+      return response.space_reservations.space_reservation
+    } else {
+      return false
+    }
   },
   isR25: function (location, category) {
     return schema.locations[location].categories[category].r25
