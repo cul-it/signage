@@ -37,7 +37,7 @@ Automatic review apps spun up for all PRs. Just click the **View Deployment** bu
 > Stale review apps are destroyed after 5 days of inactivity
 
 ### Staging
-Automatic deploy to staging instance on every PR merge to `master` branch.
+Automatic deploy to staging instance on every PR merge to `main` branch.
 
 ### Production
 Production instance must be manually deployed via [Heroku dashboard](https://dashboard.heroku.com).
