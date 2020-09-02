@@ -275,7 +275,7 @@ const libCal = {
     // -- such as when requesting hours for a date in the past beyond the current week
     // -- (LibCal weeks start on Sunday)
     // TODO: Reach out to Springshare support and request they increase this limit to past 2 weeks
-    if (feed.length === 0) return null
+    if (feed.length === 0 || feed.locations.length === 0) return null
 
     const times = feed.locations[0].times
 
