@@ -1,6 +1,7 @@
 import { assign, isEmpty } from 'lodash'
 import schema from '~/utils/schema'
 import libCal from '~/utils/libcal'
+import moment from 'moment'
 
 export const state = () => ({
 })
@@ -24,20 +25,35 @@ export const actions = {
       const isCirc = typeof payload.circ === 'undefined' ? false : payload.circ
       const feed = await libCal.getHours(this.$axios, payload.location, category, undefined, isDesk, isCirc)
 
-      const libCalStatus = feed.locations[0].times.status
-      // Account for locations open 24 hours
-      if (libCalStatus === '24hours') {
-        var allHours = libCalStatus
+      // Account for locations that were removed from LibCal hours
+      // -- but signage config has not yet been updated/synced
+      if (feed.locations.length) {
+        // If location exists in LibCal hours, proceed as usual...
+        const libCalStatus = feed.locations[0].times.status
+        var locationName = feed.locations[0].name
+
+        // Account for locations open 24 hours
+        if (libCalStatus === '24hours') {
+          var allHours = libCalStatus
+        } else {
+          allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+        }
+        var status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk, isCirc)
       } else {
-        allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
+        // Otherwise, set some fallbacks (aka fail gracefully)...
+        locationName = 'undefined'
+        status = {
+          'change': null,
+          'current': 'closed',
+          'timestamp': moment()
+        }
       }
-      const status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk, isCirc)
 
       // Relabel status under certain circumstances
       let statusLabel = libCal.statusLabel(payload.location, status.current)
 
       const hoursData = {
-        'name': feed.locations[0].name,
+        'name': locationName,
         'hours': allHours,
         'status': statusLabel,
         'statusChange': status.change,

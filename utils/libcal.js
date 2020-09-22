@@ -24,7 +24,7 @@ const libCal = {
   api: {
     endpoints: {
       auth: 'libcal/1.1/oauth/token',
-      hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&lid=',
+      hours: 'libcal-hours/api_hours_date.php?iid=973&format=json&nocache=1&date=today&lid=',
       spaces: {
         bookings: 'libcal/1.1/space/bookings?limit=100&',
         get bookingsWithDetails () {
@@ -305,7 +305,7 @@ const libCal = {
     // -- such as when requesting hours for a date in the past beyond the current week
     // -- (LibCal weeks start on Sunday)
     // TODO: Reach out to Springshare support and request they increase this limit to past 2 weeks
-    if (feed.length === 0) return null
+    if (feed.length === 0 || feed.locations.length === 0) return null
 
     const times = feed.locations[0].times
 

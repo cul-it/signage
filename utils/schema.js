@@ -16,6 +16,12 @@ export default {
         'statistical consulting'
       ]
     },
+    copyright: {
+      hoursId: 12244,
+      description: [
+        'copyright info center'
+      ]
+    },
     elso: {
       hoursId: 7701,
       description: [
