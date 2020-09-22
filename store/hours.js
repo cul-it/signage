@@ -22,7 +22,8 @@ export const actions = {
     if (isEmpty(state) || libCal.staleCache(state.updated) || libCal.pastChange(state.statusChange) || libCal.nextDay(state.updated)) {
       const category = payload.category || null
       const isDesk = typeof payload.desk === 'undefined' ? false : payload.desk
-      const feed = await libCal.getHours(this.$axios, payload.location, category, undefined, isDesk)
+      const isCirc = typeof payload.circ === 'undefined' ? false : payload.circ
+      const feed = await libCal.getHours(this.$axios, payload.location, category, undefined, isDesk, isCirc)
 
       // Account for locations that were removed from LibCal hours
       // -- but signage config has not yet been updated/synced
@@ -37,7 +38,7 @@ export const actions = {
         } else {
           allHours = typeof feed.locations[0].times.hours === 'undefined' ? null : feed.locations[0].times.hours
         }
-        var status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk)
+        var status = await libCal.openNow(this.$axios, payload.location, category, libCalStatus, allHours, isDesk, isCirc)
       } else {
         // Otherwise, set some fallbacks (aka fail gracefully)...
         locationName = 'undefined'

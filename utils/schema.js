@@ -49,6 +49,53 @@ export default {
       id: 96,
       hoursId: 1707,
       url: 'https://mannlib.cornell.edu/reserve',
+      circ: {
+        spaces: {
+          classrooms: [
+            {
+              id: 18628,
+              room: 'Stone'
+            },
+            {
+              id: 705,
+              room: 'B30A',
+              hoursId: 2319,
+              r25: true
+            },
+            {
+              id: 704,
+              room: 'B30B',
+              hoursId: 2319,
+              r25: true
+            }
+          ],
+          conferenceRooms: [
+            {
+              id: 18604,
+              room: '100'
+            },
+            {
+              id: 18605,
+              room: '102'
+            },
+            {
+              id: 1000,
+              room: '160',
+              exchange: true
+            }
+          ],
+          lobby: [
+            {
+              id: 18606,
+              room: 'Lobby 1'
+            },
+            {
+              id: 18607,
+              room: 'Lobby 2'
+            }
+          ]
+        }
+      },
       categories: {
         b30: {
           id: false,
