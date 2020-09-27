@@ -1,22 +1,37 @@
 <template>
   <div id="live-occupancy">
     <i
-      class="status-icon fas fa-sign-in-alt fa-3x"
+      class="status-icon fa-3x"
+      :class="iconClass"
       aria-hidden="true"
     />
-    <span class="remaining"> {{ remaining }} people may enter</span>
-    <span class="occupancy"> Occupancy {{ occupancy.current }} / Max {{ occupancy.capacity }}</span>
+    <template v-if="vacancy">
+      <span class="remaining"> {{ remaining }} people may enter</span>
+      <span class="occupancy"> Occupancy {{ occupancy.current }} / Max {{ occupancy.capacity }}</span>
+    </template>
+    <template v-else>
+      <span class="remaining">Please do not enter</span>
+      <span class="occupancy">At max capacity</span>
+    </template>
   </div>
 </template>
 
 <script>
 export default {
   computed: {
+    iconClass () {
+      const keepOut = 'max far fa-times-circle'
+      const enter = 'fas fa-sign-in-alt'
+      return this.vacancy ? enter : keepOut
+    },
     occupancy () {
       return this.$store.state.occupancy
     },
     remaining () {
       return this.occupancy.capacity - this.occupancy.current
+    },
+    vacancy () {
+      return this.remaining > 0
     }
   },
   async fetch () {
@@ -50,5 +65,9 @@ export default {
   }
   .status-icon {
     color: #009edd;
+
+    &.max {
+      color: #b42b5a;
+    }
   }
 </style>
