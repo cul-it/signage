@@ -48,6 +48,7 @@ export default {
     mann: {
       id: 96,
       hoursId: 1707,
+      sensourceId: '469b3905',
       url: 'https://mannlib.cornell.edu/reserve',
       categories: {
         b30: {
