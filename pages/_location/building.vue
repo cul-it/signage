@@ -6,6 +6,11 @@
         v-if="hours.status === 'open'"
         :hours="hours"
       />
+      <!--
+        Need the third child to keep the grid happy
+        TODO: Will refactor when converting header to own component
+      -->
+      <span v-else />
       <!-- eslint-disable vue/no-v-html -->
       <time
         class="spaces__time"
