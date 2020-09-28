@@ -36,15 +36,26 @@ export default {
 
 <style lang="scss">
 .embiggen {
-  font-size: 8.5em;
+  font-size: 8.5vw;
 }
 .hours {
   text-align: center;
+
+  &.embiggen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 .hours-status {
   padding: .1em .2em;
   text-transform: capitalize;
   border-radius: .3em;
+
+  .embiggen & {
+    margin-bottom: .4em;
+    width: 27vw;
+  }
 
   &.closed {
     background-color: #b42b5a;

@@ -53,7 +53,7 @@ export default {
 <style lang="scss">
   #live-occupancy {
     display: flex;
-    font-size: 13.5vh;
+    font-size: 8.5vw;
     flex-direction: column;
     justify-content: center;
     text-align: center;
