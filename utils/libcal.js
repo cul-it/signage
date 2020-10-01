@@ -228,8 +228,10 @@ const libCal = {
     const requestDate = typeof date === 'undefined' ? '' : '&date=' + libCal.formatDate(date)
     if (isDesk) {
       var libcalId = schema.desks[location].hoursId
+    } else if (category) {
+      libcalId = schema.locations[location].categories[category].hoursId
     } else {
-      libcalId = schema.locations[location].categories[category].hoursId || schema.locations[location].hoursId
+      libcalId = schema.locations[location].hoursId
     }
     const url = libCal.api.endpoints.hours + libcalId + requestDate
 

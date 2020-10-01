@@ -48,6 +48,7 @@ export default {
     mann: {
       id: 96,
       hoursId: 1707,
+      sensourceId: '469b3905',
       url: 'https://mannlib.cornell.edu/reserve',
       categories: {
         b30: {
@@ -138,6 +139,7 @@ export default {
     olin: {
       id: 528,
       hoursId: 2818,
+      sensourceId: 'efc18a38',
       url: 'https://spaces.library.cornell.edu/reserve/olin',
       categories: {
         colab: {
@@ -165,6 +167,7 @@ export default {
     uris: {
       id: 94,
       hoursId: 2830,
+      sensourceId: '9dc56e26',
       url: 'https://spaces.library.cornell.edu/reserve/uris',
       categories: {
         cocktail: {
