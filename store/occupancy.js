@@ -2,7 +2,11 @@ import { assign } from 'lodash'
 import schema from '~/utils/schema'
 import sensource from '~/utils/sensource'
 
+// Default to zero for each key instead of empty object
+// -- this plays nicer with component async fetch & computed property
 export const state = () => ({
+  current: 0,
+  capacity: 0
 })
 
 export const mutations = {

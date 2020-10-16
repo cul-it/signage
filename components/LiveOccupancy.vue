@@ -18,16 +18,14 @@
 
 <script>
 export default {
-  data () {
-    return {
-      occupancy: {}
-    }
-  },
   computed: {
     iconClass () {
       const keepOut = 'max far fa-times-circle'
       const enter = 'fas fa-sign-in-alt'
       return this.vacancy ? enter : keepOut
+    },
+    occupancy () {
+      return this.$store.state.occupancy
     },
     remaining () {
       return this.occupancy.capacity - this.occupancy.current
@@ -40,8 +38,6 @@ export default {
     await this.$store.dispatch('occupancy/fetch', {
       location: this.$route.params.location
     })
-
-    this.occupancy = this.$store.state.occupancy
   },
   mounted () {
     // Check occupancy every two minutes
