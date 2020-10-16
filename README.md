@@ -1,6 +1,6 @@
 # CUL Digital Signage
 
-Nuxt.js app powering digital signage throught Cornell University Library.
+Nuxt.js app powering digital signage throughout Cornell University Library.
 
 * [Dev QuickStart](#dev-quickstart)
 * [Deployment via Heroku](#deployment-via-heroku)
@@ -44,9 +44,16 @@ Production instance must be manually deployed via [Heroku dashboard](https://das
 
 ## Current Lineup
 
+### Building Hours & Occupancy
+
+* Mann
+* Olin
+* Uris
+
 ### Consultation Desks (@ Mann)
 
 * CISER
+* COPYRIGHT
 * CSCU
 * ELSO
 * GIS
