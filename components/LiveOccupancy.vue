@@ -42,9 +42,7 @@ export default {
   mounted () {
     // Check occupancy every two minutes
     setInterval(() => {
-      this.$store.dispatch('occupancy/fetch', {
-        location: this.$route.params.location
-      })
+      this.$fetch()
     }, 1000 * 120)
   }
 }
