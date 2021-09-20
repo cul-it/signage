@@ -229,7 +229,7 @@ const libCal = {
     if (isDesk) {
       var libcalId = schema.desks[location].hoursId
     } else if (category) {
-      libcalId = schema.locations[location].categories[category].hoursId
+      libcalId = schema.locations[location].categories[category].hoursId || schema.locations[location].hoursId
     } else {
       libcalId = schema.locations[location].hoursId
     }
