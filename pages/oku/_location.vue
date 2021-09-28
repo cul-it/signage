@@ -7,7 +7,7 @@
     <section class="grid">
       <time v-html="currentTime" /> <!-- eslint-disable-line vue/no-v-html -->
       <Circulation location="olin" />
-      <Circulation location="uris" />
+      <!-- <Circulation location="uris" /> -->
     </section>
   </main>
 </template>
