@@ -64,7 +64,6 @@ Production instance must be manually deployed via [Heroku dashboard](https://das
 ### Service Desks
 
 * Olin Circ
-* Uris Circ
 
 ### Spaces
 
