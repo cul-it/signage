@@ -48,6 +48,7 @@ export default {
     mann: {
       id: 96,
       hoursId: 1707,
+      okapiId: '025a9b7a-afba-47ca-82dd-11f91c56e4be',
       sensourceId: '469b3905',
       url: 'https://mannlib.cornell.edu/reserve',
       categories: {
@@ -139,6 +140,7 @@ export default {
     olin: {
       id: 528,
       hoursId: 2818,
+      okapiId: 'c8e127a3-1d59-42e6-9600-bbdffc13b373',
       sensourceId: 'efc18a38',
       url: 'https://spaces.library.cornell.edu/reserve/olin',
       categories: {
@@ -201,5 +203,8 @@ export default {
         }
       }
     }
+  },
+  okapi: {
+    tenant: 'fs00001034'
   }
 }

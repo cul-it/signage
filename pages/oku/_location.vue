@@ -52,6 +52,7 @@ export default {
     await store.dispatch('phoneChargers/fetchStatus', 'olin')
     await store.dispatch('laptops/fetchStatus', 'uris')
     await store.dispatch('phoneChargers/fetchStatus', 'uris')
+    await store.dispatch('folioEquipment/fetchStatus', params.location)
   },
   mounted () {
     // Sync current time every 10 seconds
@@ -73,7 +74,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 /**
  ** SUPPORT WARNING FOR BROWSERS NOT SUPPORTING display grid and contents properties.
  **/
@@ -94,7 +94,7 @@ export default {
 }
 
 .support-warning a {
-     color: inherit;
+  color: inherit;
 }
 
 @supports (display: grid) and (display: contents) {

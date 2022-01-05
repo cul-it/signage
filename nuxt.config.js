@@ -12,6 +12,8 @@ const libcalApi = 'https://api2.libcal.com'
 const libcalApiPath = '/api/libcal/'
 const libcalHoursApi = 'https://api3.libcal.com'
 const libcalHoursApiPath = '/api/libcal-hours/'
+const okapiApi = 'https://okapi-cornell.folio.ebsco.com'
+const okapiApiPath = '/api/okapi/'
 const r25Api = 'https://r25.registrar.cornell.edu/r25ws/servlet/wrd/run'
 const r25ApiPath = '/api/r25/'
 
@@ -35,6 +37,26 @@ var restreamClientCreds = (proxyReq, req, res) => {
   }
 }
 
+var restreamClientCredsOkapi = (proxyReq, req, res) => {
+  if (req.method === 'POST' && req.body) {
+    // Build object for POST request to obtain auth token
+    let body = {
+      username: process.env.OKAPI_USER,
+      password: process.env.OKAPI_PASSWORD
+    }
+
+    body = JSON.stringify(body)
+
+    // Update headers
+    proxyReq.setHeader('Content-Type', 'application/json')
+    proxyReq.setHeader('Content-Length', Buffer.byteLength(body))
+    proxyReq.setHeader('X-Okapi-Tenant', process.env.OKAPI_TENANT)
+
+    // Write new body to the proxyReq stream
+    proxyReq.write(body)
+  }
+}
+
 module.exports = {
   modules: [
     '@nuxtjs/axios'
@@ -42,7 +64,8 @@ module.exports = {
   serverMiddleware: [
     // Parse request body so it can be manipulated by proxy middleware
     // -- https://nuxtjs.org/api/configuration-servermiddleware
-    { path: libcalApiPath, handler: bodyParser.json() }
+    { path: libcalApiPath, handler: bodyParser.json() },
+    { path: okapiApiPath, handler: bodyParser.json() }
   ],
   axios: {
     prefix: '/api/',
@@ -65,6 +88,11 @@ module.exports = {
     [libcalHoursApiPath]: {
       target: libcalHoursApi,
       pathRewrite: { [`^${libcalHoursApiPath}`]: '' }
+    },
+    [okapiApiPath]: {
+      target: okapiApi,
+      pathRewrite: { [`^${okapiApiPath}`]: '' },
+      onProxyReq: restreamClientCredsOkapi
     },
     [r25ApiPath]: {
       target: r25Api,
