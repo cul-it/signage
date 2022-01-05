@@ -171,7 +171,7 @@ time {
     }
 
     time {
-        grid-column: 2 / 3;
+        grid-column: 3/ 4;
         grid-row: 1;
     }
 
@@ -191,7 +191,7 @@ time {
     }
 
     .olin-laptops {
-        grid-column: 1 / 3;
+        grid-column: 1 / 4;
         grid-row: 2;
         background-color: $bg-dark-blue;
         margin: 0;
@@ -207,7 +207,7 @@ time {
     }
 
     .olin-laptops__availability {
-        grid-column: 1 / 3;
+        grid-column: 1 / 4;
         grid-row: 3;
         background-color: $bg-dark-blue;
         padding-left: 50 * $lw;
@@ -222,7 +222,7 @@ time {
     }
 
     .olin-phone-chargers {
-        grid-column: 1 / 3;
+        grid-column: 1 / 4;
         grid-row: 4;
         background-color: $bg-dark-blue;
         font-size: 67 * $lw;
@@ -233,7 +233,7 @@ time {
     }
 
     .olin-phone-chargers__availability {
-        grid-column: 1 / 3;
+        grid-column: 1 / 4;
         grid-row: 5;
         background-color: $bg-dark-blue;
         padding-left: 50 * $lw;
