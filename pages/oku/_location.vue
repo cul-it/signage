@@ -47,7 +47,9 @@ export default {
       return this.location + '-display'
     }
   },
-  async fetch ({ store, params }) {
+  async fetch ({ store, params, redirect }) {
+    // Temporarily redirect all requests to the homepage
+    redirect('302', '/')
     await store.dispatch('laptops/fetchStatus', 'olin')
     await store.dispatch('phoneChargers/fetchStatus', 'olin')
     await store.dispatch('laptops/fetchStatus', 'uris')
