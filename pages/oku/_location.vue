@@ -6,14 +6,14 @@
 
     <section class="grid">
       <time v-html="currentTime" /> <!-- eslint-disable-line vue/no-v-html -->
-      <Circulation location="olin" />
+      <!-- <Circulation location="olin" /> -->
       <!-- <Circulation location="uris" /> -->
     </section>
   </main>
 </template>
 
 <script>
-import Circulation from '~/components/Circulation'
+// import Circulation from '~/components/Circulation'
 import moment from 'moment'
 import { mapState } from 'vuex'
 
@@ -32,7 +32,7 @@ export default {
     }
   },
   components: {
-    'Circulation': Circulation
+    // 'Circulation': Circulation
   },
   data () {
     return {
@@ -48,10 +48,10 @@ export default {
     }
   },
   async fetch ({ store, params }) {
-    await store.dispatch('laptops/fetchStatus', 'olin')
-    await store.dispatch('phoneChargers/fetchStatus', 'olin')
-    await store.dispatch('laptops/fetchStatus', 'uris')
-    await store.dispatch('phoneChargers/fetchStatus', 'uris')
+    // await store.dispatch('laptops/fetchStatus', 'olin')
+    // await store.dispatch('phoneChargers/fetchStatus', 'olin')
+    // await store.dispatch('laptops/fetchStatus', 'uris')
+    // await store.dispatch('phoneChargers/fetchStatus', 'uris')
     await store.dispatch('folioEquipment/fetchStatus', params.location)
   },
   mounted () {
@@ -64,9 +64,9 @@ export default {
 
     // Update equipment status every minute
     setInterval(() => {
-      this.$store.dispatch('laptops/fetchStatus', 'olin')
-      this.$store.dispatch('phoneChargers/fetchStatus', 'olin')
-      this.$store.dispatch('laptops/fetchStatus', 'uris')
+      // this.$store.dispatch('laptops/fetchStatus', 'olin')
+      // this.$store.dispatch('phoneChargers/fetchStatus', 'olin')
+      // this.$store.dispatch('laptops/fetchStatus', 'uris')
       this.$store.dispatch('phoneChargers/fetchStatus', 'uris')
     }, 1000 * 60)
   }
