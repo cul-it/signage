@@ -59,7 +59,8 @@ var restreamClientCredsOkapi = (proxyReq, req, res) => {
 
 module.exports = {
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'bootstrap-vue/nuxt'
   ],
   serverMiddleware: [
     // Parse request body so it can be manipulated by proxy middleware
