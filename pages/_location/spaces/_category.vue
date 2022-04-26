@@ -14,14 +14,16 @@
       <!-- eslint-enable vue/no-v-html -->
     </header>
 
-    <div :class="'spaces__availability col-' + spaces.length">
-      <space-availability
-        v-for="space in spaces"
-        :key="space"
-        :space="space"
-        :hours="hours"
-      />
-    </div>
+    <b-container>
+      <b-row>
+        <space-availability
+          v-for="space in spaces"
+          :key="space"
+          :space="space"
+          :hours="hours"
+        />
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -157,16 +159,24 @@ $sf: 1.43vw;
         opacity: 0.0;
     }
 }
+header {
+  margin: 0 5% 2em 5%;
+  max-width: 90%;
+}
+.container {
+  max-width: 90%;
+}
 .spaces {
   font-family: 'Lato', sans-serif;
 
   &__availability {
-    display: grid;
-    clear: both;
-    grid-column-gap: 1.5rem;
     padding-top: 2.5em;
 
     @include gen-columns;
+  }
+  &__reserve-link {
+    text-align: center;
+    color: #000;
   }
   &__datetime {
     display: grid;
@@ -182,20 +192,11 @@ $sf: 1.43vw;
   &__date {
     text-transform: uppercase;
   }
-  &__reserve-link {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    font-size: .9em;
-
-    // Fallback for older browsers without css-grid
-    // -- primarily early gen iPads in Olin running < iOS 10.3
-    @supports not (display: grid) {
-      flex-grow: 4;
-    }
-  }
   &__time {
     text-align: right;
   }
+}
+html, body {
+  background-color: #fff;
 }
 </style>

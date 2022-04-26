@@ -1,15 +1,24 @@
 <template>
-  <div class="space">
-    <h1 class="space__number">
-      {{ space }}
-    </h1>
+  <b-col cols="4">
+    <b-row>
+      <b-col cols="8">
+        <h1 class="space__number">
+          {{ space }}
+        </h1>
+      </b-col>
 
-    <i
-      v-if="capacity"
-      :class="{ 'fa-users': capacity === 'group', 'fa-user': capacity === 'individual' }"
-      class="fas space__type"
-      aria-hidden="true"
-    />
+      <b-col
+        cols="4"
+        class="text-right"
+      >
+        <i
+          v-if="capacity"
+          :class="{ 'fa-users': capacity === 'group', 'fa-user': capacity === 'individual' }"
+          class="fas space__type"
+          aria-hidden="true"
+        />
+      </b-col>
+    </b-row>
 
     <ul class="space__slot-list">
       <!-- TODO: Ideally this would move to SpaceAvailabilityItem component
@@ -50,7 +59,7 @@
         </template>
       </space-availability-item>
     </ul>
-  </div>
+  </b-col>
 </template>
 
 <script>
@@ -147,16 +156,11 @@ $sf: 1.43vw;
 .space__status--closed {
   text-transform: capitalize;
 }
-.space__type {
-  position: absolute;
-  margin-left: -.43em;
-  line-height: 1.4em;
-  font-size: 1.6 * $sf;
-  z-index: 10000;
+.fa, .fas {
+  font-size: 4 * $sf;
 }
-.fa-users {
-  margin-left: -.63em;
-  line-height: 1.2em;
-  font-size: 1.9 * $sf;
+.col-4 {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>
