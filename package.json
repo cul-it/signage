@@ -8,7 +8,7 @@
   ],
   "private": true,
   "engines": {
-    "node": "16.19.0"
+    "node": "10.15.3"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.1.1",
